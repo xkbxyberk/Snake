@@ -224,18 +224,48 @@ extension GameScene {
         headerBarStartY = gameAreaStartY + gameAreaHeight + 16 + headerBarHeight
     }
     
-    // MARK: - Header Bar Kurulumu
+    // MARK: - Header Bar Kurulumu (YENİ: Pixel Art Tarzında)
     internal func createHeaderBar() {
-        headerBar = SKSpriteNode(color: primaryColor,
-                                 size: CGSize(width: gameAreaWidth, height: headerBarHeight))
-        headerBar.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: headerBarStartY - headerBarHeight/2)
-        addChild(headerBar)
-        
+        createPixelatedHeaderBar()
         createPauseButton()
         createScoreLabels()
     }
     
-    // MARK: - Duraklatma Butonu Kurulumu
+    // MARK: - Pixel Art Header Bar Oluşturma (YENİ FONKSİYON)
+    private func createPixelatedHeaderBar() {
+        let pixelSize: CGFloat = cellSize / 5 // Yılan segmentiyle aynı pixel boyutu
+        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0) // Çok daha koyu renk
+        
+        let headerContainer = SKNode()
+        headerContainer.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: headerBarStartY - headerBarHeight/2)
+        headerContainer.name = "headerBarContainer"
+        headerContainer.zPosition = 5
+        addChild(headerContainer)
+        
+        // Header bar'ı pixel bloklar halinde oluştur
+        let pixelsWide = Int(gameAreaWidth / pixelSize)
+        let pixelsHigh = Int(headerBarHeight / pixelSize)
+        
+        for row in 0..<pixelsHigh {
+            for col in 0..<pixelsWide {
+                let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+                pixel.position = CGPoint(
+                    x: -gameAreaWidth/2 + CGFloat(col) * pixelSize + pixelSize/2,
+                    y: -headerBarHeight/2 + CGFloat(row) * pixelSize + pixelSize/2
+                )
+                pixel.zPosition = 1
+                headerContainer.addChild(pixel)
+            }
+        }
+        
+        // Geriye dönük uyumluluk için ana header bar referansı
+        headerBar = SKSpriteNode(color: .clear, size: CGSize(width: gameAreaWidth, height: headerBarHeight))
+        headerBar.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: headerBarStartY - headerBarHeight/2)
+        headerBar.zPosition = 0
+        addChild(headerBar)
+    }
+    
+    // MARK: - Duraklatma Butonu Kurulumu (YENİ: Pixel Art Tarzında)
     internal func createPauseButton() {
         let buttonSize: CGFloat = deviceType.isIPhone ?
             (deviceType == .iPhoneSmall ? 20 : 28) : 36
@@ -246,24 +276,54 @@ extension GameScene {
         pauseButton.position = CGPoint(x: gameAreaStartX + 20, y: headerBarStartY + 8)
         pauseButton.name = "pauseButton"
         
-        let lineWidth: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 2 : 3) : 4
-        let lineHeight: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 10 : 14) : 18
-        let spacing: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 2 : 3) : 4
-        
-        let leftLine = SKSpriteNode(color: primaryColor,
-                                      size: CGSize(width: lineWidth, height: lineHeight))
-        leftLine.position = CGPoint(x: -spacing, y: 0)
-        pauseButton.addChild(leftLine)
-        
-        let rightLine = SKSpriteNode(color: primaryColor,
-                                       size: CGSize(width: lineWidth, height: lineHeight))
-        rightLine.position = CGPoint(x: spacing, y: 0)
-        pauseButton.addChild(rightLine)
+        // Pixel Art Pause İkonu Oluştur
+        let pixelSize: CGFloat = cellSize / 5 // Yılan ile aynı pixel boyutu
+        let pauseIcon = createPixelArtPauseIcon(pixelSize: pixelSize)
+        pauseIcon.position = CGPoint.zero
+        pauseButton.addChild(pauseIcon)
         
         addChild(pauseButton)
+    }
+    
+    // MARK: - Pixel Art Pause İkonu Oluşturma (YENİ FONKSİYON)
+    private func createPixelArtPauseIcon(pixelSize: CGFloat) -> SKNode {
+        let pauseContainer = SKNode()
+        
+        // 5x5 pause ikonu - Sol blok (2 piksel genişlik, 5 piksel yükseklik)
+        let leftBlockPixels = [
+            CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2),  // Alt sıra
+            CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1),  // Orta alt
+            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0),    // Merkez
+            CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1),    // Orta üst
+            CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2)     // Üst sıra
+        ]
+        
+        // Sağ blok (2 piksel genişlik, 5 piksel yükseklik) - 1 piksel boşluk bırakarak
+        let rightBlockPixels = [
+            CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2),    // Alt sıra
+            CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),    // Orta alt
+            CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),      // Merkez
+            CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),      // Orta üst
+            CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2)       // Üst sıra
+        ]
+        
+        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0) // Header/border ile aynı çok koyu renk
+        
+        // Sol blok piksellerini oluştur
+        for pixelPos in leftBlockPixels {
+            let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            pauseContainer.addChild(pixel)
+        }
+        
+        // Sağ blok piksellerini oluştur
+        for pixelPos in rightBlockPixels {
+            let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            pauseContainer.addChild(pixel)
+        }
+        
+        return pauseContainer
     }
     
     // MARK: - Skor Etiketleri Kurulumu
@@ -340,27 +400,79 @@ extension GameScene {
         }
     }
     
-    // MARK: - Oyun Alanı Çerçevesi Kurulumu
+    // MARK: - Oyun Alanı Pixel Art Çerçevesi Kurulumu (YENİ: Pixel Art Tarzında)
     internal func createGameAreaBorder() {
-        let borderColor = primaryColor
-        let borderThickness: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 6 : 8) : 10
+        createPixelArtBorder()
+    }
+    
+    // MARK: - Pixel Art Border Oluşturma (YENİ FONKSİYON)
+    private func createPixelArtBorder() {
+        let pixelSize: CGFloat = cellSize / 5 // Yılan segmentiyle aynı pixel boyutu
+        let borderThickness: CGFloat = pixelSize * 3 // 3 piksel kalınlığında border (header ile aynı)
         
-        let topBorder = SKSpriteNode(color: borderColor, size: CGSize(width: gameAreaWidth + borderThickness*2, height: borderThickness))
-        topBorder.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: gameAreaStartY + gameAreaHeight + borderThickness/2)
-        addChild(topBorder)
+        let borderContainer = SKNode()
+        borderContainer.name = "pixelBorderContainer"
+        borderContainer.zPosition = 8
+        addChild(borderContainer)
         
-        let bottomBorder = SKSpriteNode(color: borderColor, size: CGSize(width: gameAreaWidth + borderThickness*2, height: borderThickness))
-        bottomBorder.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: gameAreaStartY - borderThickness/2)
-        addChild(bottomBorder)
+        // Üst border (köşeleri dahil ederek)
+        createBorderLine(
+            container: borderContainer,
+            startX: gameAreaStartX - borderThickness,
+            startY: gameAreaStartY + gameAreaHeight,
+            width: gameAreaWidth + (borderThickness * 2),
+            height: borderThickness,
+            pixelSize: pixelSize
+        )
         
-        let leftBorder = SKSpriteNode(color: borderColor, size: CGSize(width: borderThickness, height: gameAreaHeight))
-        leftBorder.position = CGPoint(x: gameAreaStartX - borderThickness/2, y: gameAreaStartY + gameAreaHeight/2)
-        addChild(leftBorder)
+        // Alt border (köşeleri dahil ederek)
+        createBorderLine(
+            container: borderContainer,
+            startX: gameAreaStartX - borderThickness,
+            startY: gameAreaStartY - borderThickness,
+            width: gameAreaWidth + (borderThickness * 2),
+            height: borderThickness,
+            pixelSize: pixelSize
+        )
         
-        let rightBorder = SKSpriteNode(color: borderColor, size: CGSize(width: borderThickness, height: gameAreaHeight))
-        rightBorder.position = CGPoint(x: gameAreaStartX + gameAreaWidth + borderThickness/2, y: gameAreaStartY + gameAreaHeight/2)
-        addChild(rightBorder)
+        // Sol border (köşeleri hariç)
+        createBorderLine(
+            container: borderContainer,
+            startX: gameAreaStartX - borderThickness,
+            startY: gameAreaStartY,
+            width: borderThickness,
+            height: gameAreaHeight,
+            pixelSize: pixelSize
+        )
+        
+        // Sağ border (köşeleri hariç)
+        createBorderLine(
+            container: borderContainer,
+            startX: gameAreaStartX + gameAreaWidth,
+            startY: gameAreaStartY,
+            width: borderThickness,
+            height: gameAreaHeight,
+            pixelSize: pixelSize
+        )
+    }
+    
+    // MARK: - Border Çizgisi Oluşturma (YENİ FONKSİYON)
+    private func createBorderLine(container: SKNode, startX: CGFloat, startY: CGFloat, width: CGFloat, height: CGFloat, pixelSize: CGFloat) {
+        let pixelsWide = Int(ceil(width / pixelSize))
+        let pixelsHigh = Int(ceil(height / pixelSize))
+        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0) // Çok daha koyu renk
+        
+        for row in 0..<pixelsHigh {
+            for col in 0..<pixelsWide {
+                let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+                pixel.position = CGPoint(
+                    x: startX + CGFloat(col) * pixelSize + pixelSize/2,
+                    y: startY + CGFloat(row) * pixelSize + pixelSize/2
+                )
+                pixel.zPosition = 1
+                container.addChild(pixel)
+            }
+        }
     }
     
     // MARK: - Kontrol Butonları Kurulumu
