@@ -594,7 +594,74 @@ extension GameScene {
         } while snake.body.contains(food)
     }
     
-    // MARK: - Oyun Elementlerini Çizme
+    // MARK: - Çiçek Yem Oluşturma (YENİ FONKSİYON)
+    internal func createFlowerFood() -> SKNode {
+        let container = SKNode()
+        let pixelSize = cellSize / 5
+        
+        // Çiçek desenini tanımlayan piksel pozisyonları (merkez boş)
+        let flowerPixels = [
+            // Üst yaprak
+            CGPoint(x: 0, y: 2),
+            // Orta sıra - yatay çizgi
+            CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1),
+            // Merkez sıra - ortası boş (en geniş kısım)
+            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
+            // Alt orta sıra
+            CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1),
+            // Alt yaprak
+            CGPoint(x: 0, y: -2)
+        ]
+        
+        // Her piksel için bir mini sprite oluştur
+        for pixelPos in flowerPixels {
+            let pixel = SKSpriteNode(color: primaryColor,
+                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            container.addChild(pixel)
+        }
+        
+        // Çiçek yemine hafif parıldama efekti ekle
+        let scaleUp = SKAction.scale(to: 1.1, duration: 1.0)
+        let scaleDown = SKAction.scale(to: 1.0, duration: 1.0)
+        let pulseSequence = SKAction.sequence([scaleUp, scaleDown])
+        let pulseRepeat = SKAction.repeatForever(pulseSequence)
+        container.run(pulseRepeat)
+        
+        return container
+    }
+    
+    // MARK: - Yılan Segmenti Oluşturma (YENİ FONKSİYON)
+    internal func createSnakeSegment() -> SKNode {
+        let container = SKNode()
+        let pixelSize = cellSize / 5
+        
+        // 5x5 tamamen dolu piksel deseni (25 piksel)
+        let fullBlockPixels = [
+            // 1. sıra (en üst)
+            CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2), CGPoint(x: 0, y: 2), CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2),
+            // 2. sıra
+            CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),
+            // 3. sıra (merkez)
+            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
+            // 4. sıra
+            CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),
+            // 5. sıra (en alt)
+            CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2), CGPoint(x: 0, y: -2), CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2)
+        ]
+        
+        // Her piksel için bir mini sprite oluştur (hiç efekt yok)
+        for pixelPos in fullBlockPixels {
+            let pixel = SKSpriteNode(color: primaryColor,
+                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            container.addChild(pixel)
+        }
+        
+        return container
+    }
+    
+    // MARK: - Oyun Elementlerini Çizme (GÜNCELLENDİ)
     internal func drawGame() {
         children.forEach { node in
             if node.name == "snake" || node.name == "food" {
@@ -602,9 +669,9 @@ extension GameScene {
             }
         }
         
+        // YENİ: Piksel art yılan segmentlerini çiz (eski basit kare yerine)
         for segment in snake.body {
-            let segmentNode = SKSpriteNode(color: primaryColor,
-                                           size: CGSize(width: cellSize-1, height: cellSize-1))
+            let segmentNode = createSnakeSegment()
             segmentNode.position = CGPoint(
                 x: gameAreaStartX + CGFloat(Int(segment.x)) * cellSize + cellSize/2,
                 y: gameAreaStartY + CGFloat(Int(segment.y)) * cellSize + cellSize/2
@@ -613,13 +680,13 @@ extension GameScene {
             addChild(segmentNode)
         }
         
-        let foodNode = SKSpriteNode(color: primaryColor,
-                                    size: CGSize(width: cellSize-1, height: cellSize-1))
-        foodNode.position = CGPoint(
+        // YENİ: Çiçek yemi çiz (eski kare yem yerine)
+        let flowerFoodNode = createFlowerFood()
+        flowerFoodNode.position = CGPoint(
             x: gameAreaStartX + CGFloat(Int(food.x)) * cellSize + cellSize/2,
             y: gameAreaStartY + CGFloat(Int(food.y)) * cellSize + cellSize/2
         )
-        foodNode.name = "food"
-        addChild(foodNode)
+        flowerFoodNode.name = "food"
+        addChild(flowerFoodNode)
     }
 }
