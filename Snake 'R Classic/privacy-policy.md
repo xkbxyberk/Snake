@@ -119,7 +119,7 @@ Since no data leaves your device, there are no international data transfers to w
 
 If you have any questions, concerns, or requests regarding this Privacy Policy or your privacy rights, please contact us:
 
-**Email:** xberkakbay@outlook.com
+**Email:** sberkakbay@gmail.com
 
 We will respond to your inquiry within a reasonable timeframe.
 

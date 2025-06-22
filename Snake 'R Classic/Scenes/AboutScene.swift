@@ -221,7 +221,7 @@ class AboutScene: SKScene {
         
         let controls = [
             "📱 Use the on-screen arrow keys",
-            "⏸️ Tap the ⏸ button/double tap to pause",
+            "⏸️ Tap the ⏸ button or double tap game area to pause",
             "🔄 Restart from the game over screen"
         ]
         
