@@ -1,4 +1,5 @@
 import UIKit
+import SpriteKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -23,9 +24,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // MARK: - Scene Lifecycle
 
     func sceneDidDisconnect(_ scene: UIScene) {
+        // Scene bağlantısı kesildiğinde
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        // Uygulama aktif hale geldiğinde
         HapticManager.shared.start()
 
         if #available(iOS 16.0, *) {
@@ -36,10 +39,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
+        // Uygulama pasif hale geldiğinde (App Switcher açıldığında)
         HapticManager.shared.stop()
+        
+        // Oyun sahnesini kontrol et ve gerekirse duraklat
+        checkAndPauseGameIfNeeded()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+        // Uygulama ön plana geldiğinde
         if #available(iOS 16.0, *) {
             if let windowScene = scene as? UIWindowScene {
                 windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait))
@@ -48,5 +56,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        // Uygulama arka plana geçtiğinde
+        // Oyun sahnesini kontrol et ve gerekirse duraklat
+        checkAndPauseGameIfNeeded()
+    }
+
+    // MARK: - Game Scene Control Methods
+    
+    /// Mevcut sahnenin GameScene olup olmadığını kontrol eder ve oyun aktifse duraklatır
+    private func checkAndPauseGameIfNeeded() {
+        guard let window = window,
+              let gameViewController = window.rootViewController as? GameViewController,
+              let skView = gameViewController.view as? SKView,
+              let gameScene = skView.scene as? GameScene else {
+            return
+        }
+        
+        // Oyun aktif ve duraklatılmamışsa duraklat
+        if gameScene.isGameRunning && !gameScene.isGamePaused && !gameScene.isCountdownActive {
+            DispatchQueue.main.async {
+                gameScene.pauseGame()
+            }
+        }
     }
 }

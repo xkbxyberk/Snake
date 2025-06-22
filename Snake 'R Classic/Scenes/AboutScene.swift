@@ -155,7 +155,7 @@ class AboutScene: SKScene {
         cardContainer.addChild(gameTitle)
         
         let version = SKLabelNode(fontNamed: "Jersey15-Regular")
-        version.text = "Retro Edition v1.0"
+        version.text = "'Retro Classic v1.0"
         version.fontSize = 12
         version.fontColor = accentColor
         version.horizontalAlignmentMode = .left

@@ -146,7 +146,7 @@ class MenuScene: SKScene {
         
         // Alt başlık
         subtitleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
-        subtitleLabel.text = "RETRO EDITION"
+        subtitleLabel.text = "'RETRO CLASSIC"
         subtitleLabel.fontSize = 18
         subtitleLabel.fontColor = primaryColor
         subtitleLabel.position = CGPoint(x: frame.midX, y: frame.midY + 180)
@@ -396,7 +396,6 @@ class MenuScene: SKScene {
     
     // MARK: - Yumuşak Pixel Art Dekoratif Yılan Oluşturma
     private func createSmoothPixelArtSnake(startPosition: CGPoint, direction: Direction, segments: Int) {
-        let segmentSize: CGFloat = 12
         let spacing: CGFloat = 18
         
         for i in 0..<segments {
