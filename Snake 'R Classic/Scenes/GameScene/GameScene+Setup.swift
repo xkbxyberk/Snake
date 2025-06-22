@@ -348,7 +348,7 @@ extension GameScene {
             fontSize = 24
         }
         
-        let labelColor = primaryColor
+        let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
         
         scoreLabel = SKLabelNode(fontNamed: pixelFont)
         scoreLabel.text = "0"
@@ -490,11 +490,14 @@ extension GameScene {
         let verticalSpacing = config.buttonSpacingV
         let horizontalSpacing = config.buttonSpacingH
         
+        // Biraz daha koyu arka plan rengi
+        let buttonBackgroundColor = SKColor(red: 136/255, green: 180/255, blue: 1/255, alpha: 1.0)
+        
         upButton = createEnhancedDirectionButton(
             direction: .up,
             size: horizontalButtonSize,
             position: CGPoint(x: centerX, y: controlAreaY + verticalSpacing),
-            color: primaryColor
+            color: buttonBackgroundColor
         )
         addChild(upButton)
         
@@ -502,7 +505,7 @@ extension GameScene {
             direction: .down,
             size: horizontalButtonSize,
             position: CGPoint(x: centerX, y: controlAreaY - verticalSpacing),
-            color: primaryColor
+            color: buttonBackgroundColor
         )
         addChild(downButton)
         
@@ -510,7 +513,7 @@ extension GameScene {
             direction: .left,
             size: verticalButtonSize,
             position: CGPoint(x: centerX - horizontalSpacing, y: controlAreaY),
-            color: primaryColor
+            color: buttonBackgroundColor
         )
         addChild(leftButton)
         
@@ -518,7 +521,7 @@ extension GameScene {
             direction: .right,
             size: verticalButtonSize,
             position: CGPoint(x: centerX + horizontalSpacing, y: controlAreaY),
-            color: primaryColor
+            color: buttonBackgroundColor
         )
         addChild(rightButton)
     }
@@ -532,19 +535,41 @@ extension GameScene {
         buttonContainer.name = "\(direction)Button"
         buttonContainer.zPosition = 10
         
+        // İyileştirilmiş gölge efekti
         let shadowOffset: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 3 : 4) : 5
+            (deviceType == .iPhoneSmall ? 4 : 5) : 6
         let shadow = SKShapeNode(rect: CGRect(x: -size.width/2 + shadowOffset, y: -size.height/2 - shadowOffset, width: size.width, height: size.height))
-        shadow.fillColor = shadowColor
+        shadow.fillColor = SKColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.4) // Daha belirgin gölge
         shadow.strokeColor = .clear
         shadow.zPosition = -1
         buttonContainer.addChild(shadow)
         
-        let highlightHeight: CGFloat = deviceType.isIPhone ?
+        // Yönsel highlight efekti
+        let highlightThickness: CGFloat = deviceType.isIPhone ?
             (deviceType == .iPhoneSmall ? 6 : 8) : 10
-        let highlight = SKSpriteNode(color: backgroundGreen, size: CGSize(width: size.width - 8, height: highlightHeight))
-        highlight.position = CGPoint(x: 0, y: size.height/2 - highlightHeight/2 - 4)
-        highlight.alpha = 0.6
+        
+        var highlight: SKSpriteNode
+        
+        switch direction {
+        case .up:
+            // Üst tarafta highlight
+            highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: size.width - 8, height: highlightThickness))
+            highlight.position = CGPoint(x: 0, y: size.height/2 - highlightThickness/2 - 4)
+        case .down:
+            // Alt tarafta highlight
+            highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: size.width - 8, height: highlightThickness))
+            highlight.position = CGPoint(x: 0, y: -size.height/2 + highlightThickness/2 + 4)
+        case .left:
+            // Sol tarafta highlight
+            highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: highlightThickness, height: size.height - 8))
+            highlight.position = CGPoint(x: -size.width/2 + highlightThickness/2 + 4, y: 0)
+        case .right:
+            // Sağ tarafta highlight
+            highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: highlightThickness, height: size.height - 8))
+            highlight.position = CGPoint(x: size.width/2 - highlightThickness/2 - 4, y: 0)
+        }
+        
+        highlight.alpha = 0.5
         highlight.zPosition = 1
         buttonContainer.addChild(highlight)
         
@@ -561,9 +586,9 @@ extension GameScene {
             height: size.height - innerBorderThickness*2
         ))
         innerBorder.fillColor = .clear
-        innerBorder.strokeColor = backgroundGreen
+        innerBorder.strokeColor = primaryColor
         innerBorder.lineWidth = 2
-        innerBorder.alpha = 0.3
+        innerBorder.alpha = 0.6 // Biraz daha belirgin
         innerBorder.zPosition = 1
         buttonContainer.addChild(innerBorder)
         
@@ -595,7 +620,7 @@ extension GameScene {
         
         let scale: CGFloat = min(buttonSize.width, buttonSize.height) / 80
         let adjustedPixelSize = basePixelSize * scale
-        let arrowColor = backgroundGreen
+        let arrowColor = SKColor(red: 68/255, green: 90/255, blue: 0/255, alpha: 1.0)
         
         switch direction {
         case .up:
