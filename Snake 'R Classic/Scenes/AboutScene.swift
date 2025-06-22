@@ -903,7 +903,7 @@ class AboutScene: SKScene {
 
         If you have any questions, concerns, or requests regarding this Privacy Policy or your privacy rights, please contact us:
 
-        Email: xberkakbay@outlook.com
+        Email: sberkakbay@gmail.com
 
         We will respond to your inquiry within a reasonable timeframe.
 
