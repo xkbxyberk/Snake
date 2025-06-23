@@ -4,41 +4,10 @@
 <dict>
 	<key>NSHapticsUsageDescription</key>
 	<string>This game uses haptic feedback to enhance your gaming experience when eating food or hitting walls.</string>
-	
-	<!-- Uygulama tam ekran gerektiriyor -->
-	<key>UIRequiresFullScreen</key>
-	<true/>
-	
-	<!-- Status bar gizli -->
-	<key>UIStatusBarHidden</key>
-	<true/>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	
-	<!-- Sadece portrait orientations -->
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	
-	<!-- iPhone için orientation -->
-	<key>UISupportedInterfaceOrientations~iphone</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	
-	<!-- iPad için orientation -->
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	</array>
-	
 	<key>UIAppFonts</key>
 	<array>
 		<string>Jersey15.ttf</string>
 	</array>
-	
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -56,5 +25,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
