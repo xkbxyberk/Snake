@@ -61,7 +61,7 @@ While this Game is not specifically designed for children under 13, we recognize
 - **Safe Gaming:** The game contains no social features, chat functions, or external links
 - **No Advertising:** The game contains no advertisements or in-app purchases
 
-If you are a parent and believe your child has provided personal information, please contact us at xberkakbay@outlook.com, and we will help you delete any such information.
+If you are a parent and believe your child has provided personal information, please contact us at sberkakbay@gmail.com, and we will help you delete any such information.
 
 ## Your Privacy Rights
 

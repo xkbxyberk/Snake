@@ -694,229 +694,266 @@ class AboutScene: SKScene {
     }
     
     private func createLicensePages() {
-        let fullLicenseText = """
-        Copyright 2023 The Soft Type Project Authors
-        (https://github.com/scfried/soft-type-jersey)
+        let page1Text = """
+        Copyright 2023 The Soft Type Project Authors (https://github.com/scfried/soft-type-jersey)
 
         This Font Software is licensed under the SIL Open Font License, Version 1.1.
+        This license is copied below, and is also available with a FAQ at:
+        https://openfontlicense.org
 
-        This license is copied below, and is also available with a FAQ at: https://openfontlicense.org
-        
-        ═══════════════════════════════════════════════════════════════════════════════════════
-        SIL OPEN FONT LICENSE
-        Version 1.1 - 26 February 2007
-        ═══════════════════════════════════════════════════════════════════════════════════════
-        
+
+        -----------------------------------------------------------
+        SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+        -----------------------------------------------------------
+
         PREAMBLE
-
-        The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects, to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework in which fonts may be shared and improved in partnership with others.
-
-        The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold by themselves.
+        The goals of the Open Font License (OFL) are to stimulate worldwide
+        development of collaborative font projects, to support the font creation
+        efforts of academic and linguistic communities, and to provide a free and
+        open framework in which fonts may be shared and improved in partnership
+        with others.
         """
         
         let page2Text = """
-        The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided that any reserved names are not used by derivative works.
-
-        The fonts and derivatives, however, cannot be released under any other type of license.
-
-        The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.
+        The OFL allows the licensed fonts to be used, studied, modified and
+        redistributed freely as long as they are not sold by themselves. The
+        fonts, including any derivative works, can be bundled, embedded,
+        redistributed and/or sold with any software provided that any reserved
+        names are not used by derivative works. The fonts and derivatives,
+        however, cannot be released under any other type of license. The
+        requirement for fonts to remain under this license does not apply
+        to any document created using the fonts or their derivatives.
 
         DEFINITIONS
-
-        "Font Software" refers to the set of files released by the Copyright Holder(s) under this license and clearly marked as such.
-
-        This may include source files, build scripts and documentation.
+        "Font Software" refers to the set of files released by the Copyright
+        Holder(s) under this license and clearly marked as such. This may
+        include source files, build scripts and documentation.
         """
         
         let page3Text = """
-        "Reserved Font Name" refers to any names specified as such after the copyright statement(s).
+        "Reserved Font Name" refers to any names specified as such after the
+        copyright statement(s).
 
-        "Original Version" refers to the collection of Font Software components as distributed by the Copyright Holder(s).
+        "Original Version" refers to the collection of Font Software components as
+        distributed by the Copyright Holder(s).
 
-        "Modified Version" refers to any derivative made by adding to, deleting, or substituting -- in part or in whole -- any of the components of the Original Version, by changing formats or by porting the Font Software to a new environment.
+        "Modified Version" refers to any derivative made by adding to, deleting,
+        or substituting -- in part or in whole -- any of the components of the
+        Original Version, by changing formats or by porting the Font Software to a
+        new environment.
 
-        "Author" refers to any designer, engineer, programmer, technical writer or other person who contributed to the Font Software.
+        "Author" refers to any designer, engineer, programmer, technical
+        writer or other person who contributed to the Font Software.
 
         PERMISSION & CONDITIONS
-
-        Permission is hereby granted, free of charge, to any person obtaining a copy of the Font Software, to use, study, copy, merge, embed, modify, redistribute, and sell modified and unmodified copies of the Font Software, subject to the following conditions:
+        Permission is hereby granted, free of charge, to any person obtaining
+        a copy of the Font Software, to use, study, copy, merge, embed, modify,
+        redistribute, and sell modified and unmodified copies of the Font
+        Software, subject to the following conditions:
         """
         
         let page4Text = """
-        1) Neither the Font Software nor any of its individual components, in Original or Modified Versions, may be sold by itself.
+        1) Neither the Font Software nor any of its individual components,
+        in Original or Modified Versions, may be sold by itself.
 
-        2) Original or Modified Versions of the Font Software may be bundled, redistributed and/or sold with any software, provided that each copy contains the above copyright notice and this license.
+        2) Original or Modified Versions of the Font Software may be bundled,
+        redistributed and/or sold with any software, provided that each copy
+        contains the above copyright notice and this license. These can be
+        included either as stand-alone text files, human-readable headers or
+        in the appropriate machine-readable metadata fields within text or
+        binary files as long as those fields can be easily viewed by the user.
 
-        These can be included either as stand-alone text files, human-readable headers or in the appropriate machine-readable metadata fields within text or binary files as long as those fields can be easily viewed by the user.
-
-        3) No Modified Version of the Font Software may use the Reserved Font Name(s) unless explicit written permission is granted by the corresponding Copyright Holder.
-
-        This restriction only applies to the primary font name as presented to the users.
+        3) No Modified Version of the Font Software may use the Reserved Font
+        Name(s) unless explicit written permission is granted by the corresponding
+        Copyright Holder. This restriction only applies to the primary font name as
+        presented to the users.
         """
         
         let page5Text = """
-        4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font Software shall not be used to promote, endorse or advertise any Modified Version, except to acknowledge the contribution(s) of the Copyright Holder(s) and the Author(s) or with their explicit written permission.
+        4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+        Software shall not be used to promote, endorse or advertise any
+        Modified Version, except to acknowledge the contribution(s) of the
+        Copyright Holder(s) and the Author(s) or with their explicit written
+        permission.
 
-        5) The Font Software, modified or unmodified, in part or in whole, must be distributed entirely under this license, and must not be distributed under any other license.
-
-        The requirement for fonts to remain under this license does not apply to any document created using the Font Software.
+        5) The Font Software, modified or unmodified, in part or in whole,
+        must be distributed entirely under this license, and must not be
+        distributed under any other license. The requirement for fonts to
+        remain under this license does not apply to any document created
+        using the Font Software.
 
         TERMINATION
-
-        This license becomes null and void if any of the above conditions are not met.
+        This license becomes null and void if any of the above conditions are
+        not met.
         """
         
         let page6Text = """
         DISCLAIMER
-
-        THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT.
-
-        IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
-
-        Thank you for reading!
+        THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+        EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+        MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+        OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+        COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+        INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+        DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+        OTHER DEALINGS IN THE FONT SOFTWARE.
         """
         
-        currentPages = [fullLicenseText, page2Text, page3Text, page4Text, page5Text, page6Text]
+        // Değişkenlerin tanımlanması ve sayfaların diziye atanması
+        currentPages = [page1Text, page2Text, page3Text, page4Text, page5Text, page6Text]
         totalPages = currentPages.count
         currentPage = 0
         
+        // Arayüzü güncellemek için ilgili fonksiyonun çağrılması
         updatePageDisplay()
     }
 
     private func createPrivacyPages() {
         let page1Text = """
-        PRIVACY POLICY - SNAKE: RETRO CLASSIC
+            PRIVACY POLICY - SNAKE: RETRO CLASSIC
 
-        Effective Date: 20/06/2025
-        Developer: Berk Akbay
-        Contact: sberkakbay@gmail.com
+            Effective Date: 20/06/2025
+            Developer: Berk Akbay
+            Contact: sberkakbay@gmail.com
 
-        INTRODUCTION
+            INTRODUCTION
 
-        This Privacy Policy explains how Snake: Retro Classic handles information when you use our mobile game.
+            This Privacy Policy explains how Snake: Retro Classic handles information when you use our mobile game. This policy applies to all users of the Game.
 
-        Your privacy is important to us. This Game is designed to be a simple, offline Snake game that collects minimal information and stores all data locally on your device.
-        """
-        
-        let page2Text = """
-        INFORMATION WE COLLECT
+            Your privacy is important to us. This Game is designed to be a simple, offline Snake game that collects minimal information and stores all data locally on your device.
+            """
+            
+            let page2Text = """
+            INFORMATION WE COLLECT
 
-        Information You Provide Directly:
-        • Player Name (Optional): When you achieve a high score, you may choose to enter your name (up to 15 characters) to save with your score. This is completely optional.
+            Information You Provide Directly:
+            • Player Name (Optional): When you achieve a high score, you may choose to enter your name (up to 15 characters) to save with your score. This is completely optional - you can also save scores anonymously.
 
-        Information Automatically Collected:
-        • Game Scores: Your game scores and dates
-        • Game Statistics: Number of games played on different difficulty levels  
-        • Game Settings: Your preferences for sound, haptic feedback, and game speed
-        • High Score Records: Your personal best scores
+            Information Automatically Collected:
+            The Game automatically stores the following information locally on your device:
+            • Game Scores: Your game scores and the dates they were achieved
+            • Game Statistics: Number of games played on different difficulty levels
+            • Game Settings: Your preferences for sound effects, haptic feedback (vibration), and game speed
+            • High Score Records: Your personal best scores for tracking progress
 
-        Information We Do NOT Collect:
-        • Personal information (real name, email, contact info)
-        • Device camera, microphone, contacts, photos, location
-        • Device identifiers or advertising IDs
-        • Behavior tracking or usage patterns
-        • Biometric data
-        """
-        
-        let page3Text = """
-        HOW WE USE INFORMATION
+            Information We Do NOT Collect:
+            • We do not collect personal information such as your real name, email address, or contact information (unless you voluntarily provide a player name)
+            • We do not access your device's camera, microphone, contacts, photos, or location
+            • We do not collect device identifiers or advertising IDs
+            • We do not track your behavior or usage patterns
+            • We do not collect any biometric data
+            • We do not collect any personal data
+            """
+            
+            let page3Text = """
+            HOW WE USE INFORMATION
 
-        The limited information collected is used solely to:
-        • Enhance Gaming Experience: Save your progress, high scores, and game statistics
-        • Maintain Game Settings: Remember your preferences
-        • Local Leaderboards: Display your personal best scores
+            The limited information collected is used solely to:
+            • Enhance Gaming Experience: Save your progress, high scores, and game statistics
+            • Maintain Game Settings: Remember your preferences for sound, vibration, and difficulty
+            • Local Leaderboards: Display your personal best scores and player names (if provided)
 
-        All data processing occurs entirely on your device. We do not transmit, upload, or share any of your information with external servers or third parties.
+            All data processing occurs entirely on your device. We do not transmit, upload, or share any of your information with external servers or third parties.
 
-        INFORMATION SHARING AND DISCLOSURE
+            INFORMATION SHARING AND DISCLOSURE
 
-        We do not share, sell, rent, or disclose any of your information to third parties. All data remains stored locally on your device and is never transmitted outside of your device.
+            We do not share, sell, rent, or disclose any of your information to third parties. All data remains stored locally on your device and is never transmitted outside of your device.
 
-        The Game does not connect to the internet and does not communicate with any external servers.
-        """
-        
-        let page4Text = """
-        DATA STORAGE AND SECURITY
+            The Game does not connect to the internet and does not communicate with any external servers, analytics services, or advertising networks.
+            """
+            
+            let page4Text = """
+            DATA STORAGE AND SECURITY
 
-        • Local Storage Only: All game data is stored exclusively on your device using iOS's standard UserDefaults system
-        • No Cloud Backup: Game data is not automatically backed up to iCloud
-        • Device Security: Data security depends on your device's built-in iOS security features
-        • Data Isolation: Game data cannot be accessed by other apps
+            • Local Storage Only: All game data is stored exclusively on your device using iOS's standard UserDefaults system
+            • No Cloud Backup: Game data is not automatically backed up to iCloud or any other cloud service
+            • Device Security: Data security depends on your device's built-in iOS security features
+            • Data Isolation: Game data cannot be accessed by other apps on your device
 
-        CHILDREN'S PRIVACY (COPPA COMPLIANCE)
+            CHILDREN'S PRIVACY (COPPA COMPLIANCE)
 
-        • No Data Collection from Children: We do not knowingly collect personal information from children under 13
-        • Parental Control: Parents can delete all game data by deleting and reinstalling the app
-        • Safe Gaming: The game contains no social features, chat functions, or external links
-        • No Advertising: The game contains no advertisements or in-app purchases
-        """
-        
-        let page5Text = """
-        YOUR PRIVACY RIGHTS
+            While this Game is not specifically designed for children under 13, we recognize that children may play our game. We are committed to protecting children's privacy:
+            • No Data Collection from Children: We do not knowingly collect personal information from children under 13
+            • Parental Control: Parents can delete all game data by deleting and reinstalling the app
+            • Safe Gaming: The game contains no social features, chat functions, or external links
+            • No Advertising: The game contains no advertisements or in-app purchases
 
-        Since all data is stored locally on your device, you have complete control:
-        • Access: View your scores and settings within the game
-        • Modify: Change your player name and game settings at any time
-        • Delete: Clear all your score data from the 'Clear' button on the 'Leaderboard' screen, or delete and reinstall the app
-        • Portability: Game data remains on your device
+            If you are a parent and believe your child has provided personal information, please contact us at sberkakbay@gmail.com, and we will help you delete any such information.
+            """
+            
+            let page5Text = """
+            YOUR PRIVACY RIGHTS
 
-        HAPTIC FEEDBACK (VIBRATION)
+            Since all data is stored locally on your device, you have complete control:
+            • Access: View your scores and settings within the game
+            • Modify: Change your player name and game settings at any time
+            • Delete: Clear all your score data from the 'Clear' button on the 'Leaderboard' screen, or delete and reinstall the app
+            • Portability: Game data remains on your device and is not transferred to our servers
 
-        The Game uses your device's haptic feedback capabilities to enhance the gaming experience with vibration effects. This feature:
-        • Can be turned on or off in the game settings
-        • Does not collect any data about your device or usage
-        • Only provides tactile feedback during gameplay
-        """
-        
-        let page6Text = """
-        CHANGES TO THIS PRIVACY POLICY
+            For EU Users (GDPR):
+            If you are in the European Union, you have additional rights. However, since we do not collect or store personal data on our servers, most GDPR requests can be fulfilled by managing your local game data directly on your device.
 
-        We may update this Privacy Policy from time to time. When we make changes, we will:
-        • Update the "Effective Date" at the top of this policy
-        • Notify users through the App Store update description
-        • Post the updated policy within the app
+            For California Users (CCPA):
+            California residents have specific privacy rights. Since we do not collect, sell, or share personal information, and all data remains on your device, most CCPA protections are inherently provided by our privacy-by-design approach.
+            """
+            
+            let page6Text = """
+            HAPTIC FEEDBACK (VIBRATION)
 
-        THIRD-PARTY SERVICES
+            The Game uses your device's haptic feedback capabilities to enhance the gaming experience with vibration effects. This feature:
+            • Can be turned on or off in the game settings
+            • Does not collect any data about your device or usage
+            • Only provides tactile feedback during gameplay
 
-        This Game does not integrate with any third-party services, including:
-        • No analytics services
-        • No advertising networks
-        • No crash reporting services
-        • No social media integration
-        • No payment processors
-        • No cloud storage services
+            CHANGES TO THIS PRIVACY POLICY
 
-        DATA RETENTION
+            We may update this Privacy Policy from time to time. When we make changes, we will:
+            • Update the "Effective Date" at the top of this policy
+            • Notify users through the App Store update description
+            • Post the updated policy within the app
 
-        Since all data is stored locally on your device:
-        • Data is retained until you delete it manually or delete the app
-        • No automatic data expiration occurs
-        • We do not have access to delete your data remotely
-        """
-        
-        let page7Text = """
-        INTERNATIONAL DATA TRANSFERS
+            Your continued use of the Game after any changes constitutes acceptance of the updated Privacy Policy.
+            
+            THIRD-PARTY SERVICES
 
-        Since no data leaves your device, there are no international data transfers to worry about.
+            This Game does not integrate with any third-party services, including:
+            • No analytics services (e.g., Google Analytics, Firebase Analytics)
+            • No advertising networks (e.g., AdMob, Facebook Ads)
+            • No crash reporting services (e.g., Crashlytics)
+            • No social media integration
+            • No payment processors
+            • No cloud storage services
+            """
+            
+            let page7Text = """
+            DATA RETENTION
 
-        CONTACT US
+            Since all data is stored locally on your device:
+            • Data is retained until you delete it manually or delete the app
+            • No automatic data expiration or deletion occurs
+            • We do not have access to delete your data remotely
 
-        If you have any questions, concerns, or requests regarding this Privacy Policy or your privacy rights, please contact us:
+            INTERNATIONAL DATA TRANSFERS
 
-        Email: sberkakbay@gmail.com
+            Since no data leaves your device, there are no international data transfers to worry about.
 
-        We will respond to your inquiry within a reasonable timeframe.
+            CONTACT US
 
-        TECHNICAL INFORMATION
+            If you have any questions, concerns, or requests regarding this Privacy Policy or your privacy rights, please contact us:
+            Email: sberkakbay@gmail.com
+            We will respond to your inquiry within a reasonable timeframe.
 
-        For transparency, here are the technical details of our data practices:
-        • Data Storage: iOS UserDefaults (local device storage only)
-        • Data Transmission: None (completely offline app)
-        • Encryption: Protected by iOS device-level encryption
-        • Network Access: The app does not access the internet
+            TECHNICAL INFORMATION
 
-        Last updated: 20/06/2025
-        """
+            For transparency, here are the technical details of our data practices:
+            • Data Storage: iOS UserDefaults (local device storage only)
+            • Data Transmission: None (completely offline app)
+            • Encryption: Protected by iOS device-level encryption
+            • Network Access: The app does not access the internet
+
+            Last updated: 20/06/2025
+            """
         
         currentPages = [page1Text, page2Text, page3Text, page4Text, page5Text, page6Text, page7Text]
         totalPages = currentPages.count
