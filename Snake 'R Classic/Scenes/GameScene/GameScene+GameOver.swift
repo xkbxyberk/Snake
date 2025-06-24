@@ -60,6 +60,13 @@ extension GameScene {
         nameDisplayLabel.name = "nameDisplayLabel"
         nameInputContainer!.addChild(nameDisplayLabel)
         
+        // YENI EKLENEN KOD: Hit area ekle
+        let inputHitArea = SKSpriteNode(color: .clear, size: CGSize(width: 240, height: 30))
+        inputHitArea.position = CGPoint(x: 0, y: -5)
+        inputHitArea.zPosition = 5
+        inputHitArea.name = "nameInputHitArea"
+        nameInputContainer!.addChild(inputHitArea)
+        
         createNameInputButtons()
         
         let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)

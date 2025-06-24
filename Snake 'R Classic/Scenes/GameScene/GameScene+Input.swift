@@ -101,6 +101,10 @@ extension GameScene {
             case "anonScoreButton":
                 saveScoreWithName("Anonymous")
                 triggerStrongHapticFeedback()
+            case "nameInputHitArea", "placeholderText", "nameDisplayLabel":
+                // Text field'ı aktive et
+                nameTextField?.becomeFirstResponder()
+                triggerStrongHapticFeedback()
             default:
                 break
             }
