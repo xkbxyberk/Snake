@@ -764,6 +764,16 @@ extension GameScene {
         // Perfect positioned yılan segmentlerini çiz (SABİT GRID)
         for segment in snake.body {
             let segmentNode = createSnakeSegment()
+            
+            let basePixelSize = floor(cellSize / 5)
+            let segmentRenderedSize = 5 * basePixelSize
+            
+            // Sadece boşluk oluşacaksa ölçekleme yap
+            if segmentRenderedSize > 0 && segmentRenderedSize < cellSize {
+                let scale = cellSize / segmentRenderedSize
+                segmentNode.setScale(scale)
+            }
+            
             // Perfect grid positioning
             let perfectX = floor(gameAreaStartX + CGFloat(Int(segment.x)) * cellSize + cellSize/2)
             let perfectY = floor(gameAreaStartY + CGFloat(Int(segment.y)) * cellSize + cellSize/2)
