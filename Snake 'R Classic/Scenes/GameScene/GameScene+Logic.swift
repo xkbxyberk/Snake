@@ -39,7 +39,6 @@ extension GameScene {
         drawGame()
     }
     
-    // MARK: - Universal Collision Detection (27x42 Grid İçin)
     internal func willCollideInDirection(_ direction: Direction) -> Bool {
         let head = snake.head
         var nextHead = head
@@ -55,9 +54,8 @@ extension GameScene {
             nextHead.x += 1
         }
         
-        // SABİT GRID SINIR KONTROLÜ (27x42)
-        let willHitWall = nextHead.x < 0 || nextHead.x >= CGFloat(UNIVERSAL_GAME_WIDTH) ||
-                          nextHead.y < 0 || nextHead.y >= CGFloat(UNIVERSAL_GAME_HEIGHT)
+        let willHitWall = nextHead.x < 0 || nextHead.x >= CGFloat(gameWidth) ||
+                          nextHead.y < 0 || nextHead.y >= CGFloat(gameHeight)
         
         var willHitTail = false
         for i in 1..<snake.body.count {
@@ -89,7 +87,6 @@ extension GameScene {
         SoundManager.shared.playSound(named: "eat.wav")
     }
     
-    // MARK: - Universal Speed and Grace Period Update (27x42 Grid İçin Optimize)
     internal func updateGameSpeedAndGracePeriod() {
         let profileIndex = max(0, min(speedSetting - 1, speedProfiles.count - 1))
         let profile = speedProfiles[profileIndex]
@@ -157,7 +154,6 @@ extension GameScene {
         createGameStartEffect()
     }
     
-    // MARK: - Universal Game Restart (27x42 Grid İçin)
     internal func restartGame() {
         children.filter { node in
             node.name?.contains("gameOver") == true ||
@@ -183,7 +179,6 @@ extension GameScene {
         currentDirection = .right
         nextDirection = .right
         
-        // SABİT GRID İÇİN YENİ YILAN
         snake = Snake()
         spawnFood()
         
@@ -199,14 +194,13 @@ extension GameScene {
         createEnhancedPauseMenu()
     }
     
-    // MARK: - Resume Game (Değişiklik Yok)
+    // MARK: - Güncellenen Resume Game Metodu
     internal func resumeGame() {
         // Önce "Get Ready" efektini göster
         createGetReadyEffect()
         // actuallyResumeGame() metodu Get Ready efekti bittiğinde çağrılacak
     }
     
-    // MARK: - Universal Game Over (27x42 Grid İçin)
     internal func gameOver() {
         HapticManager.shared.playContinuousHaptic(intensity: 1.0, sharpness: 1.0, duration: 0.6)
         

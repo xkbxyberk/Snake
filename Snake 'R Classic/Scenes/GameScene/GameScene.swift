@@ -3,14 +3,10 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    // MARK: - Sabit Oyun Alanı Ayarları (iPhone 14 Pro Max Standardı)
-    internal let UNIVERSAL_GAME_WIDTH = 27
-    internal let UNIVERSAL_GAME_HEIGHT = 42
-    
-    // MARK: - Dinamik Görsel Ayarları
+    // MARK: - Dinamik Oyun Alanı Ayarları
     internal var cellSize: CGFloat = 12
-    internal var gameWidth = 27  // Artık sabit
-    internal var gameHeight = 42 // Artık sabit
+    internal var gameWidth = 25
+    internal var gameHeight = 35
     
     // MARK: - Oyun Alanı Koordinatları
     internal var gameAreaStartX: CGFloat = 0
@@ -54,7 +50,7 @@ class GameScene: SKScene {
     internal var currentGameSpeed: TimeInterval = 0.5
     internal var speedSetting: Int = 2
     
-    // MARK: - Çok Aşamalı Hız ve Grace Period Profilleri (27x42 Grid İçin Optimize)
+    // MARK: - Çok Aşamalı Hız ve Grace Period Profilleri
     internal struct EnhancedSpeedProfile {
         let baseSpeed: TimeInterval
         let phases: [(threshold: Int, speedRate: Double, gracePeriodRate: Double)]
@@ -64,96 +60,96 @@ class GameScene: SKScene {
     }
     
     internal let speedProfiles: [EnhancedSpeedProfile] = [
-        // SLOW Profili - 27x42 Grid İçin Optimize
+        // SLOW Profili
         EnhancedSpeedProfile(
-            baseSpeed: 0.16,
+            baseSpeed: 0.18,
             phases: [
-                (threshold: 10, speedRate: 0.005, gracePeriodRate: 0.008),
-                (threshold: 22, speedRate: 0.006, gracePeriodRate: 0.009),
-                (threshold: 36, speedRate: 0.007, gracePeriodRate: 0.010),
-                (threshold: 52, speedRate: 0.008, gracePeriodRate: 0.011),
-                (threshold: 70, speedRate: 0.009, gracePeriodRate: 0.012),
-                (threshold: 90, speedRate: 0.010, gracePeriodRate: 0.013),
-                (threshold: 112, speedRate: 0.011, gracePeriodRate: 0.014),
-                (threshold: 136, speedRate: 0.012, gracePeriodRate: 0.015),
-                (threshold: 162, speedRate: 0.013, gracePeriodRate: 0.016),
-                (threshold: 190, speedRate: 0.014, gracePeriodRate: 0.017),
-                (threshold: 220, speedRate: 0.015, gracePeriodRate: 0.018),
-                (threshold: 252, speedRate: 0.016, gracePeriodRate: 0.019),
-                (threshold: 286, speedRate: 0.017, gracePeriodRate: 0.020),
-                (threshold: 322, speedRate: 0.018, gracePeriodRate: 0.021),
-                (threshold: 360, speedRate: 0.019, gracePeriodRate: 0.022),
-                (threshold: 999, speedRate: 0.020, gracePeriodRate: 0.023)
+                (threshold: 8, speedRate: 0.006, gracePeriodRate: 0.010),
+                (threshold: 18, speedRate: 0.007, gracePeriodRate: 0.011),
+                (threshold: 30, speedRate: 0.008, gracePeriodRate: 0.012),
+                (threshold: 44, speedRate: 0.009, gracePeriodRate: 0.013),
+                (threshold: 60, speedRate: 0.010, gracePeriodRate: 0.014),
+                (threshold: 78, speedRate: 0.011, gracePeriodRate: 0.015),
+                (threshold: 98, speedRate: 0.012, gracePeriodRate: 0.016),
+                (threshold: 120, speedRate: 0.013, gracePeriodRate: 0.017),
+                (threshold: 144, speedRate: 0.014, gracePeriodRate: 0.018),
+                (threshold: 170, speedRate: 0.015, gracePeriodRate: 0.019),
+                (threshold: 198, speedRate: 0.016, gracePeriodRate: 0.020),
+                (threshold: 228, speedRate: 0.017, gracePeriodRate: 0.021),
+                (threshold: 260, speedRate: 0.018, gracePeriodRate: 0.022),
+                (threshold: 294, speedRate: 0.019, gracePeriodRate: 0.023),
+                (threshold: 330, speedRate: 0.020, gracePeriodRate: 0.024),
+                (threshold: 999, speedRate: 0.021, gracePeriodRate: 0.025)
             ],
-            minSpeed: 0.07,
+            minSpeed: 0.08,
+            baseGracePeriod: 0.35,
+            minGracePeriod: 0.19
+        ),
+        
+        // NORMAL Profili
+        EnhancedSpeedProfile(
+            baseSpeed: 0.15,
+            phases: [
+                (threshold: 10, speedRate: 0.007, gracePeriodRate: 0.012),
+                (threshold: 22, speedRate: 0.008, gracePeriodRate: 0.013),
+                (threshold: 36, speedRate: 0.009, gracePeriodRate: 0.014),
+                (threshold: 52, speedRate: 0.010, gracePeriodRate: 0.015),
+                (threshold: 70, speedRate: 0.011, gracePeriodRate: 0.016),
+                (threshold: 90, speedRate: 0.012, gracePeriodRate: 0.017),
+                (threshold: 112, speedRate: 0.013, gracePeriodRate: 0.018),
+                (threshold: 136, speedRate: 0.014, gracePeriodRate: 0.019),
+                (threshold: 162, speedRate: 0.015, gracePeriodRate: 0.020),
+                (threshold: 190, speedRate: 0.016, gracePeriodRate: 0.021),
+                (threshold: 220, speedRate: 0.017, gracePeriodRate: 0.022),
+                (threshold: 252, speedRate: 0.018, gracePeriodRate: 0.023),
+                (threshold: 286, speedRate: 0.019, gracePeriodRate: 0.024),
+                (threshold: 999, speedRate: 0.020, gracePeriodRate: 0.025)
+            ],
+            minSpeed: 0.06,
             baseGracePeriod: 0.35,
             minGracePeriod: 0.18
         ),
         
-        // NORMAL Profili - 27x42 Grid İçin Optimize
+        // FAST Profili
         EnhancedSpeedProfile(
-            baseSpeed: 0.13,
+            baseSpeed: 0.12,
             phases: [
-                (threshold: 12, speedRate: 0.006, gracePeriodRate: 0.010),
-                (threshold: 26, speedRate: 0.007, gracePeriodRate: 0.011),
-                (threshold: 42, speedRate: 0.008, gracePeriodRate: 0.012),
-                (threshold: 60, speedRate: 0.009, gracePeriodRate: 0.013),
-                (threshold: 80, speedRate: 0.010, gracePeriodRate: 0.014),
-                (threshold: 102, speedRate: 0.011, gracePeriodRate: 0.015),
-                (threshold: 126, speedRate: 0.012, gracePeriodRate: 0.016),
-                (threshold: 152, speedRate: 0.013, gracePeriodRate: 0.017),
-                (threshold: 180, speedRate: 0.014, gracePeriodRate: 0.018),
-                (threshold: 210, speedRate: 0.015, gracePeriodRate: 0.019),
-                (threshold: 242, speedRate: 0.016, gracePeriodRate: 0.020),
-                (threshold: 276, speedRate: 0.017, gracePeriodRate: 0.021),
-                (threshold: 312, speedRate: 0.018, gracePeriodRate: 0.022),
-                (threshold: 999, speedRate: 0.019, gracePeriodRate: 0.023)
+                (threshold: 8, speedRate: 0.008, gracePeriodRate: 0.015),
+                (threshold: 18, speedRate: 0.009, gracePeriodRate: 0.016),
+                (threshold: 30, speedRate: 0.010, gracePeriodRate: 0.017),
+                (threshold: 44, speedRate: 0.011, gracePeriodRate: 0.018),
+                (threshold: 60, speedRate: 0.012, gracePeriodRate: 0.019),
+                (threshold: 78, speedRate: 0.013, gracePeriodRate: 0.020),
+                (threshold: 98, speedRate: 0.014, gracePeriodRate: 0.021),
+                (threshold: 120, speedRate: 0.015, gracePeriodRate: 0.022),
+                (threshold: 144, speedRate: 0.016, gracePeriodRate: 0.023),
+                (threshold: 170, speedRate: 0.017, gracePeriodRate: 0.024),
+                (threshold: 198, speedRate: 0.018, gracePeriodRate: 0.025),
+                (threshold: 999, speedRate: 0.019, gracePeriodRate: 0.026)
             ],
-            minSpeed: 0.05,
+            minSpeed: 0.045,
             baseGracePeriod: 0.35,
             minGracePeriod: 0.17
         ),
         
-        // FAST Profili - 27x42 Grid İçin Optimize
+        // VERY FAST Profili
         EnhancedSpeedProfile(
-            baseSpeed: 0.10,
+            baseSpeed: 0.09,
             phases: [
-                (threshold: 10, speedRate: 0.007, gracePeriodRate: 0.013),
-                (threshold: 22, speedRate: 0.008, gracePeriodRate: 0.014),
-                (threshold: 36, speedRate: 0.009, gracePeriodRate: 0.015),
-                (threshold: 52, speedRate: 0.010, gracePeriodRate: 0.016),
-                (threshold: 70, speedRate: 0.011, gracePeriodRate: 0.017),
-                (threshold: 90, speedRate: 0.012, gracePeriodRate: 0.018),
-                (threshold: 112, speedRate: 0.013, gracePeriodRate: 0.019),
-                (threshold: 136, speedRate: 0.014, gracePeriodRate: 0.020),
-                (threshold: 162, speedRate: 0.015, gracePeriodRate: 0.021),
-                (threshold: 190, speedRate: 0.016, gracePeriodRate: 0.022),
-                (threshold: 220, speedRate: 0.017, gracePeriodRate: 0.023),
-                (threshold: 999, speedRate: 0.018, gracePeriodRate: 0.024)
+                (threshold: 6, speedRate: 0.009, gracePeriodRate: 0.019),
+                (threshold: 14, speedRate: 0.010, gracePeriodRate: 0.020),
+                (threshold: 24, speedRate: 0.011, gracePeriodRate: 0.021),
+                (threshold: 36, speedRate: 0.012, gracePeriodRate: 0.022),
+                (threshold: 50, speedRate: 0.013, gracePeriodRate: 0.023),
+                (threshold: 66, speedRate: 0.014, gracePeriodRate: 0.024),
+                (threshold: 84, speedRate: 0.015, gracePeriodRate: 0.025),
+                (threshold: 104, speedRate: 0.016, gracePeriodRate: 0.026),
+                (threshold: 126, speedRate: 0.017, gracePeriodRate: 0.027),
+                (threshold: 999, speedRate: 0.018, gracePeriodRate: 0.028)
             ],
-            minSpeed: 0.04,
+            minSpeed: 0.03,
             baseGracePeriod: 0.35,
             minGracePeriod: 0.16
-        ),
-        
-        // VERY FAST Profili - 27x42 Grid İçin Optimize
-        EnhancedSpeedProfile(
-            baseSpeed: 0.08,
-            phases: [
-                (threshold: 8, speedRate: 0.008, gracePeriodRate: 0.017),
-                (threshold: 18, speedRate: 0.009, gracePeriodRate: 0.018),
-                (threshold: 30, speedRate: 0.010, gracePeriodRate: 0.019),
-                (threshold: 44, speedRate: 0.011, gracePeriodRate: 0.020),
-                (threshold: 60, speedRate: 0.012, gracePeriodRate: 0.021),
-                (threshold: 78, speedRate: 0.013, gracePeriodRate: 0.022),
-                (threshold: 98, speedRate: 0.014, gracePeriodRate: 0.023),
-                (threshold: 120, speedRate: 0.015, gracePeriodRate: 0.024),
-                (threshold: 144, speedRate: 0.016, gracePeriodRate: 0.025),
-                (threshold: 999, speedRate: 0.017, gracePeriodRate: 0.026)
-            ],
-            minSpeed: 0.025,
-            baseGracePeriod: 0.35,
-            minGracePeriod: 0.15
         )
     ]
     
@@ -228,7 +224,7 @@ class GameScene: SKScene {
         applySpeedProfile()
     }
     
-    // MARK: - Hız ve Grace Period Profilini Uygulama (Güncellenmiş)
+    // MARK: - Hız ve Grace Period Profilini Uygulama
     internal func applySpeedProfile() {
         let profileIndex = max(0, min(speedSetting - 1, speedProfiles.count - 1))
         let profile = speedProfiles[profileIndex]
@@ -245,10 +241,6 @@ class GameScene: SKScene {
     // MARK: - Oyun Kurulumu ve Başlatma
     private func setupGame() {
         backgroundColor = backgroundGreen
-        
-        // Sabit grid boyutları ata
-        gameWidth = UNIVERSAL_GAME_WIDTH
-        gameHeight = UNIVERSAL_GAME_HEIGHT
         
         calculateGameArea()
         createHeaderBar()
