@@ -2,10 +2,10 @@ import SpriteKit
 import GameplayKit
 import UIKit
 
-// MARK: - Oyun Sahnesi Kurulumu - Ergonomik Cihaz Desteği
+// MARK: - Oyun Sahnesi Kurulumu - Universal iPhone 14 Pro Max Standardı
 extension GameScene {
     
-    // MARK: - Cihaz Tipi Tespiti
+    // MARK: - Cihaz Tipi Tespiti (UI Adaptasyonu İçin)
     private var deviceType: DeviceType {
         let idiom = UIDevice.current.userInterfaceIdiom
         let screenSize = UIScreen.main.bounds
@@ -76,135 +76,73 @@ extension GameScene {
         }
     }
     
-    // MARK: - Cihaz Yapılandırması
+    // MARK: - Universal Device Configuration (iPhone 14 Pro Max Standardı)
     private var deviceConfig: DeviceConfig {
-        switch deviceType {
-        // MARK: iPhone Konfigürasyonları
-        case .iPhoneSmall:
-            return DeviceConfig(
-                gameWidth: 20, gameHeight: 28,
-                sideMargin: 15, topMargin: 40, bottomMargin: 25,
-                headerBarHeight: 6, controlAreaHeight: 160,
-                buttonHorizontalSize: CGSize(width: 70, height: 50),
-                buttonVerticalSize: CGSize(width: 55, height: 70),
-                maxCellSize: 12, buttonSpacingH: 80, buttonSpacingV: 20
-            )
-        case .iPhoneMedium:
-            return DeviceConfig(
-                gameWidth: 22, gameHeight: 32,
-                sideMargin: 20, topMargin: 50, bottomMargin: 30,
-                headerBarHeight: 7, controlAreaHeight: 180,
-                buttonHorizontalSize: CGSize(width: 80, height: 60),
-                buttonVerticalSize: CGSize(width: 65, height: 80),
-                maxCellSize: 13, buttonSpacingH: 90, buttonSpacingV: 25
-            )
-        case .iPhoneLarge:
-            return DeviceConfig(
-                gameWidth: 24, gameHeight: 34,
-                sideMargin: 25, topMargin: 55, bottomMargin: 35,
-                headerBarHeight: 8, controlAreaHeight: 190,
-                buttonHorizontalSize: CGSize(width: 85, height: 65),
-                buttonVerticalSize: CGSize(width: 70, height: 85),
-                maxCellSize: 14, buttonSpacingH: 95, buttonSpacingV: 30
-            )
-        case .iPhoneX:
-            return DeviceConfig(
-                gameWidth: 23, gameHeight: 36,
-                sideMargin: 20, topMargin: 60, bottomMargin: 40,
-                headerBarHeight: 8, controlAreaHeight: 195,
-                buttonHorizontalSize: CGSize(width: 85, height: 65),
-                buttonVerticalSize: CGSize(width: 70, height: 85),
-                maxCellSize: 14, buttonSpacingH: 95, buttonSpacingV: 30
-            )
-        case .iPhone12:
-            return DeviceConfig(
-                gameWidth: 25, gameHeight: 38,
-                sideMargin: 25, topMargin: 65, bottomMargin: 45,
-                headerBarHeight: 8, controlAreaHeight: 200,
-                buttonHorizontalSize: CGSize(width: 90, height: 70),
-                buttonVerticalSize: CGSize(width: 75, height: 90),
-                maxCellSize: 15, buttonSpacingH: 100, buttonSpacingV: 35
-            )
-        case .iPhone14Pro:
-            return DeviceConfig(
-                gameWidth: 25, gameHeight: 38,
-                sideMargin: 25, topMargin: 70, bottomMargin: 45,
-                headerBarHeight: 8, controlAreaHeight: 200,
-                buttonHorizontalSize: CGSize(width: 90, height: 70),
-                buttonVerticalSize: CGSize(width: 75, height: 90),
-                maxCellSize: 15, buttonSpacingH: 100, buttonSpacingV: 35
-            )
-        case .iPhoneMax:
-            return DeviceConfig(
-                gameWidth: 26, gameHeight: 40,
-                sideMargin: 30, topMargin: 70, bottomMargin: 50,
-                headerBarHeight: 9, controlAreaHeight: 210,
-                buttonHorizontalSize: CGSize(width: 95, height: 75),
-                buttonVerticalSize: CGSize(width: 80, height: 95),
-                maxCellSize: 16, buttonSpacingH: 105, buttonSpacingV: 40
-            )
-        case .iPhoneProMax:
-            return DeviceConfig(
-                gameWidth: 27, gameHeight: 42,
-                sideMargin: 35, topMargin: 75, bottomMargin: 55,
-                headerBarHeight: 9, controlAreaHeight: 215,
-                buttonHorizontalSize: CGSize(width: 100, height: 80),
-                buttonVerticalSize: CGSize(width: 85, height: 100),
-                maxCellSize: 17, buttonSpacingH: 110, buttonSpacingV: 45
-            )
-            
-        // MARK: iPad Konfigürasyonları
-        case .iPadSmall:
-            return DeviceConfig(
-                gameWidth: 18, gameHeight: 22,
-                sideMargin: 80, topMargin: 60, bottomMargin: 60,
-                headerBarHeight: 10, controlAreaHeight: 220,
-                buttonHorizontalSize: CGSize(width: 85, height: 65),
-                buttonVerticalSize: CGSize(width: 70, height: 85),
-                maxCellSize: 18, buttonSpacingH: 100, buttonSpacingV: 30
-            )
-        case .iPadMedium:
-            return DeviceConfig(
-                gameWidth: 20, gameHeight: 25,
-                sideMargin: 100, topMargin: 80, bottomMargin: 80,
-                headerBarHeight: 12, controlAreaHeight: 240,
-                buttonHorizontalSize: CGSize(width: 95, height: 70),
-                buttonVerticalSize: CGSize(width: 80, height: 95),
-                maxCellSize: 20, buttonSpacingH: 110, buttonSpacingV: 35
-            )
-        case .iPadLarge:
-            return DeviceConfig(
-                gameWidth: 22, gameHeight: 28,
-                sideMargin: 120, topMargin: 100, bottomMargin: 100,
-                headerBarHeight: 14, controlAreaHeight: 260,
-                buttonHorizontalSize: CGSize(width: 105, height: 75),
-                buttonVerticalSize: CGSize(width: 90, height: 105),
-                maxCellSize: 22, buttonSpacingH: 120, buttonSpacingV: 40
-            )
-        }
+        // iPhone 14 Pro Max standardını temel alan universal konfigürasyon
+        let baseConfig = DeviceConfig(
+            gameWidth: 27,           // SABİT - Tüm cihazlarda aynı
+            gameHeight: 42,          // SABİT - Tüm cihazlarda aynı
+            sideMargin: 35,
+            topMargin: 75,
+            bottomMargin: 55,
+            headerBarHeight: 9,
+            controlAreaHeight: 215,
+            buttonHorizontalSize: CGSize(width: 100, height: 80),
+            buttonVerticalSize: CGSize(width: 85, height: 100),
+            maxCellSize: 17,         // Maksimum cell boyutu
+            buttonSpacingH: 110,
+            buttonSpacingV: 45
+        )
+        
+        // Ekran boyutuna göre scale faktörü hesapla (iPhone 14 Pro Max = 430x932 referans)
+        let screenScale = min(frame.width / 430.0, frame.height / 932.0)
+        let adaptiveScale = max(0.6, min(screenScale, 1.2)) // %60 - %120 arası sınırla
+        
+        // Sadece UI elementlerini scale et, grid boyutunu değil
+        return DeviceConfig(
+            gameWidth: baseConfig.gameWidth,           // SABİT
+            gameHeight: baseConfig.gameHeight,         // SABİT
+            sideMargin: baseConfig.sideMargin * adaptiveScale,
+            topMargin: baseConfig.topMargin * adaptiveScale,
+            bottomMargin: baseConfig.bottomMargin * adaptiveScale,
+            headerBarHeight: baseConfig.headerBarHeight * adaptiveScale,
+            controlAreaHeight: baseConfig.controlAreaHeight * adaptiveScale,
+            buttonHorizontalSize: CGSize(
+                width: baseConfig.buttonHorizontalSize.width * adaptiveScale,
+                height: baseConfig.buttonHorizontalSize.height * adaptiveScale
+            ),
+            buttonVerticalSize: CGSize(
+                width: baseConfig.buttonVerticalSize.width * adaptiveScale,
+                height: baseConfig.buttonVerticalSize.height * adaptiveScale
+            ),
+            maxCellSize: baseConfig.maxCellSize * adaptiveScale,
+            buttonSpacingH: baseConfig.buttonSpacingH * adaptiveScale,
+            buttonSpacingV: baseConfig.buttonSpacingV * adaptiveScale
+        )
     }
     
     private struct DeviceConfig {
-        let gameWidth: Int
-        let gameHeight: Int
-        let sideMargin: CGFloat
-        let topMargin: CGFloat
-        let bottomMargin: CGFloat
-        let headerBarHeight: CGFloat
-        let controlAreaHeight: CGFloat
-        let buttonHorizontalSize: CGSize
-        let buttonVerticalSize: CGSize
-        let maxCellSize: CGFloat
-        let buttonSpacingH: CGFloat
-        let buttonSpacingV: CGFloat
+        let gameWidth: Int          // SABİT
+        let gameHeight: Int         // SABİT
+        let sideMargin: CGFloat     // Adaptive
+        let topMargin: CGFloat      // Adaptive
+        let bottomMargin: CGFloat   // Adaptive
+        let headerBarHeight: CGFloat // Adaptive
+        let controlAreaHeight: CGFloat // Adaptive
+        let buttonHorizontalSize: CGSize // Adaptive
+        let buttonVerticalSize: CGSize // Adaptive
+        let maxCellSize: CGFloat    // Adaptive
+        let buttonSpacingH: CGFloat // Adaptive
+        let buttonSpacingV: CGFloat // Adaptive
     }
     
-    // MARK: - Oyun Alanı Hesaplamaları
+    // MARK: - Universal Oyun Alanı Hesaplamaları (Perfect Square Pixels)
     internal func calculateGameArea() {
         let config = deviceConfig
         
-        gameWidth = config.gameWidth
-        gameHeight = config.gameHeight
+        // SABİT GRID BOYUTLARI - TÜM CİHAZLARDA AYNI
+        gameWidth = config.gameWidth   // 27
+        gameHeight = config.gameHeight // 42
         
         let availableWidth = frame.width - (config.sideMargin * 2)
         let availableHeight = frame.height - config.topMargin - config.bottomMargin - config.controlAreaHeight
@@ -212,141 +150,148 @@ extension GameScene {
         let cellSizeByWidth = availableWidth / CGFloat(gameWidth)
         let cellSizeByHeight = availableHeight / CGFloat(gameHeight)
         
-        cellSize = min(cellSizeByWidth, cellSizeByHeight, config.maxCellSize)
+        // Mükemmel kare pikseller için: en küçük boyutu al ve tam sayıya yuvarla
+        let idealCellSize = min(cellSizeByWidth, cellSizeByHeight, config.maxCellSize)
         
+        // TAM SAYI CELL SIZE - Mükemmel kare pikseller garantisi
+        cellSize = floor(idealCellSize)
+        
+        // Minimum cell size koruması
+        cellSize = max(cellSize, 6.0) // En az 6 pixel
+        
+        // Tam sayı cell size ile perfect grid hesapla
         gameAreaWidth = CGFloat(gameWidth) * cellSize
         gameAreaHeight = CGFloat(gameHeight) * cellSize
         
-        gameAreaStartX = (frame.width - gameAreaWidth) / 2
+        // Mükemmel merkeze hizalama
+        gameAreaStartX = floor((frame.width - gameAreaWidth) / 2)
         gameAreaStartY = config.bottomMargin + config.controlAreaHeight
         
         headerBarHeight = config.headerBarHeight
         headerBarStartY = gameAreaStartY + gameAreaHeight + 16 + headerBarHeight
     }
     
-    // MARK: - Header Bar Kurulumu (YENİ: Pixel Art Tarzında)
+    // MARK: - Header Bar Kurulumu (Responsive)
     internal func createHeaderBar() {
         createPixelatedHeaderBar()
         createPauseButton()
         createScoreLabels()
     }
     
-    // MARK: - Pixel Art Header Bar Oluşturma (YENİ FONKSİYON)
+    // MARK: - Perfect Retro Pixel Art Header Bar Oluşturma
     private func createPixelatedHeaderBar() {
-        let pixelSize: CGFloat = cellSize / 5 // Yılan segmentiyle aynı pixel boyutu
-        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0) // Çok daha koyu renk
+        // Tam sayı base pixel boyutu
+        let basePixelSize: CGFloat = floor(cellSize / 5)
+        // Ama retro gap için 0.5 çıkar
+        let pixelSize = basePixelSize - 0.5
+        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
         let headerContainer = SKNode()
-        headerContainer.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: headerBarStartY - headerBarHeight/2)
+        headerContainer.position = CGPoint(x: floor(gameAreaStartX + gameAreaWidth/2), y: floor(headerBarStartY - headerBarHeight/2))
         headerContainer.name = "headerBarContainer"
         headerContainer.zPosition = 5
         addChild(headerContainer)
         
-        // Header bar'ı pixel bloklar halinde oluştur
-        let pixelsWide = Int(gameAreaWidth / pixelSize)
-        let pixelsHigh = Int(headerBarHeight / pixelSize)
+        let pixelsWide = Int(gameAreaWidth / basePixelSize)
+        let pixelsHigh = Int(headerBarHeight / basePixelSize)
         
         for row in 0..<pixelsHigh {
             for col in 0..<pixelsWide {
-                let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+                let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize, height: pixelSize))
                 pixel.position = CGPoint(
-                    x: -gameAreaWidth/2 + CGFloat(col) * pixelSize + pixelSize/2,
-                    y: -headerBarHeight/2 + CGFloat(row) * pixelSize + pixelSize/2
+                    x: floor(-gameAreaWidth/2 + CGFloat(col) * basePixelSize + basePixelSize/2),
+                    y: floor(-headerBarHeight/2 + CGFloat(row) * basePixelSize + basePixelSize/2)
                 )
                 pixel.zPosition = 1
                 headerContainer.addChild(pixel)
             }
         }
         
-        // Geriye dönük uyumluluk için ana header bar referansı
         headerBar = SKSpriteNode(color: .clear, size: CGSize(width: gameAreaWidth, height: headerBarHeight))
-        headerBar.position = CGPoint(x: gameAreaStartX + gameAreaWidth/2, y: headerBarStartY - headerBarHeight/2)
+        headerBar.position = CGPoint(x: floor(gameAreaStartX + gameAreaWidth/2), y: floor(headerBarStartY - headerBarHeight/2))
         headerBar.zPosition = 0
         addChild(headerBar)
     }
     
-    // MARK: - Duraklatma Butonu Kurulumu (YENİ: Pixel Art Tarzında)
+    // MARK: - Perfect Retro Responsive Duraklatma Butonu Kurulumu
     internal func createPauseButton() {
-        let buttonSize: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 20 : 28) : 36
+        // Adaptive button size
+        let baseButtonSize: CGFloat = 28
+        let screenScale = min(frame.width / 430, frame.height / 932)
+        let adaptiveScale = max(0.7, min(screenScale, 1.2))
+        let buttonSize = floor(baseButtonSize * adaptiveScale)
         
         pauseButton = SKShapeNode(rect: CGRect(x: -buttonSize/2, y: -buttonSize/2, width: buttonSize, height: buttonSize))
         pauseButton.fillColor = .clear
         pauseButton.strokeColor = .clear
-        pauseButton.position = CGPoint(x: gameAreaStartX + 20, y: headerBarStartY + 8)
+        pauseButton.position = CGPoint(x: floor(gameAreaStartX + 20 * adaptiveScale), y: floor(headerBarStartY + 8 * adaptiveScale))
         pauseButton.name = "pauseButton"
         
-        // Pixel Art Pause İkonu Oluştur
-        let pixelSize: CGFloat = cellSize / 5 // Yılan ile aynı pixel boyutu
-        let pauseIcon = createPixelArtPauseIcon(pixelSize: pixelSize)
+        // Base pixel boyutu (gap olmadan)
+        let basePixelSize: CGFloat = floor(cellSize / 5)
+        let pauseIcon = createPixelArtPauseIcon(pixelSize: basePixelSize)
         pauseIcon.position = CGPoint.zero
         pauseButton.addChild(pauseIcon)
         
         addChild(pauseButton)
     }
     
-    // MARK: - Pixel Art Pause İkonu Oluşturma (YENİ FONKSİYON)
+    // MARK: - Perfect Retro Pixel Art Pause İkonu Oluşturma (İyileştirilmiş)
     private func createPixelArtPauseIcon(pixelSize: CGFloat) -> SKNode {
         let pauseContainer = SKNode()
         
-        // 5x5 pause ikonu - Sol blok (2 piksel genişlik, 5 piksel yükseklik)
         let leftBlockPixels = [
-            CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2),  // Alt sıra
-            CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1),  // Orta alt
-            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0),    // Merkez
-            CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1),    // Orta üst
-            CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2)     // Üst sıra
+            CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2),
+            CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1),
+            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0),
+            CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1),
+            CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2)
         ]
         
-        // Sağ blok (2 piksel genişlik, 5 piksel yükseklik) - 1 piksel boşluk bırakarak
         let rightBlockPixels = [
-            CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2),    // Alt sıra
-            CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),    // Orta alt
-            CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),      // Merkez
-            CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),      // Orta üst
-            CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2)       // Üst sıra
+            CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2),
+            CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),
+            CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
+            CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),
+            CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2)
         ]
         
-        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0) // Header/border ile aynı çok koyu renk
+        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
-        // Sol blok piksellerini oluştur
+        // Retro gap için optimize edilmiş boyut (border ile aynı sistem)
+        let retroPixelSize = floor(pixelSize) - 0.6
+        let basePixelSize = floor(pixelSize)
+        
         for pixelPos in leftBlockPixels {
-            let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             pauseContainer.addChild(pixel)
         }
         
-        // Sağ blok piksellerini oluştur
         for pixelPos in rightBlockPixels {
-            let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             pauseContainer.addChild(pixel)
         }
         
         return pauseContainer
     }
     
-    // MARK: - Skor Etiketleri Kurulumu
+    // MARK: - Perfect Responsive Skor Etiketleri Kurulumu
     internal func createScoreLabels() {
         let pixelFont = "Jersey15-Regular"
-        var fontSize: CGFloat = 16
         
-        switch deviceType {
-        case .iPhoneSmall:
-            fontSize = 14
-        case .iPhoneMedium, .iPhoneLarge:
-            fontSize = 16
-        case .iPhoneX, .iPhone12, .iPhone14Pro:
-            fontSize = 17
-        case .iPhoneMax, .iPhoneProMax:
-            fontSize = 18
-        case .iPadSmall:
-            fontSize = 20
-        case .iPadMedium:
-            fontSize = 22
-        case .iPadLarge:
-            fontSize = 24
-        }
+        // Adaptive font size
+        let baseFontSize: CGFloat = 18
+        let screenScale = min(frame.width / 430, frame.height / 932)
+        let adaptiveScale = max(0.7, min(screenScale, 1.2))
+        let fontSize = floor(baseFontSize * adaptiveScale)
         
         let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
         
@@ -356,7 +301,7 @@ extension GameScene {
         scoreLabel.fontColor = labelColor
         scoreLabel.horizontalAlignmentMode = .right
         scoreLabel.verticalAlignmentMode = .center
-        scoreLabel.position = CGPoint(x: gameAreaStartX + gameAreaWidth - 10, y: headerBarStartY + 8)
+        scoreLabel.position = CGPoint(x: floor(gameAreaStartX + gameAreaWidth - 10 * adaptiveScale), y: floor(headerBarStartY + 8 * adaptiveScale))
         addChild(scoreLabel)
         
         highScoreLabel = SKLabelNode(fontNamed: pixelFont)
@@ -366,9 +311,8 @@ extension GameScene {
         highScoreLabel.horizontalAlignmentMode = .right
         highScoreLabel.verticalAlignmentMode = .center
         
-        let offsetX: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 70 : 85) : 110
-        highScoreLabel.position = CGPoint(x: scoreLabel.position.x - offsetX, y: headerBarStartY + 8)
+        let offsetX: CGFloat = floor(85 * adaptiveScale)
+        highScoreLabel.position = CGPoint(x: scoreLabel.position.x - offsetX, y: floor(headerBarStartY + 8 * adaptiveScale))
         addChild(highScoreLabel)
     }
     
@@ -400,74 +344,78 @@ extension GameScene {
         }
     }
     
-    // MARK: - Oyun Alanı Pixel Art Çerçevesi Kurulumu (YENİ: Pixel Art Tarzında)
+    // MARK: - Universal Oyun Alanı Pixel Art Çerçevesi
     internal func createGameAreaBorder() {
         createPixelArtBorder()
     }
     
-    // MARK: - Pixel Art Border Oluşturma (YENİ FONKSİYON)
+    // MARK: - Perfect Retro Pixel Art Border Oluşturma
     private func createPixelArtBorder() {
-        let pixelSize: CGFloat = cellSize / 5 // Yılan segmentiyle aynı pixel boyutu
-        let borderThickness: CGFloat = pixelSize * 3 // 3 piksel kalınlığında border (header ile aynı)
+        // Tam sayı base pixel boyutu
+        let basePixelSize: CGFloat = floor(cellSize / 5)
+        let borderThickness: CGFloat = basePixelSize * 3
         
         let borderContainer = SKNode()
         borderContainer.name = "pixelBorderContainer"
         borderContainer.zPosition = 8
         addChild(borderContainer)
         
-        // Üst border (köşeleri dahil ederek)
+        // Üst border
         createBorderLine(
             container: borderContainer,
-            startX: gameAreaStartX - borderThickness,
-            startY: gameAreaStartY + gameAreaHeight,
+            startX: floor(gameAreaStartX - borderThickness),
+            startY: floor(gameAreaStartY + gameAreaHeight),
             width: gameAreaWidth + (borderThickness * 2),
             height: borderThickness,
-            pixelSize: pixelSize
+            pixelSize: basePixelSize
         )
         
-        // Alt border (köşeleri dahil ederek)
+        // Alt border
         createBorderLine(
             container: borderContainer,
-            startX: gameAreaStartX - borderThickness,
-            startY: gameAreaStartY - borderThickness,
+            startX: floor(gameAreaStartX - borderThickness),
+            startY: floor(gameAreaStartY - borderThickness),
             width: gameAreaWidth + (borderThickness * 2),
             height: borderThickness,
-            pixelSize: pixelSize
+            pixelSize: basePixelSize
         )
         
-        // Sol border (köşeleri hariç)
+        // Sol border
         createBorderLine(
             container: borderContainer,
-            startX: gameAreaStartX - borderThickness,
-            startY: gameAreaStartY,
+            startX: floor(gameAreaStartX - borderThickness),
+            startY: floor(gameAreaStartY),
             width: borderThickness,
             height: gameAreaHeight,
-            pixelSize: pixelSize
+            pixelSize: basePixelSize
         )
         
-        // Sağ border (köşeleri hariç)
+        // Sağ border
         createBorderLine(
             container: borderContainer,
-            startX: gameAreaStartX + gameAreaWidth,
-            startY: gameAreaStartY,
+            startX: floor(gameAreaStartX + gameAreaWidth),
+            startY: floor(gameAreaStartY),
             width: borderThickness,
             height: gameAreaHeight,
-            pixelSize: pixelSize
+            pixelSize: basePixelSize
         )
     }
     
-    // MARK: - Border Çizgisi Oluşturma (YENİ FONKSİYON)
+    // MARK: - Perfect Retro Border Çizgisi Oluşturma
     private func createBorderLine(container: SKNode, startX: CGFloat, startY: CGFloat, width: CGFloat, height: CGFloat, pixelSize: CGFloat) {
         let pixelsWide = Int(ceil(width / pixelSize))
         let pixelsHigh = Int(ceil(height / pixelSize))
-        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0) // Çok daha koyu renk
+        let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
+        
+        // Retro gap için pixel boyutunu küçült
+        let retroPixelSize = pixelSize - 0.5
         
         for row in 0..<pixelsHigh {
             for col in 0..<pixelsWide {
-                let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+                let pixel = SKSpriteNode(color: darkerColor, size: CGSize(width: retroPixelSize, height: retroPixelSize))
                 pixel.position = CGPoint(
-                    x: startX + CGFloat(col) * pixelSize + pixelSize/2,
-                    y: startY + CGFloat(row) * pixelSize + pixelSize/2
+                    x: floor(startX + CGFloat(col) * pixelSize + pixelSize/2),
+                    y: floor(startY + CGFloat(row) * pixelSize + pixelSize/2)
                 )
                 pixel.zPosition = 1
                 container.addChild(pixel)
@@ -475,7 +423,7 @@ extension GameScene {
         }
     }
     
-    // MARK: - Kontrol Butonları Kurulumu
+    // MARK: - Responsive Kontrol Butonları Kurulumu
     internal func createControlButtons() {
         let config = deviceConfig
         
@@ -490,7 +438,6 @@ extension GameScene {
         let verticalSpacing = config.buttonSpacingV
         let horizontalSpacing = config.buttonSpacingH
         
-        // Biraz daha koyu arka plan rengi
         let buttonBackgroundColor = SKColor(red: 136/255, green: 180/255, blue: 1/255, alpha: 1.0)
         
         upButton = createEnhancedDirectionButton(
@@ -526,7 +473,7 @@ extension GameScene {
         addChild(rightButton)
     }
     
-    // MARK: - Yön Butonu Oluşturma
+    // MARK: - Responsive Yön Butonu Oluşturma
     internal func createEnhancedDirectionButton(direction: Direction, size: CGSize, position: CGPoint, color: SKColor) -> SKShapeNode {
         let buttonContainer = SKShapeNode(rect: CGRect(x: -size.width/2, y: -size.height/2, width: size.width, height: size.height))
         buttonContainer.fillColor = color
@@ -535,36 +482,32 @@ extension GameScene {
         buttonContainer.name = "\(direction)Button"
         buttonContainer.zPosition = 10
         
-        // İyileştirilmiş gölge efekti
-        let shadowOffset: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 4 : 5) : 6
+        // Adaptive shadow
+        let screenScale = min(frame.width / 430, frame.height / 932)
+        let shadowOffset: CGFloat = 5 * max(0.7, min(screenScale, 1.2))
+        
         let shadow = SKShapeNode(rect: CGRect(x: -size.width/2 + shadowOffset, y: -size.height/2 - shadowOffset, width: size.width, height: size.height))
-        shadow.fillColor = SKColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.4) // Daha belirgin gölge
+        shadow.fillColor = SKColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.4)
         shadow.strokeColor = .clear
         shadow.zPosition = -1
         buttonContainer.addChild(shadow)
         
-        // Yönsel highlight efekti
-        let highlightThickness: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 6 : 8) : 10
+        // Adaptive highlight
+        let highlightThickness: CGFloat = 8 * max(0.7, min(screenScale, 1.2))
         
         var highlight: SKSpriteNode
         
         switch direction {
         case .up:
-            // Üst tarafta highlight
             highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: size.width - 8, height: highlightThickness))
             highlight.position = CGPoint(x: 0, y: size.height/2 - highlightThickness/2 - 4)
         case .down:
-            // Alt tarafta highlight
             highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: size.width - 8, height: highlightThickness))
             highlight.position = CGPoint(x: 0, y: -size.height/2 + highlightThickness/2 + 4)
         case .left:
-            // Sol tarafta highlight
             highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: highlightThickness, height: size.height - 8))
             highlight.position = CGPoint(x: -size.width/2 + highlightThickness/2 + 4, y: 0)
         case .right:
-            // Sağ tarafta highlight
             highlight = SKSpriteNode(color: SKColor.white, size: CGSize(width: highlightThickness, height: size.height - 8))
             highlight.position = CGPoint(x: size.width/2 - highlightThickness/2 - 4, y: 0)
         }
@@ -577,8 +520,8 @@ extension GameScene {
         arrowNode.zPosition = 2
         buttonContainer.addChild(arrowNode)
         
-        let innerBorderThickness: CGFloat = deviceType.isIPhone ?
-            (deviceType == .iPhoneSmall ? 2 : 3) : 4
+        // Adaptive inner border
+        let innerBorderThickness: CGFloat = 3 * max(0.7, min(screenScale, 1.2))
         let innerBorder = SKShapeNode(rect: CGRect(
             x: -size.width/2 + innerBorderThickness,
             y: -size.height/2 + innerBorderThickness,
@@ -588,38 +531,22 @@ extension GameScene {
         innerBorder.fillColor = .clear
         innerBorder.strokeColor = primaryColor
         innerBorder.lineWidth = 2
-        innerBorder.alpha = 0.6 // Biraz daha belirgin
+        innerBorder.alpha = 0.6
         innerBorder.zPosition = 1
         buttonContainer.addChild(innerBorder)
         
         return buttonContainer
     }
     
-    // MARK: - Piksel Sanatı Ok Oluşturma
+    // MARK: - Perfect Retro Responsive Piksel Sanatı Ok Oluşturma
     internal func createPixelArtArrow(direction: Direction, buttonSize: CGSize) -> SKNode {
         let arrowContainer = SKNode()
         
-        var basePixelSize: CGFloat = 6
+        // Base pixel size (border ile aynı sistem)
+        let basePixelSize: CGFloat = floor(cellSize / 5)
+        let scale: CGFloat = min(buttonSize.width, buttonSize.height) / 100 // Daha küçük scale factor
+        let adjustedPixelSize = max(basePixelSize * scale, 4.0) // Minimum 4 pixel
         
-        switch deviceType {
-        case .iPhoneSmall:
-            basePixelSize = 5
-        case .iPhoneMedium, .iPhoneLarge:
-            basePixelSize = 6
-        case .iPhoneX, .iPhone12, .iPhone14Pro:
-            basePixelSize = 6.5
-        case .iPhoneMax, .iPhoneProMax:
-            basePixelSize = 7
-        case .iPadSmall:
-            basePixelSize = 7.5
-        case .iPadMedium:
-            basePixelSize = 8
-        case .iPadLarge:
-            basePixelSize = 9
-        }
-        
-        let scale: CGFloat = min(buttonSize.width, buttonSize.height) / 80
-        let adjustedPixelSize = basePixelSize * scale
         let arrowColor = SKColor(red: 68/255, green: 90/255, blue: 0/255, alpha: 1.0)
         
         switch direction {
@@ -631,7 +558,7 @@ extension GameScene {
                 CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1),
                 CGPoint(x: -1, y: -2), CGPoint(x: 0, y: -2), CGPoint(x: 1, y: -2)
             ]
-            createPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
+            createPerfectPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
             
         case .down:
             let arrowPixels = [
@@ -641,7 +568,7 @@ extension GameScene {
                 CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1),
                 CGPoint(x: 0, y: -2)
             ]
-            createPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
+            createPerfectPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
             
         case .left:
             let arrowPixels = [
@@ -651,7 +578,7 @@ extension GameScene {
                 CGPoint(x: 1, y: -1), CGPoint(x: 1, y: 0), CGPoint(x: 1, y: 1),
                 CGPoint(x: 2, y: -1), CGPoint(x: 2, y: 0), CGPoint(x: 2, y: 1)
             ]
-            createPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
+            createPerfectPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
             
         case .right:
             let arrowPixels = [
@@ -661,19 +588,33 @@ extension GameScene {
                 CGPoint(x: 1, y: -1), CGPoint(x: 1, y: 0), CGPoint(x: 1, y: 1),
                 CGPoint(x: 2, y: 0)
             ]
-            createPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
+            createPerfectPixelsFromArray(arrowPixels, in: arrowContainer, pixelSize: adjustedPixelSize, color: arrowColor)
         }
         
         return arrowContainer
     }
     
-    // MARK: - Piksel Dizisinden Sprite Oluşturma
-    internal func createPixelsFromArray(_ pixels: [CGPoint], in container: SKNode, pixelSize: CGFloat, color: SKColor) {
+    // MARK: - Perfect Retro Arrow Piksel Oluşturma (Özel)
+    private func createPerfectPixelsFromArray(_ pixels: [CGPoint], in container: SKNode, pixelSize: CGFloat, color: SKColor) {
+        // Arrow için özel retro gap (border sistem ile uyumlu)
+        let retroPixelSize = floor(pixelSize) - 0.8 // Daha belirgin gap
+        let basePixelSize = floor(pixelSize)
+        
         for pixelPos in pixels {
-            let pixel = SKSpriteNode(color: color, size: CGSize(width: pixelSize-1, height: pixelSize-1))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+            let pixel = SKSpriteNode(color: color, size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             container.addChild(pixel)
         }
+    }
+    
+    // MARK: - Eski Piksel Sistemi (Artık Kullanılmıyor - Geriye Dönük Uyumluluk İçin)
+    internal func createPixelsFromArray(_ pixels: [CGPoint], in container: SKNode, pixelSize: CGFloat, color: SKColor) {
+        // Bu fonksiyon artık kullanılmıyor, perfect pixel sistemine geçildi
+        // Geriye dönük uyumluluk için bırakıldı
+        createPerfectPixelsFromArray(pixels, in: container, pixelSize: pixelSize, color: color)
     }
     
     // MARK: - Yön Butonu Yardımcısı (Geriye Dönük Uyumluluk)
@@ -721,44 +662,37 @@ extension GameScene {
         // Gerektiğinde oluşturulacak
     }
     
-    // MARK: - Yem Oluşturma
+    // MARK: - Yem Oluşturma (SABİT GRID İÇİN)
     internal func spawnFood() {
         repeat {
             food = CGPoint(
-                x: CGFloat(Int.random(in: 0..<gameWidth)),
-                y: CGFloat(Int.random(in: 0..<gameHeight))
+                x: CGFloat(Int.random(in: 0..<gameWidth)),   // 0-26 arası
+                y: CGFloat(Int.random(in: 0..<gameHeight))   // 0-41 arası
             )
         } while snake.body.contains(food)
     }
     
-    // MARK: - Çiçek Yem Oluşturma (YENİ FONKSİYON)
+    // MARK: - Perfect Çiçek Yem Oluşturma
     internal func createFlowerFood() -> SKNode {
         let container = SKNode()
-        let pixelSize = cellSize / 5
+        // Tam sayı pixel boyutu
+        let pixelSize = floor(cellSize / 5)
         
-        // Çiçek desenini tanımlayan piksel pozisyonları (merkez boş)
         let flowerPixels = [
-            // Üst yaprak
             CGPoint(x: 0, y: 2),
-            // Orta sıra - yatay çizgi
             CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1),
-            // Merkez sıra - ortası boş (en geniş kısım)
             CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
-            // Alt orta sıra
             CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1),
-            // Alt yaprak
             CGPoint(x: 0, y: -2)
         ]
         
-        // Her piksel için bir mini sprite oluştur
         for pixelPos in flowerPixels {
             let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+                                   size: CGSize(width: pixelSize, height: pixelSize))
+            pixel.position = CGPoint(x: floor(pixelPos.x * pixelSize), y: floor(pixelPos.y * pixelSize))
             container.addChild(pixel)
         }
         
-        // Çiçek yemine hafif parıldama efekti ekle
         let scaleUp = SKAction.scale(to: 1.1, duration: 1.0)
         let scaleDown = SKAction.scale(to: 1.0, duration: 1.0)
         let pulseSequence = SKAction.sequence([scaleUp, scaleDown])
@@ -768,37 +702,31 @@ extension GameScene {
         return container
     }
     
-    // MARK: - Yılan Segmenti Oluşturma (YENİ FONKSİYON)
+    // MARK: - Perfect Yılan Segmenti Oluşturma
     internal func createSnakeSegment() -> SKNode {
         let container = SKNode()
-        let pixelSize = cellSize / 5
+        // Tam sayı pixel boyutu
+        let pixelSize = floor(cellSize / 5)
         
-        // 5x5 tamamen dolu piksel deseni (25 piksel)
         let fullBlockPixels = [
-            // 1. sıra (en üst)
             CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2), CGPoint(x: 0, y: 2), CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2),
-            // 2. sıra
             CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),
-            // 3. sıra (merkez)
             CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
-            // 4. sıra
             CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),
-            // 5. sıra (en alt)
             CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2), CGPoint(x: 0, y: -2), CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2)
         ]
         
-        // Her piksel için bir mini sprite oluştur (hiç efekt yok)
         for pixelPos in fullBlockPixels {
             let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+                                   size: CGSize(width: pixelSize, height: pixelSize))
+            pixel.position = CGPoint(x: floor(pixelPos.x * pixelSize), y: floor(pixelPos.y * pixelSize))
             container.addChild(pixel)
         }
         
         return container
     }
     
-    // MARK: - Oyun Elementlerini Çizme (GÜNCELLENDİ)
+    // MARK: - Perfect Retro Game Elements Çizme (SABİT GRID İÇİN)
     internal func drawGame() {
         children.forEach { node in
             if node.name == "snake" || node.name == "food" {
@@ -806,23 +734,23 @@ extension GameScene {
             }
         }
         
-        // YENİ: Piksel art yılan segmentlerini çiz (eski basit kare yerine)
+        // Perfect positioned yılan segmentlerini çiz (SABİT GRID)
         for segment in snake.body {
             let segmentNode = createSnakeSegment()
-            segmentNode.position = CGPoint(
-                x: gameAreaStartX + CGFloat(Int(segment.x)) * cellSize + cellSize/2,
-                y: gameAreaStartY + CGFloat(Int(segment.y)) * cellSize + cellSize/2
-            )
+            // Perfect grid positioning
+            let perfectX = floor(gameAreaStartX + CGFloat(Int(segment.x)) * cellSize + cellSize/2)
+            let perfectY = floor(gameAreaStartY + CGFloat(Int(segment.y)) * cellSize + cellSize/2)
+            segmentNode.position = CGPoint(x: perfectX, y: perfectY)
             segmentNode.name = "snake"
             addChild(segmentNode)
         }
         
-        // YENİ: Çiçek yemi çiz (eski kare yem yerine)
+        // Perfect positioned çiçek yemi çiz (SABİT GRID)
         let flowerFoodNode = createFlowerFood()
-        flowerFoodNode.position = CGPoint(
-            x: gameAreaStartX + CGFloat(Int(food.x)) * cellSize + cellSize/2,
-            y: gameAreaStartY + CGFloat(Int(food.y)) * cellSize + cellSize/2
-        )
+        // Perfect grid positioning
+        let perfectFoodX = floor(gameAreaStartX + CGFloat(Int(food.x)) * cellSize + cellSize/2)
+        let perfectFoodY = floor(gameAreaStartY + CGFloat(Int(food.y)) * cellSize + cellSize/2)
+        flowerFoodNode.position = CGPoint(x: perfectFoodX, y: perfectFoodY)
         flowerFoodNode.name = "food"
         addChild(flowerFoodNode)
     }
