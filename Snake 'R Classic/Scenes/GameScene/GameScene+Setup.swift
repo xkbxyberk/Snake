@@ -182,7 +182,7 @@ extension GameScene {
     private func createPixelatedHeaderBar() {
         // Tam sayı base pixel boyutu
         let basePixelSize: CGFloat = floor(cellSize / 5)
-        // Ama retro gap için 0.5 çıkar
+        // Retro gap için 0.5 çıkar
         let pixelSize = basePixelSize - 0.5
         let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
@@ -236,7 +236,7 @@ extension GameScene {
         addChild(pauseButton)
     }
     
-    // MARK: - Perfect Retro Pixel Art Pause İkonu Oluşturma (İyileştirilmiş)
+    // MARK: - Perfect Retro Pixel Art Pause İkonu Oluşturma (Border Sistemiyle Uyumlu)
     private func createPixelArtPauseIcon(pixelSize: CGFloat) -> SKNode {
         let pauseContainer = SKNode()
         
@@ -258,8 +258,8 @@ extension GameScene {
         
         let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
-        // Retro gap için optimize edilmiş boyut (border ile aynı sistem)
-        let retroPixelSize = floor(pixelSize) - 0.6
+        // Border sistemi ile uyumlu - retro gap
+        let retroPixelSize = floor(pixelSize) - 0.5
         let basePixelSize = floor(pixelSize)
         
         for pixelPos in leftBlockPixels {
@@ -594,10 +594,10 @@ extension GameScene {
         return arrowContainer
     }
     
-    // MARK: - Perfect Retro Arrow Piksel Oluşturma (Özel)
+    // MARK: - Perfect Retro Arrow Piksel Oluşturma (Border Sistemiyle Uyumlu)
     private func createPerfectPixelsFromArray(_ pixels: [CGPoint], in container: SKNode, pixelSize: CGFloat, color: SKColor) {
-        // Arrow için özel retro gap (border sistem ile uyumlu)
-        let retroPixelSize = floor(pixelSize) - 0.8 // Daha belirgin gap
+        // Border sistemi ile uyumlu retro gap sistem
+        let retroPixelSize = floor(pixelSize) - 0.8 // Oklar için daha belirgin gap
         let basePixelSize = floor(pixelSize)
         
         for pixelPos in pixels {
@@ -672,27 +672,41 @@ extension GameScene {
         } while snake.body.contains(food)
     }
     
-    // MARK: - Perfect Çiçek Yem Oluşturma
+    // MARK: - Perfect Retro Pixelated Çiçek Yemi (Border Sistemiyle Uyumlu)
     internal func createFlowerFood() -> SKNode {
         let container = SKNode()
-        // Tam sayı pixel boyutu
-        let pixelSize = floor(cellSize / 5)
         
+        // Border ile aynı sistem - tam sayı pixel boyutu
+        let basePixelSize: CGFloat = floor(cellSize / 5)
+        
+        // Çiçek desenini tanımlayan piksel pozisyonları (merkez boş)
         let flowerPixels = [
+            // Üst yaprak
             CGPoint(x: 0, y: 2),
+            // Orta sıra - yatay çizgi
             CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1),
+            // Merkez sıra - ortası boş (en geniş kısım)
             CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
+            // Alt orta sıra
             CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1),
+            // Alt yaprak
             CGPoint(x: 0, y: -2)
         ]
         
+        // Border sistemi ile aynı - retro gap için piksel boyutunu küçült
+        let retroPixelSize = basePixelSize - 0.5
+        
         for pixelPos in flowerPixels {
             let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize, height: pixelSize))
-            pixel.position = CGPoint(x: floor(pixelPos.x * pixelSize), y: floor(pixelPos.y * pixelSize))
+                                   size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             container.addChild(pixel)
         }
         
+        // Yem için hafif parlama efekti (animasyon korunuyor)
         let scaleUp = SKAction.scale(to: 1.1, duration: 1.0)
         let scaleDown = SKAction.scale(to: 1.0, duration: 1.0)
         let pulseSequence = SKAction.sequence([scaleUp, scaleDown])
@@ -702,24 +716,37 @@ extension GameScene {
         return container
     }
     
-    // MARK: - Perfect Yılan Segmenti Oluşturma
+    // MARK: - Perfect Retro Pixelated Yılan Segmenti (Border Sistemiyle Uyumlu)
     internal func createSnakeSegment() -> SKNode {
         let container = SKNode()
-        // Tam sayı pixel boyutu
-        let pixelSize = floor(cellSize / 5)
         
+        // Border ile aynı sistem - tam sayı pixel boyutu
+        let basePixelSize: CGFloat = floor(cellSize / 5)
+        
+        // 5x5 tamamen dolu piksel deseni (25 piksel)
         let fullBlockPixels = [
+            // 1. sıra (en üst)
             CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2), CGPoint(x: 0, y: 2), CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2),
+            // 2. sıra
             CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),
+            // 3. sıra (merkez)
             CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
+            // 4. sıra
             CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),
+            // 5. sıra (en alt)
             CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2), CGPoint(x: 0, y: -2), CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2)
         ]
         
+        // Border sistemi ile aynı - retro gap için piksel boyutunu küçült
+        let retroPixelSize = basePixelSize - 0.5
+        
         for pixelPos in fullBlockPixels {
             let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize, height: pixelSize))
-            pixel.position = CGPoint(x: floor(pixelPos.x * pixelSize), y: floor(pixelPos.y * pixelSize))
+                                   size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             container.addChild(pixel)
         }
         

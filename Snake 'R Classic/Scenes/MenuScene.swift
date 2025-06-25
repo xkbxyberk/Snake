@@ -354,10 +354,10 @@ class MenuScene: SKScene {
         }
     }
     
-    // MARK: - Pixel Art Çiçek Yemi Oluşturma (Oyundaki ile aynı)
+    // MARK: - Pixel Art Çiçek Yemi Oluşturma (Retro Gap Sistemiyle)
     private func createPixelArtFlowerFood() -> SKNode {
         let container = SKNode()
-        let pixelSize = self.pixelSize
+        let basePixelSize = self.pixelSize // MenuScene'deki pixelSize (3.0)
         
         // Çiçek desenini tanımlayan piksel pozisyonları (merkez boş)
         let flowerPixels = [
@@ -373,11 +373,17 @@ class MenuScene: SKScene {
             CGPoint(x: 0, y: -2)
         ]
         
+        // MenuScene için de retro gap uygula
+        let retroPixelSize = basePixelSize - 0.5
+        
         // Her piksel için bir mini sprite oluştur
         for pixelPos in flowerPixels {
             let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+                                   size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             container.addChild(pixel)
         }
         
@@ -463,10 +469,10 @@ class MenuScene: SKScene {
         }
     }
     
-    // MARK: - Pixel Art Yılan Segmenti Oluşturma (Oyundaki ile aynı)
+    // MARK: - Pixel Art Yılan Segmenti Oluşturma (Retro Gap Sistemiyle)
     private func createPixelArtSnakeSegment() -> SKNode {
         let container = SKNode()
-        let pixelSize = self.pixelSize
+        let basePixelSize = self.pixelSize // MenuScene'deki pixelSize (3.0)
         
         // 5x5 tamamen dolu piksel deseni (25 piksel)
         let fullBlockPixels = [
@@ -482,11 +488,17 @@ class MenuScene: SKScene {
             CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2), CGPoint(x: 0, y: -2), CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2)
         ]
         
-        // Her piksel için bir mini sprite oluştur (hiç efekt yok)
+        // MenuScene için de retro gap uygula
+        let retroPixelSize = basePixelSize - 0.5
+        
+        // Her piksel için bir mini sprite oluştur (retro gap ile)
         for pixelPos in fullBlockPixels {
             let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
-            pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
+                                   size: CGSize(width: retroPixelSize, height: retroPixelSize))
+            pixel.position = CGPoint(
+                x: floor(pixelPos.x * basePixelSize),
+                y: floor(pixelPos.y * basePixelSize)
+            )
             container.addChild(pixel)
         }
         
