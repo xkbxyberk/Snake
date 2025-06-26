@@ -61,9 +61,17 @@ extension GameScene {
         gameAreaStartX = round((screenWidth - gameAreaWidth) / 2)
         gameAreaStartY = safeAreaInsets.bottom + minimumMargin + controlAreaHeight + borderThickness
         
-        // Header bar pozisyonu (pixel perfect spacing)
+        // Border'ın üst kısmının Y pozisyonu
+        let borderTopY = gameAreaStartY + gameAreaHeight + borderThickness
+        
+        // Score area Y pozisyonu (header bar'dan bağımsız hesapla)
+        let scoreY = borderTopY + pixelGap + headerBarHeight + pixelGap + scoreAreaHeight/2
+        
+        // Header bar pozisyonu - skorlar ile border arasının TAM ORTASINDA
+        headerBarStartY = (scoreY + borderTopY) / 2
+        
+        // Header bar height'ı ayarla
         self.headerBarHeight = headerBarHeight
-        headerBarStartY = gameAreaStartY + gameAreaHeight + borderThickness + pixelGap + headerBarHeight/2
         
         // Pixel perfect hizalama
         alignToPixelGrid()
@@ -86,7 +94,9 @@ extension GameScene {
     
     // MARK: - Score Area Y Pozisyonu (Computed - Pixel Perfect)
     private var scoreAreaY: CGFloat {
-        return headerBarStartY + headerBarHeight/2 + (cellSize * 0.3) + (cellSize * 1.25)
+        // Header bar'ın üstüne sabit bir mesafe ile yerleştir
+        let distanceFromHeader = cellSize * 2.0 // Sabit ve yeterli mesafe
+        return headerBarStartY + headerBarHeight/2 + distanceFromHeader
     }
     
     // MARK: - Pixel Perfect Hizalama
