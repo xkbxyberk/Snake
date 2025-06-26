@@ -228,7 +228,7 @@ extension GameScene {
         let pixelFont = "Jersey15-Regular"
         
         // Font boyutunu cell size'a göre pixel perfect yap
-        let fontSize = cellSize * 0.9 // Cell size'ın %90'ı
+        let fontSize = cellSize * 1.3 // Cell size'ın %90'ı
         
         let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
         
@@ -361,7 +361,7 @@ extension GameScene {
         }
     }
     
-    // MARK: - Büyük Kontrol Butonları (Pixel Perfect) - DÜZELTİLMİŞ
+    // MARK: - Büyük Kontrol Butonları (Pixel Perfect) - GÜNCELLENMIŞ KONUMLAR
     internal func createControlButtons() {
         // Safe area hesaplama
         let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
@@ -380,9 +380,9 @@ extension GameScene {
         
         let centerX = frame.midX
         
-        // ARTIRILMIŞ spacing (butonlar arasında net boşluk için)
-        let verticalSpacing = buttonSize * 1.1   // 0.8'den 1.1'e çıkarıldı
-        let horizontalSpacing = buttonSize * 1.2 // 0.9'dan 1.2'ye çıkarıldı
+        // GÜNCELLENMIŞ spacing - Sol/Sağ daha uzak, Yukarı/Aşağı daha yakın
+        let verticalSpacing = buttonSize * 0.6   // 1.1'den 0.9'a azaltıldı (yukarı/aşağı yaklaştı)
+        let horizontalSpacing = buttonSize * 1.3 // 1.2'den 1.5'e çıkarıldı (sol/sağ uzaklaştı)
         
         // Buton arka plan rengi
         let buttonBackgroundColor = SKColor(red: 136/255, green: 180/255, blue: 1/255, alpha: 1.0)
