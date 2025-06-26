@@ -206,6 +206,91 @@ class GameScene: SKScene {
         startCountdown()
     }
     
+    // MARK: - Layout Change Observer (SKScene Method)
+    override func didChangeSize(_ oldSize: CGSize) {
+        super.didChangeSize(oldSize)
+        
+        // Layout değişikliği olduğunda oyun alanını yeniden hesapla
+        if isGameRunning || isGamePaused {
+            // Oyun sırasında layout değişirse oyunu duraklat
+            if !isGamePaused {
+                pauseGame()
+            }
+        }
+        
+        // UI'ı yeniden düzenle (adaptif sistem otomatik ayarlayacak)
+        recalculateLayout()
+    }
+    
+    // MARK: - Layout Yeniden Hesaplama
+    private func recalculateLayout() {
+        // Sadece gerekli durumlarda yeniden hesapla
+        guard view != nil else { return }
+        
+        // Mevcut oyun durumunu koru
+        let wasRunning = isGameRunning
+        let wasPaused = isGamePaused
+        
+        // Layout'u yeniden hesapla
+        calculateGameArea()
+        
+        // UI elementlerini güncelle
+        updateUIElementPositions()
+        
+        // Oyun durumunu geri yükle
+        if wasRunning {
+            isGameRunning = true
+        }
+        if wasPaused {
+            isGamePaused = true
+        }
+    }
+    
+    // MARK: - UI Element Pozisyonlarını Güncelleme
+    private func updateUIElementPositions() {
+        // Pause button pozisyonunu güncelle
+        if let pause = pauseButton {
+            pause.position = CGPoint(x: gameAreaStartX + cellSize, y: headerBarStartY)
+        }
+        
+        // Score label pozisyonunu güncelle
+        if let score = scoreLabel {
+            score.position = CGPoint(x: gameAreaStartX + gameAreaWidth - cellSize, y: headerBarStartY)
+        }
+        
+        // High score label pozisyonunu güncelle
+        if let highScore = highScoreLabel {
+            let offsetX = gameAreaWidth * 0.35
+            highScore.position = CGPoint(x: scoreLabel.position.x - offsetX, y: headerBarStartY)
+        }
+        
+        // Kontrol butonlarını güncelle
+        updateControlButtonPositions()
+    }
+    
+    // MARK: - Kontrol Buton Pozisyonlarını Güncelle
+    private func updateControlButtonPositions() {
+        guard let view = view else { return }
+        
+        let safeAreaInsets = view.safeAreaInsets
+        let screenHeight = UIScreen.main.bounds.height
+        let safeHeight = screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
+        
+        let controlAreaHeight = safeHeight * 0.28
+        let controlAreaY = safeAreaInsets.bottom + controlAreaHeight / 2
+        let centerX = frame.midX
+        
+        let screenWidth = UIScreen.main.bounds.width
+        let baseButtonSize = min(screenWidth, screenHeight) * 0.08
+        let verticalSpacing = baseButtonSize * 0.6
+        let horizontalSpacing = baseButtonSize * 1.2
+        
+        upButton?.position = CGPoint(x: centerX, y: controlAreaY + verticalSpacing)
+        downButton?.position = CGPoint(x: centerX, y: controlAreaY - verticalSpacing)
+        leftButton?.position = CGPoint(x: centerX - horizontalSpacing, y: controlAreaY)
+        rightButton?.position = CGPoint(x: centerX + horizontalSpacing, y: controlAreaY)
+    }
+    
     // MARK: - Skor Sistemini Başlatma
     private func initializeScoreSystem() {
         allTimeHighScore = ScoreManager.shared.getAllTimeHighScore()
