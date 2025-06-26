@@ -23,8 +23,8 @@ extension GameScene {
         calculatePixelPerfectCellSize(availableWidth: safeWidth, availableHeight: safeHeight)
         
         // Layout elemanları için pixel perfect boyutlar
-        let minimumMargin: CGFloat = 20
-        let controlAreaHeightRatio: CGFloat = 0.30 // Kontrol alanı büyütüldü
+        let minimumMargin: CGFloat = 12
+        let controlAreaHeightRatio: CGFloat = 0.25 // Kontrol alanı büyütüldü
         let scoreAreaHeight: CGFloat = cellSize * 2.5 // Score area'yı cell size'a göre hesapla
         let pixelGap: CGFloat = cellSize * 0.3 // Gap'i pixel perfect yap
         let headerBarHeight: CGFloat = cellSize * 0.6 // Header'ı border ile aynı kalınlıkta yap
@@ -46,8 +46,8 @@ extension GameScene {
         gameHeight = Int(availableGameHeight / cellSize)
         
         // Grid sınırları
-        gameWidth = max(15, min(gameWidth, 30))
-        gameHeight = max(20, min(gameHeight, 35))
+        gameWidth = max(25, min(gameWidth, 45))
+        gameHeight = max(35, min(gameHeight, 60))
         
         // Tek sayı yap
         if gameWidth % 2 == 0 { gameWidth += 1 }
@@ -59,7 +59,7 @@ extension GameScene {
         
         // Pozisyon hesaplamaları (pixel perfect)
         gameAreaStartX = round((screenWidth - gameAreaWidth) / 2)
-        gameAreaStartY = safeAreaInsets.bottom + minimumMargin + controlAreaHeight + borderThickness
+        gameAreaStartY = safeAreaInsets.bottom + minimumMargin + controlAreaHeight + borderThickness - 30
         
         // Border'ın üst kısmının Y pozisyonu
         let borderTopY = gameAreaStartY + gameAreaHeight + borderThickness
@@ -369,8 +369,8 @@ extension GameScene {
         let safeHeight = screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
         
         // Kontrol alanı boyutları
-        let controlAreaHeight = safeHeight * 0.30
-        let controlAreaY = safeAreaInsets.bottom + controlAreaHeight / 2
+        let controlAreaHeight = safeHeight * 0.25
+        let controlAreaY = safeAreaInsets.bottom + controlAreaHeight / 2 - 15
         
         // Büyük buton boyutları (pixel perfect) - %10 BÜYÜTÜLDÜ
         let buttonSize = cellSize * 5.0 // 4.5'ten 5.0'a çıkarıldı (%11 artış)
