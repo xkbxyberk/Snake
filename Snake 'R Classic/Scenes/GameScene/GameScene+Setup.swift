@@ -361,7 +361,7 @@ extension GameScene {
         }
     }
     
-    // MARK: - Büyük Kontrol Butonları (Pixel Perfect)
+    // MARK: - Büyük Kontrol Butonları (Pixel Perfect) - DÜZELTİLMİŞ
     internal func createControlButtons() {
         // Safe area hesaplama
         let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
@@ -369,20 +369,20 @@ extension GameScene {
         let safeHeight = screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
         
         // Kontrol alanı boyutları
-        let controlAreaHeight = safeHeight * 0.30 // Büyütüldü
+        let controlAreaHeight = safeHeight * 0.30
         let controlAreaY = safeAreaInsets.bottom + controlAreaHeight / 2
         
-        // Büyük buton boyutları (pixel perfect)
-        let buttonSize = cellSize * 4.5 // Cell size'ın 4.5 katı
+        // Büyük buton boyutları (pixel perfect) - %10 BÜYÜTÜLDÜ
+        let buttonSize = cellSize * 5.0 // 4.5'ten 5.0'a çıkarıldı (%11 artış)
         
         let horizontalButtonSize = CGSize(width: buttonSize * 1.3, height: buttonSize)
         let verticalButtonSize = CGSize(width: buttonSize, height: buttonSize * 1.3)
         
         let centerX = frame.midX
         
-        // Büyük spacing (overlap önlemek için)
-        let verticalSpacing = buttonSize * 0.8
-        let horizontalSpacing = buttonSize * 0.9
+        // ARTIRILMIŞ spacing (butonlar arasında net boşluk için)
+        let verticalSpacing = buttonSize * 1.1   // 0.8'den 1.1'e çıkarıldı
+        let horizontalSpacing = buttonSize * 1.2 // 0.9'dan 1.2'ye çıkarıldı
         
         // Buton arka plan rengi
         let buttonBackgroundColor = SKColor(red: 136/255, green: 180/255, blue: 1/255, alpha: 1.0)
@@ -420,7 +420,7 @@ extension GameScene {
         addChild(rightButton)
     }
     
-    // MARK: - Büyük Pixel Perfect Yön Butonu
+    // MARK: - Büyük Pixel Perfect Yön Butonu - DÜZELTİLMİŞ
     internal func createLargePixelPerfectButton(direction: Direction, size: CGSize, position: CGPoint, color: SKColor) -> SKShapeNode {
         let buttonContainer = SKShapeNode(rect: CGRect(x: -size.width/2, y: -size.height/2, width: size.width, height: size.height))
         buttonContainer.fillColor = color
@@ -429,9 +429,8 @@ extension GameScene {
         buttonContainer.name = "\(direction)Button"
         buttonContainer.zPosition = 10
         
-        // Büyük hit area (dokunma alanı) - butondan %30 daha büyük
-        let hitAreaSize = CGSize(width: size.width * 1.3, height: size.height * 1.3)
-        let hitArea = SKSpriteNode(color: .clear, size: hitAreaSize)
+        // DÜZELTİLDİ: Hit area artık buton boyutuyla AYNI (görsel alan = dokunma alanı)
+        let hitArea = SKSpriteNode(color: .clear, size: size) // 1.3 çarpanı kaldırıldı
         hitArea.position = CGPoint.zero
         hitArea.zPosition = 15
         hitArea.name = "\(direction)ButtonHitArea"

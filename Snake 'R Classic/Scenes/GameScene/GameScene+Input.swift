@@ -209,67 +209,73 @@ extension GameScene {
         }
     }
     
-    // MARK: - Yön Kontrol Mantığı
+    // MARK: - Yön Kontrol Mantığı - DÜZELTİLMİŞ
     private func handleUltraSensitiveDirectionControls(at location: CGPoint, isMoveAction: Bool) {
         var detectedDirection: Direction?
         var buttonToAnimate: SKShapeNode?
         
+        // DÜZELTİLDİ: Expanded area'lar kaldırıldı, sadece buton boyutları kullanılıyor
         if let upBtn = upButton {
-            let expandedUpArea = CGRect(
-                x: upBtn.position.x - 80,
-                y: upBtn.position.y - 50,
-                width: 160,
-                height: 120
+            // Sadece butonun gerçek boyutunu kullan
+            let buttonRect = CGRect(
+                x: upBtn.position.x - (upBtn.frame.width/2),
+                y: upBtn.position.y - (upBtn.frame.height/2),
+                width: upBtn.frame.width,
+                height: upBtn.frame.height
             )
             
-            if expandedUpArea.contains(location) && currentDirection != .down {
+            if buttonRect.contains(location) && currentDirection != .down {
                 detectedDirection = .up
                 buttonToAnimate = upBtn
             }
         }
         
         if detectedDirection == nil, let downBtn = downButton {
-            let expandedDownArea = CGRect(
-                x: downBtn.position.x - 80,
-                y: downBtn.position.y - 50,
-                width: 160,
-                height: 120
+            // Sadece butonun gerçek boyutunu kullan
+            let buttonRect = CGRect(
+                x: downBtn.position.x - (downBtn.frame.width/2),
+                y: downBtn.position.y - (downBtn.frame.height/2),
+                width: downBtn.frame.width,
+                height: downBtn.frame.height
             )
             
-            if expandedDownArea.contains(location) && currentDirection != .up {
+            if buttonRect.contains(location) && currentDirection != .up {
                 detectedDirection = .down
                 buttonToAnimate = downBtn
             }
         }
         
         if detectedDirection == nil, let leftBtn = leftButton {
-            let expandedLeftArea = CGRect(
-                x: leftBtn.position.x - 70,
-                y: leftBtn.position.y - 80,
-                width: 140,
-                height: 160
+            // Sadece butonun gerçek boyutunu kullan
+            let buttonRect = CGRect(
+                x: leftBtn.position.x - (leftBtn.frame.width/2),
+                y: leftBtn.position.y - (leftBtn.frame.height/2),
+                width: leftBtn.frame.width,
+                height: leftBtn.frame.height
             )
             
-            if expandedLeftArea.contains(location) && currentDirection != .right {
+            if buttonRect.contains(location) && currentDirection != .right {
                 detectedDirection = .left
                 buttonToAnimate = leftBtn
             }
         }
         
         if detectedDirection == nil, let rightBtn = rightButton {
-            let expandedRightArea = CGRect(
-                x: rightBtn.position.x - 70,
-                y: rightBtn.position.y - 80,
-                width: 140,
-                height: 160
+            // Sadece butonun gerçek boyutunu kullan
+            let buttonRect = CGRect(
+                x: rightBtn.position.x - (rightBtn.frame.width/2),
+                y: rightBtn.position.y - (rightBtn.frame.height/2),
+                width: rightBtn.frame.width,
+                height: rightBtn.frame.height
             )
             
-            if expandedRightArea.contains(location) && currentDirection != .right {
+            if buttonRect.contains(location) && currentDirection != .left {
                 detectedDirection = .right
                 buttonToAnimate = rightBtn
             }
         }
         
+        // Fallback: Eğer hiçbir buton dokunulmadıysa ekran bölgesi kontrolü
         if detectedDirection == nil {
             detectedDirection = detectDirectionByScreenRegion(at: location)
             
@@ -303,6 +309,7 @@ extension GameScene {
         }
     }
     
+    // MARK: - Düzenlenmiş Ekran Bölgesi Kontrolü (Daha Küçük Alanlar)
     private func detectDirectionByScreenRegion(at location: CGPoint) -> Direction? {
         let screenCenterX = frame.midX
         
@@ -322,7 +329,8 @@ extension GameScene {
         let absX = abs(deltaX)
         let absY = abs(deltaY)
         
-        let minimumDistance: CGFloat = 30
+        // DÜZELTİLDİ: Minimum mesafe artırıldı (buton çakışmalarını önlemek için)
+        let minimumDistance: CGFloat = 50 // 30'dan 50'ye çıkarıldı
         
         if max(absX, absY) < minimumDistance {
             return nil
@@ -452,18 +460,9 @@ extension GameScene {
         HapticManager.shared.playSimpleHaptic(intensity: 1.0, sharpness: 0.8)
     }
 
-    // MARK: - Kurulum ve Hassasiyet Modları
+    // MARK: - Kurulum ve Hassasiyet Modları - DÜZELTİLMİŞ
     internal func setupUltraSensitiveControls() {
         self.view?.isMultipleTouchEnabled = true
     }
-    
-    internal func enableExtremeSensitivity() {
-        [upButton, downButton, leftButton, rightButton].compactMap { $0 }.forEach { button in
-            let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: 200, height: 200))
-            hitArea.position = button.position
-            hitArea.zPosition = -1
-            hitArea.name = button.name
-            addChild(hitArea)
-        }
-    }
+
 }
