@@ -3,10 +3,10 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    // MARK: - Dinamik Oyun Alanı Ayarları
+    // MARK: - Sabit Oyun Alanı Ayarları
     internal var cellSize: CGFloat = 12
-    internal var gameWidth = 25
-    internal var gameHeight = 35
+    internal let gameWidth = 25
+    internal let gameHeight = 35
     
     // MARK: - Oyun Alanı Koordinatları
     internal var gameAreaStartX: CGFloat = 0

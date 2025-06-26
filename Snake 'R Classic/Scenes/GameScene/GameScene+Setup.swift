@@ -5,7 +5,7 @@ import UIKit
 // MARK: - Oyun Sahnesi Kurulumu - Pixel Perfect Layout Sistemi
 extension GameScene {
     
-    // MARK: - Pixel Perfect Layout Hesaplama Sistemi
+    // MARK: - Sabit Grid Boyutları için Layout Hesaplama Sistemi
     internal func calculateGameArea() {
         // Safe area hesaplama
         let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
@@ -19,8 +19,7 @@ extension GameScene {
         let safeWidth = screenWidth - safeAreaInsets.left - safeAreaInsets.right
         let safeHeight = screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
         
-        // PIXEL PERFECT için önce cell size hesapla
-        calculatePixelPerfectCellSize(availableWidth: safeWidth, availableHeight: safeHeight)
+        calculateOptimalCellSizeForFixedGrid(availableWidth: safeWidth, availableHeight: safeHeight)
         
         // Layout elemanları için pixel perfect boyutlar
         let minimumMargin: CGFloat = 12
@@ -41,23 +40,25 @@ extension GameScene {
         let availableGameHeight = safeHeight - reservedHeight
         let availableGameWidth = safeWidth - (minimumMargin * 2) - (borderThickness * 2)
         
-        // Grid boyutlarını yeniden hesapla
-        gameWidth = Int(availableGameWidth / cellSize)
-        gameHeight = Int(availableGameHeight / cellSize)
-        
-        // Grid sınırları
-        gameWidth = max(25, min(gameWidth, 45))
-        gameHeight = max(35, min(gameHeight, 60))
-        
-        // Tek sayı yap
-        if gameWidth % 2 == 0 { gameWidth += 1 }
-        if gameHeight % 2 == 0 { gameHeight += 1 }
-        
-        // Gerçek oyun alanı boyutları (pixel perfect)
+        // Gerçek oyun alanı boyutları (pixel perfect) - sabit grid boyutlarından hesapla
         gameAreaWidth = CGFloat(gameWidth) * cellSize
         gameAreaHeight = CGFloat(gameHeight) * cellSize
         
-        // Pozisyon hesaplamaları (pixel perfect)
+        // Eğer hesaplanan oyun alanı kullanılabilir alandan büyükse cell size'ı küçült
+        if gameAreaWidth > availableGameWidth || gameAreaHeight > availableGameHeight {
+            let maxCellSizeForWidth = availableGameWidth / CGFloat(gameWidth)
+            let maxCellSizeForHeight = availableGameHeight / CGFloat(gameHeight)
+            cellSize = min(maxCellSizeForWidth, maxCellSizeForHeight)
+            
+            // Cell size minimumunu koru
+            cellSize = max(8, cellSize) // En az 8 pixel
+            
+            // Oyun alanını yeniden hesapla
+            gameAreaWidth = CGFloat(gameWidth) * cellSize
+            gameAreaHeight = CGFloat(gameHeight) * cellSize
+        }
+        
+        // Pozisyon hesaplamaları (pixel perfect - merkeze yerleştir)
         gameAreaStartX = round((screenWidth - gameAreaWidth) / 2)
         gameAreaStartY = safeAreaInsets.bottom + minimumMargin + controlAreaHeight + borderThickness - 30
         
@@ -77,18 +78,21 @@ extension GameScene {
         alignToPixelGrid()
     }
     
-    // MARK: - Pixel Perfect Cell Size Hesaplama
-    private func calculatePixelPerfectCellSize(availableWidth: CGFloat, availableHeight: CGFloat) {
-        // Target cell size'ı ekran boyutuna göre hesapla
-        let screenMin = min(availableWidth, availableHeight)
-        let targetCellSize = screenMin * 0.035 // %3.5
+    // MARK: - Sabit Grid İçin Optimal Cell Size Hesaplama
+    private func calculateOptimalCellSizeForFixedGrid(availableWidth: CGFloat, availableHeight: CGFloat) {
+        // Sabit grid boyutları için optimal cell size hesapla
+        let targetCellSizeForWidth = availableWidth * 0.8 / CGFloat(gameWidth) // %80'ini kullan
+        let targetCellSizeForHeight = availableHeight * 0.6 / CGFloat(gameHeight) // %60'ını kullan
         
-        // Pixel perfect için tam sayıya yuvarla
-        cellSize = round(max(12, min(targetCellSize, 24))) // 12-24 arası
+        // İkisinden küçük olanı al
+        let targetCellSize = min(targetCellSizeForWidth, targetCellSizeForHeight)
         
-        // Eğer çok küçükse artır
-        if cellSize < 14 {
-            cellSize = 14
+        // Pixel perfect için tam sayıya yuvarla ve sınırları koru
+        cellSize = round(max(8, min(targetCellSize, 28))) // 8-28 arası
+        
+        // Çok küçük ekranlar için minimum boyut garantisi
+        if cellSize < 10 {
+            cellSize = 10
         }
     }
     
@@ -228,7 +232,7 @@ extension GameScene {
         let pixelFont = "Jersey15-Regular"
         
         // Font boyutunu cell size'a göre pixel perfect yap
-        let fontSize = cellSize * 1.3 // Cell size'ın %90'ı
+        let fontSize = cellSize * 1.3 // Cell size'ın %130'u
         
         let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
         
