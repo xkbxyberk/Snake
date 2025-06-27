@@ -74,7 +74,7 @@ extension GameScene {
         let controlsRect: CGRect
     }
     
-    /// Layout bölümlerini hesapla (tersine yaklaşım)
+    /// Layout bölümlerini hesapla (sıralı yaklaşım - düzeltilmiş versiyon)
     private func calculateLayoutSections(
         availableWidth: CGFloat,
         availableHeight: CGFloat,
@@ -83,7 +83,7 @@ extension GameScene {
         
         let screenBounds = UIScreen.main.bounds
         
-        // Section 1: Top Bar (ekranın en üstünden)
+        // Section 1: Top Bar (ekranın en üstünden - mevcut mantık korundu)
         let topBarHeight = floor(availableHeight * 0.1)
         let topBarY = screenBounds.height - safeAreaInsets.top - topBarHeight
         let topBarRect = CGRect(
@@ -93,7 +93,7 @@ extension GameScene {
             height: topBarHeight
         )
         
-        // Section 4: Controls Area (ekranın en altından)
+        // Section 4: Controls Area (ekranın en altından - mevcut mantık korundu)
         let controlsHeight = floor(availableHeight * 0.25)
         let controlsY = safeAreaInsets.bottom
         let controlsRect = CGRect(
@@ -103,36 +103,38 @@ extension GameScene {
             height: controlsHeight
         )
         
-        // Border thickness hesapla (header line için gerekli)
-        let borderThickness = floor(cellSize * 0.6)
+        // Header line ve gap hesaplamaları
         let headerLineThickness = floor(cellSize * 0.6)
-        let headerGap = floor(cellSize * 1.0) // Gap'i azalttık
+        let sectionGap = floor(cellSize * 1.5) // Bölümler arası tutarlı boşluk
         
-        // Section 3: Game Area (kalan alanda ortala)
-        let gameAreaMargin = floor(cellSize * 1.5)
-        let gameAreaY = controlsY + controlsHeight + gameAreaMargin
-        
-        // Header için toplam yer ayır (divider + gap + border space)
-        let totalHeaderSpace = headerLineThickness + (headerGap * 2) + borderThickness
-        
-        let gameAreaHeight = topBarY - gameAreaY - gameAreaMargin - totalHeaderSpace
-        
-        // Oyun alanını ortala
-        let gameAreaX = floor((screenBounds.width - gameAreaWidth) / 2)
-        let gameAreaRect = CGRect(
-            x: gameAreaX,
-            y: gameAreaY,
-            width: gameAreaWidth,
-            height: min(gameAreaHeight, self.gameAreaHeight)
-        )
-        
-        // Section 2: Header Line (Oyun alanının border'ından tamamen ayrı)
-        let gameAreaTopBorder = gameAreaRect.maxY + borderThickness
-        let headerLineY = gameAreaTopBorder + headerGap + (headerLineThickness / 2)
+        // Section 2: Header Line (TopBar'ın altına, bağımsız olarak yerleştir)
+        let headerLineY = topBarRect.minY - sectionGap - (headerLineThickness / 2)
         let headerLinePosition = CGPoint(x: screenBounds.width / 2, y: headerLineY)
         
-        // Header Line genişliği - oyun alanından daha kısa (divider gibi)
-        let headerLineWidth = floor(gameAreaWidth * 0.7) // %70'i kadar
+        // Header Line genişliği - bağımsız bir ayırıcı olarak
+        let headerLineWidth = floor(gameAreaWidth * 0.7) // GameArea genişliğinin %70'i
+        
+        // Section 3: Game Area (HeaderLine'ın altına, bağımsız olarak yerleştir)
+        // GameArea'nın üst sınırını HeaderLine'ın altından hesapla
+        let gameAreaTopY = headerLineY - (headerLineThickness / 2) - sectionGap
+        
+        // GameArea'nın alt sınırını Controls'ın üstünden hesapla
+        let gameAreaBottomY = controlsRect.maxY + sectionGap
+        
+        // GameArea'nın yüksekliğini kalan alanla dinamik olarak hesapla
+        let availableGameAreaHeight = gameAreaTopY - gameAreaBottomY
+        let finalGameAreaHeight = min(availableGameAreaHeight, self.gameAreaHeight)
+        
+        // GameArea'yı yatayda ortala
+        let gameAreaX = floor((screenBounds.width - gameAreaWidth) / 2)
+        
+        // GameArea'yı belirlenen konumda oluştur
+        let gameAreaRect = CGRect(
+            x: gameAreaX,
+            y: gameAreaBottomY,
+            width: gameAreaWidth,
+            height: finalGameAreaHeight
+        )
         
         // Global değişkenleri güncelle
         gameAreaStartX = gameAreaRect.minX
