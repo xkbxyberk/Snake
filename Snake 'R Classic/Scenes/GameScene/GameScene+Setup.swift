@@ -159,7 +159,7 @@ extension GameScene {
         )
         
         // HeaderLine genişliği - GameArea'dan bağımsız, daha kısa bir ayırıcı
-        let headerLineWidth = floor(finalGameAreaWidth * 0.95)
+        let headerLineWidth = floor(finalGameAreaWidth * 0.98)
         
         // Global değişkenleri güncelle
         gameAreaStartX = gameAreaRect.minX
@@ -190,7 +190,7 @@ extension GameScene {
         createPauseButton(at: pausePosition, size: pauseButtonSize)
         
         // Score labels (sağ üst)
-        let scoreFontSize = floor(cellSize * 1.2)
+        let scoreFontSize = floor(cellSize * 1.4)
         let scoreRightMargin = rect.maxX - floor(cellSize * 0.5)
         
         createScoreLabels(
@@ -252,7 +252,7 @@ extension GameScene {
     /// Score etiketleri oluştur
     private func createScoreLabels(rightEdge: CGFloat, centerY: CGFloat, fontSize: CGFloat) {
         let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
-        let pixelFont = "Doto-Black_ExtraBold"
+        let pixelFont = "Jersey15-Regular"
         
         // Ana skor (en sağda)
         scoreLabel = SKLabelNode(fontNamed: pixelFont)
@@ -654,6 +654,17 @@ extension GameScene {
         let pixelSize = round(cellSize / 3.0)
         let gameGap = calculatePixelGap(for: pixelSize)
         let borderGap = calculateBorderGap(for: pixelSize)
+        
+        // Debug için konsola yazdır (isteğe bağlı)
+        #if DEBUG
+        print("🎯 Pixel Perfect Settings:")
+        print("   cellSize: \(cellSize)")
+        print("   pixelSize: \(pixelSize)")
+        print("   gameGap: \(gameGap)")
+        print("   borderGap: \(borderGap)")
+        print("   gameAreaWidth: \(gameAreaWidth)")
+        print("   gameAreaHeight: \(gameAreaHeight)")
+        #endif
     }
     
     // MARK: - Game Content Creation (Pixel Perfect Güncellenmiş)
@@ -781,13 +792,7 @@ extension GameScene {
             container.addChild(pixel)
         }
         
-        // Animasyon
-        let scaleUp = SKAction.scale(to: 1.1, duration: 1.0)
-        let scaleDown = SKAction.scale(to: 1.0, duration: 1.0)
-        let pulseSequence = SKAction.sequence([scaleUp, scaleDown])
-        let pulseRepeat = SKAction.repeatForever(pulseSequence)
-        container.run(pulseRepeat)
-        
+        // SEÇENEK 1: Animasyon YOK - En temiz retro görünüm
         return container
     }
     

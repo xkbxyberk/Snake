@@ -22,12 +22,13 @@ class MenuScene: SKScene {
     private var snakeFood: SKNode?
     private var snakeDirection: Direction = .right
     private var snakeTimer: Timer?
-    private let snakeSegmentSize: CGFloat = 15
+    private var snakeSegmentSize: CGFloat = 15
     private let snakeSpeed: TimeInterval = 0.4
     private var targetDirection: Direction?
     
-    // MARK: - Pixel Art Ayarları
-    private let pixelSize: CGFloat = 3 // Pixel art için temel birim
+    // MARK: - Adaptif Pixel Art Ayarları (GameScene+Setup.swift'den)
+    private var cellSize: CGFloat = 12
+    private var calculatedPixelSize: CGFloat = 4
     
     // MARK: - Renk Paleti
     private let primaryColor = SKColor(red: 2/255, green: 19/255, blue: 0/255, alpha: 1.0)
@@ -36,9 +37,54 @@ class MenuScene: SKScene {
     private let shadowColor = SKColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.3)
     
     override func didMove(to view: SKView) {
+        calculateAdaptivePixelSizes()
         setupMenu()
         startAnimations()
         startPixelArtSnake()
+    }
+    
+    // MARK: - Adaptif Pixel Boyut Hesaplama (GameScene+Setup.swift'den uyarlandı)
+    private func calculateAdaptivePixelSizes() {
+        // Ekran boyutuna göre adaptif cellSize hesaplama
+        let screenBounds = UIScreen.main.bounds
+        let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
+        
+        let availableWidth = screenBounds.width - safeAreaInsets.left - safeAreaInsets.right
+        let availableHeight = screenBounds.height - safeAreaInsets.top - safeAreaInsets.bottom
+        
+        // MenuScene için özel hesaplama - daha küçük elementler
+        let estimatedMenuCellSize = min(availableWidth, availableHeight) / 30.0
+        cellSize = floor(estimatedMenuCellSize / 3.0) * 3.0
+        cellSize = max(9.0, min(cellSize, 24.0)) // MenuScene için daha küçük maksimum
+        
+        // Pixel size hesaplama
+        calculatedPixelSize = round(cellSize / 3.0)
+        calculatedPixelSize = max(3.0, calculatedPixelSize)
+        
+        // Snake segment size'ı adaptif olarak ayarla
+        snakeSegmentSize = cellSize * 1.2
+    }
+    
+    // MARK: - Pixel Gap Calculation (GameScene+Setup.swift'den)
+    /// Ekran boyutuna göre optimal gap hesaplama
+    private func calculatePixelGap(for pixelSize: CGFloat) -> CGFloat {
+        // Adaptif gap hesaplama - pixelSize'a orantılı
+        var gap: CGFloat
+        
+        switch pixelSize {
+        case 0..<4:   gap = 0.5    // Çok küçük ekranlar için minimal gap
+        case 4..<7:   gap = 1.0    // Orta ekranlar için 1 piksel gap
+        case 7..<10:  gap = 1.5    // Büyük ekranlar için 1.5 piksel gap
+        case 10..<15: gap = 2.0    // XL ekranlar için 2 piksel gap
+        default:      gap = 2.5    // XXL ekranlar için 2.5 piksel gap
+        }
+        
+        // Gap'in pixelSize'ın %85'ini geçmemesini sağla (görsel bozulma önlemi)
+        let maxGap = pixelSize * 0.85
+        gap = min(gap, maxGap)
+        
+        // Gap'i tam sayıya yuvarla (pixel-perfect için)
+        return round(gap * 2) / 2 // 0.5'lik adımlarla yuvarla
     }
     
     // MARK: - Kurulum
@@ -297,10 +343,10 @@ class MenuScene: SKScene {
         return buttonContainer
     }
     
-    // MARK: - Pixel Art Yüzen Yemler (Arttırılmış Sayı)
+    // MARK: - Pixel Art Yüzen Yemler (Adaptif)
     private func createPixelArtFloatingElements() {
         for i in 0..<8 { // Daha fazla yem
-            let food = createPixelArtFlowerFood()
+            let food = createPixelPerfectFlowerFood()
             
             let randomX = CGFloat.random(in: 80...(frame.maxX - 80))
             let randomY = CGFloat.random(in: 150...(frame.maxY - 150))
@@ -311,7 +357,7 @@ class MenuScene: SKScene {
             addChild(food)
             floatingFoods.append(food)
             
-            // Yumuşak ve yavaş hareketler (değişmedi)
+            // Yumuşak ve yavaş hareketler
             let moveX = CGFloat.random(in: -25...25)
             let moveY = CGFloat.random(in: -25...25)
             let duration = Double.random(in: 6...9)
@@ -354,29 +400,26 @@ class MenuScene: SKScene {
         }
     }
     
-    // MARK: - Pixel Art Çiçek Yemi Oluşturma (Oyundaki ile aynı)
-    private func createPixelArtFlowerFood() -> SKNode {
+    // MARK: - Pixel Perfect Çiçek Yemi Oluşturma (GameScene+Setup.swift'den uyarlandı)
+    private func createPixelPerfectFlowerFood() -> SKNode {
         let container = SKNode()
-        let pixelSize = self.pixelSize
+        let pixelSize = calculatedPixelSize
         
-        // Çiçek desenini tanımlayan piksel pozisyonları (merkez boş)
-        let flowerPixels = [
-            // Üst yaprak
-            CGPoint(x: 0, y: 2),
-            // Orta sıra - yatay çizgi
-            CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1),
-            // Merkez sıra - ortası boş (en geniş kısım)
-            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
-            // Alt orta sıra
-            CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1),
-            // Alt yaprak
-            CGPoint(x: 0, y: -2)
+        // Gap hesaplama - ekran boyutuna göre adaptif
+        let gap = calculatePixelGap(for: pixelSize)
+        let pixelSizeWithGap = pixelSize - gap
+        
+        // Artı (+) deseni (4 piksel: merkez BOŞ, sadece 4 yön)
+        let plusPixels = [
+            CGPoint(x: 0, y: 1),   // Üst
+            CGPoint(x: -1, y: 0),  // Sol
+            CGPoint(x: 1, y: 0),   // Sağ
+            CGPoint(x: 0, y: -1)   // Alt
+            // Merkez (0,0) KASITLI OLARAK BOŞ
         ]
         
-        // Her piksel için bir mini sprite oluştur
-        for pixelPos in flowerPixels {
-            let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+        for pixelPos in plusPixels {
+            let pixel = SKSpriteNode(color: primaryColor, size: CGSize(width: pixelSizeWithGap, height: pixelSizeWithGap))
             pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
             container.addChild(pixel)
         }
@@ -384,7 +427,7 @@ class MenuScene: SKScene {
         return container
     }
     
-    // MARK: - Pixel Art Dekoratif Yılanlar (Arttırılmış ve Uzatılmış)
+    // MARK: - Pixel Art Dekoratif Yılanlar (Adaptif)
     private func createPixelArtSnakeDecorations() {
         // Daha fazla ve daha uzun yılanlar
         createSmoothPixelArtSnake(startPosition: CGPoint(x: 70, y: frame.maxY - 80), direction: .right, segments: 7)
@@ -396,10 +439,10 @@ class MenuScene: SKScene {
     
     // MARK: - Yumuşak Pixel Art Dekoratif Yılan Oluşturma
     private func createSmoothPixelArtSnake(startPosition: CGPoint, direction: Direction, segments: Int) {
-        let spacing: CGFloat = 18
+        let spacing = snakeSegmentSize * 1.2
         
         for i in 0..<segments {
-            let segment = createPixelArtSnakeSegment()
+            let segment = createPixelPerfectSnakeSegment()
             
             var offsetX: CGFloat = 0
             var offsetY: CGFloat = 0
@@ -463,29 +506,27 @@ class MenuScene: SKScene {
         }
     }
     
-    // MARK: - Pixel Art Yılan Segmenti Oluşturma (Oyundaki ile aynı)
-    private func createPixelArtSnakeSegment() -> SKNode {
+    // MARK: - Pixel Perfect Yılan Segmenti Oluşturma (GameScene+Setup.swift'den uyarlandı)
+    private func createPixelPerfectSnakeSegment() -> SKNode {
         let container = SKNode()
-        let pixelSize = self.pixelSize
+        let pixelSize = calculatedPixelSize
         
-        // 5x5 tamamen dolu piksel deseni (25 piksel)
-        let fullBlockPixels = [
-            // 1. sıra (en üst)
-            CGPoint(x: -2, y: 2), CGPoint(x: -1, y: 2), CGPoint(x: 0, y: 2), CGPoint(x: 1, y: 2), CGPoint(x: 2, y: 2),
-            // 2. sıra
-            CGPoint(x: -2, y: 1), CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint(x: 2, y: 1),
-            // 3. sıra (merkez)
-            CGPoint(x: -2, y: 0), CGPoint(x: -1, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0), CGPoint(x: 2, y: 0),
-            // 4. sıra
-            CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1), CGPoint(x: 2, y: -1),
-            // 5. sıra (en alt)
-            CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2), CGPoint(x: 0, y: -2), CGPoint(x: 1, y: -2), CGPoint(x: 2, y: -2)
+        // Gap hesaplama - ekran boyutuna göre adaptif
+        let gap = calculatePixelGap(for: pixelSize)
+        let pixelSizeWithGap = pixelSize - gap
+        
+        // 3x3 dolu blok (9 piksel)
+        let blockPixels = [
+            // Üst sıra
+            CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1),
+            // Orta sıra
+            CGPoint(x: -1, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0),
+            // Alt sıra
+            CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1)
         ]
         
-        // Her piksel için bir mini sprite oluştur (hiç efekt yok)
-        for pixelPos in fullBlockPixels {
-            let pixel = SKSpriteNode(color: primaryColor,
-                                   size: CGSize(width: pixelSize - 0.5, height: pixelSize - 0.5))
+        for pixelPos in blockPixels {
+            let pixel = SKSpriteNode(color: primaryColor, size: CGSize(width: pixelSizeWithGap, height: pixelSizeWithGap))
             pixel.position = CGPoint(x: pixelPos.x * pixelSize, y: pixelPos.y * pixelSize)
             container.addChild(pixel)
         }
@@ -505,14 +546,14 @@ class MenuScene: SKScene {
         }
     }
     
-    // MARK: - Pixel Art Arka Plan Yılanı Oluşturma (Daha Uzun Başlangıç)
+    // MARK: - Pixel Art Arka Plan Yılanı Oluşturma (Adaptif boyut)
     private func createPixelArtBackgroundSnake() {
         let startX: CGFloat = 70
         let startY: CGFloat = 180
         let initialLength = 8 // Daha uzun başlangıç
         
         for i in 0..<initialLength {
-            let segment = createPixelArtSnakeSegment()
+            let segment = createPixelPerfectSnakeSegment()
             segment.position = CGPoint(x: startX - CGFloat(i) * snakeSegmentSize, y: startY)
             segment.zPosition = -5
             segment.name = "backgroundSnake"
@@ -526,7 +567,7 @@ class MenuScene: SKScene {
     
     // MARK: - Pixel Art Yılan Yemi Oluşturma
     private func createPixelArtSnakeFood() {
-        snakeFood = createPixelArtFlowerFood()
+        snakeFood = createPixelPerfectFlowerFood()
         spawnPixelArtSnakeFood()
         snakeFood!.zPosition = -5
         snakeFood!.name = "backgroundSnakeFood"
@@ -545,7 +586,7 @@ class MenuScene: SKScene {
         guard let food = snakeFood else { return }
         
         // Yem için güvenli alan hesapla
-        let safeMargin: CGFloat = snakeSegmentSize * 3
+        let safeMargin = snakeSegmentSize * 3
         let minX = safeMargin
         let maxX = frame.maxX - safeMargin
         let minY = safeMargin
@@ -642,7 +683,7 @@ class MenuScene: SKScene {
         }
         
         // Yeni pozisyon ekran içinde mi? Değilse zorla ekran içine al
-        let margin: CGFloat = snakeSegmentSize
+        let margin = snakeSegmentSize
         newHeadPosition.x = max(margin, min(newHeadPosition.x, frame.maxX - margin))
         newHeadPosition.y = max(margin, min(newHeadPosition.y, frame.maxY - margin))
         
@@ -665,7 +706,7 @@ class MenuScene: SKScene {
     // MARK: - Gelişmiş Yön Hesaplama (Ekran Sınırları Öncelikli)
     private func calculateTargetDirection(headPosition: CGPoint, foodPosition: CGPoint) {
         // Önce ekran sınırına yakın mıyız kontrol et
-        let urgentMargin: CGFloat = snakeSegmentSize * 3
+        let urgentMargin = snakeSegmentSize * 3
         
         // Acil durum - ekran kenarına çok yakınız
         if headPosition.x <= urgentMargin {
@@ -734,7 +775,7 @@ class MenuScene: SKScene {
     private func checkScreenBounds() {
         guard let head = animatedSnake.first else { return }
         
-        let margin: CGFloat = snakeSegmentSize * 2 // Yılan boyutunun 2 katı güvenli mesafe
+        let margin = snakeSegmentSize * 2 // Yılan boyutunun 2 katı güvenli mesafe
         
         // Sol kenar - ani yön değişimi
         if head.position.x <= margin {
@@ -765,7 +806,7 @@ class MenuScene: SKScene {
     private func growPixelArtBackgroundSnake() {
         guard let tail = animatedSnake.last else { return }
         
-        let newSegment = createPixelArtSnakeSegment()
+        let newSegment = createPixelPerfectSnakeSegment()
         newSegment.position = tail.position
         newSegment.zPosition = -5
         newSegment.name = "backgroundSnake"
@@ -780,10 +821,10 @@ class MenuScene: SKScene {
         }
     }
     
-    // MARK: - Pixel Art Yem Yeme Efekti
+    // MARK: - Pixel Art Yem Yeme Efekti (Adaptif)
     private func createPixelArtEatEffect(at position: CGPoint) {
         for _ in 0..<6 {
-            let particle = createPixelArtSnakeSegment()
+            let particle = createPixelPerfectSnakeSegment()
             particle.position = position
             particle.zPosition = -4
             particle.alpha = 0.8
