@@ -80,8 +80,7 @@ extension GameScene {
         let screenBounds = UIScreen.main.bounds
         
         // ADIM 1: Sabit Dikey Alanları Tanımla
-        // Top Bar - ekranın %10'u (sabit)
-        let topBarHeight = floor(availableHeight * 0.1)
+        let topBarHeight = floor(availableHeight * 0.05)
         let topBarY = screenBounds.height - safeAreaInsets.top - topBarHeight
         let topBarRect = CGRect(
             x: safeAreaInsets.left,
@@ -101,8 +100,8 @@ extension GameScene {
         )
         
         // ADIM 2: Boşlukları ve Ayırıcıları Tanımla (SABİT DEĞERLER)
-        let sectionGap: CGFloat = 15.0 // Sabit bölüm arası boşluk
-        let headerLineThickness: CGFloat = 8.0 // Sabit HeaderLine kalınlığı
+        let sectionGap: CGFloat = 10.0 // Sabit bölüm arası boşluk
+        let headerLineThickness: CGFloat = 5.0 // Sabit HeaderLine kalınlığı
         
         // HeaderLine pozisyonunu TopBar'ın altında, kesin olarak hesapla
         let headerLineY = topBarRect.minY - sectionGap - (headerLineThickness / 2)
@@ -184,7 +183,7 @@ extension GameScene {
         createPauseButton(at: pausePosition, size: pauseButtonSize)
         
         // Score labels (sağ üst)
-        let scoreFontSize = floor(cellSize * 1.5)
+        let scoreFontSize = floor(cellSize * 1.4)
         let scoreRightMargin = rect.maxX - floor(cellSize * 0.5)
         
         createScoreLabels(
