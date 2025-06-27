@@ -655,16 +655,6 @@ extension GameScene {
         let gameGap = calculatePixelGap(for: pixelSize)
         let borderGap = calculateBorderGap(for: pixelSize)
         
-        // Debug için konsola yazdır (isteğe bağlı)
-        #if DEBUG
-        print("🎯 Pixel Perfect Settings:")
-        print("   cellSize: \(cellSize)")
-        print("   pixelSize: \(pixelSize)")
-        print("   gameGap: \(gameGap)")
-        print("   borderGap: \(borderGap)")
-        print("   gameAreaWidth: \(gameAreaWidth)")
-        print("   gameAreaHeight: \(gameAreaHeight)")
-        #endif
     }
     
     // MARK: - Game Content Creation (Pixel Perfect Güncellenmiş)
