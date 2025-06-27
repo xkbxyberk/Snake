@@ -218,7 +218,7 @@ class GameScene: SKScene {
             }
         }
         
-        // UI'ı yeniden düzenle (adaptif sistem otomatik ayarlayacak)
+        // UI'ı yeniden düzenle (yeni responsive sistem otomatik ayarlayacak)
         recalculateLayout()
     }
     
@@ -231,11 +231,16 @@ class GameScene: SKScene {
         let wasRunning = isGameRunning
         let wasPaused = isGamePaused
         
-        // Layout'u yeniden hesapla
+        // Tüm UI elementlerini temizle
+        removeExistingUIElements()
+        
+        // Layout'u yeniden hesapla (yeni modüler sistem)
         calculateGameArea()
         
-        // UI elementlerini güncelle
-        updateUIElementPositions()
+        // Snake ve food'u yeniden çiz
+        if wasRunning {
+            drawGame()
+        }
         
         // Oyun durumunu geri yükle
         if wasRunning {
@@ -246,49 +251,31 @@ class GameScene: SKScene {
         }
     }
     
-    // MARK: - UI Element Pozisyonlarını Güncelleme
-    private func updateUIElementPositions() {
-        // Pause button pozisyonunu güncelle
-        if let pause = pauseButton {
-            pause.position = CGPoint(x: gameAreaStartX + cellSize, y: headerBarStartY)
-        }
+    // MARK: - Mevcut UI Elementlerini Temizleme
+    private func removeExistingUIElements() {
+        // Mevcut UI elementlerini temizle
+        pauseButton?.removeFromParent()
+        scoreLabel?.removeFromParent()
+        highScoreLabel?.removeFromParent()
+        headerBar?.removeFromParent()
+        upButton?.removeFromParent()
+        downButton?.removeFromParent()
+        leftButton?.removeFromParent()
+        rightButton?.removeFromParent()
         
-        // Score label pozisyonunu güncelle
-        if let score = scoreLabel {
-            score.position = CGPoint(x: gameAreaStartX + gameAreaWidth - cellSize, y: headerBarStartY)
-        }
+        // Container'ları temizle
+        childNode(withName: "headerLineContainer")?.removeFromParent()
+        childNode(withName: "gameBorderContainer")?.removeFromParent()
         
-        // High score label pozisyonunu güncelle
-        if let highScore = highScoreLabel {
-            let offsetX = gameAreaWidth * 0.35
-            highScore.position = CGPoint(x: scoreLabel.position.x - offsetX, y: headerBarStartY)
-        }
-        
-        // Kontrol butonlarını güncelle
-        updateControlButtonPositions()
-    }
-    
-    // MARK: - Kontrol Buton Pozisyonlarını Güncelle
-    private func updateControlButtonPositions() {
-        guard let view = view else { return }
-        
-        let safeAreaInsets = view.safeAreaInsets
-        let screenHeight = UIScreen.main.bounds.height
-        let safeHeight = screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
-        
-        let controlAreaHeight = safeHeight * 0.28
-        let controlAreaY = safeAreaInsets.bottom + controlAreaHeight / 2
-        let centerX = frame.midX
-        
-        let screenWidth = UIScreen.main.bounds.width
-        let baseButtonSize = min(screenWidth, screenHeight) * 0.08
-        let verticalSpacing = baseButtonSize * 0.6
-        let horizontalSpacing = baseButtonSize * 1.2
-        
-        upButton?.position = CGPoint(x: centerX, y: controlAreaY + verticalSpacing)
-        downButton?.position = CGPoint(x: centerX, y: controlAreaY - verticalSpacing)
-        leftButton?.position = CGPoint(x: centerX - horizontalSpacing, y: controlAreaY)
-        rightButton?.position = CGPoint(x: centerX + horizontalSpacing, y: controlAreaY)
+        // Referansları sıfırla
+        pauseButton = nil
+        scoreLabel = nil
+        highScoreLabel = nil
+        headerBar = nil
+        upButton = nil
+        downButton = nil
+        leftButton = nil
+        rightButton = nil
     }
     
     // MARK: - Skor Sistemini Başlatma
@@ -323,20 +310,31 @@ class GameScene: SKScene {
         currentPhaseIndex = 0
     }
     
-    // MARK: - Oyun Kurulumu ve Başlatma
+    // MARK: - Oyun Kurulumu ve Başlatma (GÜNCELLENDİ)
     private func setupGame() {
         backgroundColor = backgroundGreen
         
+        // YENİ MODÜLERSİSTEM - tek bir çağrı ile tüm layout
         calculateGameArea()
-        createHeaderBar()
-        createGameAreaBorder()
-        createControlButtons()
+        
+        // Ultra-sensitive kontroller
         setupUltraSensitiveControls()
         
+        // Oyun nesneleri
         snake = Snake()
-        
-        createUI()
         spawnFood()
+    }
+    
+    // MARK: - UI Element Pozisyonlarını Güncelleme (Artık gereksiz - ama legacy için korundu)
+    private func updateUIElementPositions() {
+        // Bu metod artık gereksiz çünkü calculateGameArea() tüm positioning'i hallediyor
+        // Ama geriye dönük uyumluluk için boş bırakıldı
+    }
+    
+    // MARK: - Kontrol Buton Pozisyonlarını Güncelle (Artık gereksiz - ama legacy için korundu)
+    private func updateControlButtonPositions() {
+        // Bu metod artık gereksiz çünkü setupControlButtons() positioning'i hallediyor
+        // Ama geriye dönük uyumluluk için boş bırakıldı
     }
     
     // MARK: - Temizleme (Cleanup)
