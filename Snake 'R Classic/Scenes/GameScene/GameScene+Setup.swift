@@ -184,14 +184,14 @@ extension GameScene {
         // Pause button (sol üst)
         let pauseButtonSize = floor(cellSize * 1.8)
         let pausePosition = CGPoint(
-            x: rect.minX + pauseButtonSize / 2 + floor(cellSize * 0.5),
+            x: rect.minX + pauseButtonSize / 2 + 20,
             y: rect.midY
         )
         createPauseButton(at: pausePosition, size: pauseButtonSize)
         
         // Score labels (sağ üst)
         let scoreFontSize = floor(cellSize * 1.4)
-        let scoreRightMargin = rect.maxX - floor(cellSize * 0.5)
+        let scoreRightMargin = rect.maxX - 20
         
         createScoreLabels(
             rightEdge: scoreRightMargin,
@@ -252,7 +252,7 @@ extension GameScene {
     /// Score etiketleri oluştur
     private func createScoreLabels(rightEdge: CGFloat, centerY: CGFloat, fontSize: CGFloat) {
         let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
-        let pixelFont = "Jersey15-Regular"
+        let pixelFont = "Doto-Black_ExtraBold"
         
         // Ana skor (en sağda)
         scoreLabel = SKLabelNode(fontNamed: pixelFont)
@@ -446,7 +446,7 @@ extension GameScene {
     // MARK: - Section 4: Control Buttons Setup (Aynı)
     /// Kontrol butonları kurulumu
     internal func setupControlButtons(in rect: CGRect) {
-        let buttonSize = floor(cellSize * 5.0) // Pixel perfect button boyutu
+        let buttonSize = floor(cellSize * 6.0) // Pixel perfect button boyutu
         let centerX = rect.midX
         let centerY = rect.midY
         
