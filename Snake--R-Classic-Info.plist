@@ -6,7 +6,7 @@
 	<string>This game uses haptic feedback to enhance your gaming experience when eating food or hitting walls.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Jersey15.ttf</string>
+		<string>Doto.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

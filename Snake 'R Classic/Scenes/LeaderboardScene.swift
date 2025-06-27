@@ -61,7 +61,7 @@ class LeaderboardScene: SKScene {
     }
     
     private func createEnhancedTitle() {
-        titleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        titleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleLabel.text = "🏆 LEADERBOARD 🏆"
         titleLabel.fontSize = 28
         titleLabel.fontColor = primaryColor
@@ -69,7 +69,7 @@ class LeaderboardScene: SKScene {
         titleLabel.zPosition = 10
         addChild(titleLabel)
         
-        let titleShadow = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let titleShadow = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleShadow.text = "LEADERBOARD"
         titleShadow.fontSize = 28
         titleShadow.fontColor = shadowColor
@@ -124,14 +124,14 @@ class LeaderboardScene: SKScene {
                 tabContainer.addChild(highlight)
             }
             
-            let iconLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let iconLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             iconLabel.text = speedProfileIcons[i]
             iconLabel.fontSize = 16
             iconLabel.position = CGPoint(x: 0, y: 4)
             iconLabel.zPosition = 3
             tabContainer.addChild(iconLabel)
             
-            let nameLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let nameLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             nameLabel.text = speedProfileNames[i]
             nameLabel.fontSize = 9
             nameLabel.fontColor = isActive ? .white : primaryColor
@@ -205,14 +205,14 @@ class LeaderboardScene: SKScene {
         highlight.zPosition = 3
         emptyStateContainer!.addChild(highlight)
         
-        let emptyIcon = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let emptyIcon = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         emptyIcon.text = speedProfileIcons[currentSpeedProfile - 1]
         emptyIcon.fontSize = 50
         emptyIcon.position = CGPoint(x: 0, y: 40)
         emptyIcon.zPosition = 4
         emptyStateContainer!.addChild(emptyIcon)
         
-        let mainMessage = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let mainMessage = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         mainMessage.text = "NO \(speedProfileNames[currentSpeedProfile - 1]) SCORES!"
         mainMessage.fontSize = 18
         mainMessage.fontColor = primaryColor
@@ -221,7 +221,7 @@ class LeaderboardScene: SKScene {
         mainMessage.zPosition = 4
         emptyStateContainer!.addChild(mainMessage)
         
-        let subMessage = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let subMessage = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         subMessage.text = "Play on \(speedProfileNames[currentSpeedProfile - 1]) speed"
         subMessage.fontSize = 14
         subMessage.fontColor = SKColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -230,7 +230,7 @@ class LeaderboardScene: SKScene {
         subMessage.zPosition = 4
         emptyStateContainer!.addChild(subMessage)
         
-        let playMessage = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let playMessage = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         playMessage.text = "🎮 START PLAYING!"
         playMessage.fontSize = 16
         playMessage.fontColor = primaryColor
@@ -241,7 +241,7 @@ class LeaderboardScene: SKScene {
         
         let gamesPlayed = ScoreManager.shared.getTotalGamesPlayedForSpeedProfile(currentSpeedProfile)
         if gamesPlayed > 0 {
-            let statsMessage = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let statsMessage = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             statsMessage.text = "(\(gamesPlayed) games played on this speed)"
             statsMessage.fontSize = 10
             statsMessage.fontColor = SKColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
@@ -300,14 +300,14 @@ class LeaderboardScene: SKScene {
         podiumHighlight.zPosition = 2
         podiumContainer.addChild(podiumHighlight)
         
-        let speedIcon = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let speedIcon = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         speedIcon.text = speedProfileIcons[currentSpeedProfile - 1]
         speedIcon.fontSize = 20
         speedIcon.position = CGPoint(x: -podiumWidth/2 + 25, y: podiumHeight/2 - 25)
         speedIcon.zPosition = 3
         podiumContainer.addChild(speedIcon)
         
-        let speedLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let speedLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         speedLabel.text = speedProfileNames[currentSpeedProfile - 1]
         speedLabel.fontSize = 12
         speedLabel.fontColor = primaryColor
@@ -330,14 +330,14 @@ class LeaderboardScene: SKScene {
             let color = colors[i]
             let scoreEntry = topScoreEntries[i]
             
-            let medalLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let medalLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             medalLabel.text = medal
             medalLabel.fontSize = i == 0 ? 28 : 20
             medalLabel.position = CGPoint(x: position.x, y: position.y + 20)
             medalLabel.zPosition = 3
             podiumContainer.addChild(medalLabel)
             
-            let rankLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let rankLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             rankLabel.text = "\(i + 1)."
             rankLabel.fontSize = 12
             rankLabel.fontColor = color
@@ -345,7 +345,7 @@ class LeaderboardScene: SKScene {
             rankLabel.zPosition = 3
             podiumContainer.addChild(rankLabel)
             
-            let nameLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let nameLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             let displayName = scoreEntry.playerName.count > 7 ?
                 String(scoreEntry.playerName.prefix(7)) + "..." : scoreEntry.playerName
             nameLabel.text = displayName
@@ -355,7 +355,7 @@ class LeaderboardScene: SKScene {
             nameLabel.zPosition = 3
             podiumContainer.addChild(nameLabel)
             
-            let scoreLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let scoreLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             scoreLabel.text = "\(scoreEntry.score)"
             scoreLabel.fontSize = i == 0 ? 14 : 10
             scoreLabel.fontColor = primaryColor
@@ -431,7 +431,7 @@ class LeaderboardScene: SKScene {
             card.zPosition = 1
             cardContainer.addChild(card)
             
-            let rankLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let rankLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             rankLabel.text = "\(rank)."
             rankLabel.fontSize = 12
             rankLabel.fontColor = primaryColor
@@ -441,7 +441,7 @@ class LeaderboardScene: SKScene {
             rankLabel.zPosition = 2
             cardContainer.addChild(rankLabel)
             
-            let nameLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let nameLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             let displayName = scoreEntry.playerName.count > 10 ?
                 String(scoreEntry.playerName.prefix(10)) + "..." : scoreEntry.playerName
             nameLabel.text = displayName
@@ -453,7 +453,7 @@ class LeaderboardScene: SKScene {
             nameLabel.zPosition = 2
             cardContainer.addChild(nameLabel)
             
-            let scoreLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let scoreLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             scoreLabel.text = "\(scoreEntry.score)"
             scoreLabel.fontSize = 12
             scoreLabel.fontColor = primaryColor
@@ -467,7 +467,7 @@ class LeaderboardScene: SKScene {
             dateFormatter.dateFormat = "dd/MM"
             let dateText = dateFormatter.string(from: scoreEntry.date)
             
-            let dateLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let dateLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             dateLabel.text = dateText
             dateLabel.fontSize = 8
             dateLabel.fontColor = SKColor.gray
@@ -509,7 +509,7 @@ class LeaderboardScene: SKScene {
         backShadow.zPosition = -1
         backButton.addChild(backShadow)
         
-        let backLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let backLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         backLabel.text = "🏠 BACK"
         backLabel.fontSize = 12
         backLabel.fontColor = backgroundGreen
@@ -540,7 +540,7 @@ class LeaderboardScene: SKScene {
             clearShadow.zPosition = -1
             clearButton.addChild(clearShadow)
             
-            let clearLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let clearLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             clearLabel.text = "🗑️ CLEAR"
             clearLabel.fontSize = 12
             clearLabel.fontColor = .white
@@ -564,7 +564,7 @@ class LeaderboardScene: SKScene {
     
     private func createDecorations() {
         for i in 0..<4 {
-            let trophy = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let trophy = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             trophy.text = ["🏆", "🥇", "🏅", "⭐"][i]
             trophy.fontSize = 16
             let randomX = CGFloat.random(in: 30...(frame.maxX - 30))
@@ -739,7 +739,7 @@ class LeaderboardScene: SKScene {
         let flashSequence = SKAction.sequence([flashIn, flashOut, remove])
         clearFlash.run(flashSequence)
         
-        let clearMessage = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let clearMessage = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         clearMessage.text = "✅ CLEARED!"
         clearMessage.fontSize = 20
         clearMessage.fontColor = .white

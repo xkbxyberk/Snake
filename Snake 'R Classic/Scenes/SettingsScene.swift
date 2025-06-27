@@ -67,7 +67,7 @@ class SettingsScene: SKScene {
     }
     
     private func createEnhancedTitle() {
-        titleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        titleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleLabel.text = "⚙️ SETTINGS ⚙️"
         titleLabel.fontSize = 36
         titleLabel.fontColor = primaryColor
@@ -75,7 +75,7 @@ class SettingsScene: SKScene {
         titleLabel.zPosition = 10
         addChild(titleLabel)
         
-        let titleShadow = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let titleShadow = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleShadow.text = "SETTINGS"
         titleShadow.fontSize = 36
         titleShadow.fontColor = shadowColor
@@ -152,7 +152,7 @@ class SettingsScene: SKScene {
         card.zPosition = 2
         cardContainer.addChild(card)
         
-        let titleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let titleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleLabel.text = title
         titleLabel.fontSize = 18
         titleLabel.fontColor = primaryColor
@@ -162,7 +162,7 @@ class SettingsScene: SKScene {
         titleLabel.zPosition = 3
         cardContainer.addChild(titleLabel)
         
-        let descLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let descLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         descLabel.text = description
         descLabel.fontSize = 12
         descLabel.fontColor = SKColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -216,7 +216,7 @@ class SettingsScene: SKScene {
         card.zPosition = 2
         cardContainer.addChild(card)
         
-        let titleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let titleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleLabel.text = "⚡ GAME SPEED"
         titleLabel.fontSize = 18
         titleLabel.fontColor = primaryColor
@@ -260,7 +260,7 @@ class SettingsScene: SKScene {
         toggleCircle.name = "toggleCircle"
         toggleContainer.addChild(toggleCircle)
         
-        let statusLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let statusLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         statusLabel.text = isEnabled ? "ON" : "OFF"
         statusLabel.fontSize = 10
         statusLabel.fontColor = primaryColor
@@ -295,7 +295,7 @@ class SettingsScene: SKScene {
             dot.name = "speedDot\(speed)"
             indicatorContainer.addChild(dot)
             
-            let label = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let label = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             label.text = speedTexts[i]
             label.fontSize = 9
             label.fontColor = isActive ? primaryColor : disabledColor
@@ -346,7 +346,7 @@ class SettingsScene: SKScene {
         shadow.zPosition = -1
         backButton.addChild(shadow)
         
-        let label = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let label = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         label.text = "🏠 BACK"
         label.fontSize = 18
         label.fontColor = backgroundGreen

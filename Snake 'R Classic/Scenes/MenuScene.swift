@@ -82,7 +82,7 @@ class MenuScene: SKScene {
         
         for (index, letter) in letters.enumerated() {
             // Ana harf
-            let letterNode = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let letterNode = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             letterNode.text = String(letter)
             letterNode.fontSize = 80
             letterNode.fontColor = primaryColor
@@ -92,7 +92,7 @@ class MenuScene: SKScene {
             titleLetters.append(letterNode)
             
             // Gölge efekti
-            let shadowNode = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let shadowNode = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             shadowNode.text = String(letter)
             shadowNode.fontSize = 80
             shadowNode.fontColor = shadowColor
@@ -145,7 +145,7 @@ class MenuScene: SKScene {
         }
         
         // Alt başlık
-        subtitleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        subtitleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         subtitleLabel.text = "'RETRO CLASSIC"
         subtitleLabel.fontSize = 18
         subtitleLabel.fontColor = primaryColor
@@ -251,7 +251,7 @@ class MenuScene: SKScene {
             buttonContainer.addChild(highlight)
         }
         
-        let label = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let label = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         label.text = text
         label.fontSize = isMainButton ? 18 : 16
         
@@ -802,7 +802,7 @@ class MenuScene: SKScene {
         }
         
         // Parıldama efekti
-        let sparkle = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let sparkle = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         sparkle.text = "✨"
         sparkle.fontSize = 20
         sparkle.position = position
@@ -861,7 +861,7 @@ class MenuScene: SKScene {
         )
         
         for i in 0..<6 { // Daha az parçacık
-            let burst = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let burst = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             burst.text = ["✨", "⭐", "💫"].randomElement()! // Daha az çeşit
             burst.fontSize = 14 // Daha küçük
             burst.position = burstPosition

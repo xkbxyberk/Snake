@@ -18,7 +18,7 @@ extension GameScene {
         let sequence = SKAction.sequence([flashIn, flashOut, remove])
         flashOverlay.run(sequence)
         
-        let recordLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let recordLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         recordLabel.text = "🏆 NEW RECORD! 🏆"
         recordLabel.fontSize = 24
         recordLabel.fontColor = .yellow
@@ -120,7 +120,7 @@ extension GameScene {
     
     // MARK: - Duraklatma Menüsü Başlığı
     internal func createPauseTitle() {
-        let pauseLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let pauseLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         pauseLabel.text = "⏸️ PAUSED ⏸️"
         pauseLabel.fontSize = 36
         pauseLabel.fontColor = .white
@@ -130,7 +130,7 @@ extension GameScene {
         pauseLabel.alpha = 0.0
         addChild(pauseLabel)
         
-        let shadowLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let shadowLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         shadowLabel.text = "PAUSED"
         shadowLabel.fontSize = 36
         shadowLabel.fontColor = shadowColor
@@ -259,7 +259,7 @@ extension GameScene {
         buttonContainer.addChild(border)
         
         // İkon
-        let iconLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let iconLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         iconLabel.text = icon
         iconLabel.fontSize = 18
         iconLabel.verticalAlignmentMode = .center
@@ -304,7 +304,7 @@ extension GameScene {
             buttonContainer.addChild(highlight)
         }
         
-        let label = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let label = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         label.text = text
         label.fontSize = 14
         label.fontColor = isPrimary ? backgroundGreen : .white
@@ -395,7 +395,7 @@ extension GameScene {
         addChild(textContainer)
         
         // GET READY metni
-        let getReadyLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let getReadyLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         getReadyLabel.text = "⚡ GET READY! ⚡"
         getReadyLabel.fontSize = 28
         getReadyLabel.fontColor = glowColor
@@ -406,7 +406,7 @@ extension GameScene {
         textContainer.addChild(getReadyLabel)
         
         // Gölge efekti
-        let shadowLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let shadowLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         shadowLabel.text = "GET READY!"
         shadowLabel.fontSize = 28
         shadowLabel.fontColor = shadowColor

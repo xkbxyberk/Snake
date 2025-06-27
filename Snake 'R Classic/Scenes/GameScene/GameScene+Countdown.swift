@@ -40,7 +40,7 @@ extension GameScene {
         countdownContainer.name = "countdownContainer"
         addChild(countdownContainer)
         
-        countdownLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        countdownLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         countdownLabel.fontSize = 120
         countdownLabel.fontColor = .white
         countdownLabel.horizontalAlignmentMode = .center
@@ -49,7 +49,7 @@ extension GameScene {
         countdownLabel.zPosition = 3
         countdownContainer.addChild(countdownLabel)
         
-        countdownShadow = SKLabelNode(fontNamed: "Jersey15-Regular")
+        countdownShadow = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         countdownShadow.fontSize = 120
         countdownShadow.fontColor = shadowColor
         countdownShadow.horizontalAlignmentMode = .center

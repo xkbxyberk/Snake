@@ -20,7 +20,7 @@ extension GameScene {
         dialogBg.zPosition = 1
         nameInputContainer!.addChild(dialogBg)
         
-        let titleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let titleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleLabel.text = "🏆 SAVE YOUR SCORE"
         titleLabel.fontSize = 18
         titleLabel.fontColor = backgroundGreen
@@ -28,7 +28,7 @@ extension GameScene {
         titleLabel.zPosition = 2
         nameInputContainer!.addChild(titleLabel)
         
-        let scoreLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let scoreLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         scoreLabel.text = "SCORE: \(currentGameScore)"
         scoreLabel.fontSize = 20
         scoreLabel.fontColor = backgroundGreen
@@ -42,7 +42,7 @@ extension GameScene {
         inputBg.zPosition = 2
         nameInputContainer!.addChild(inputBg)
         
-        let placeholderLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let placeholderLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         placeholderLabel.text = "ENTER YOUR NAME..."
         placeholderLabel.fontSize = 14
         placeholderLabel.fontColor = SKColor.gray
@@ -51,7 +51,7 @@ extension GameScene {
         placeholderLabel.name = "placeholderText"
         nameInputContainer!.addChild(placeholderLabel)
         
-        let nameDisplayLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let nameDisplayLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         nameDisplayLabel.text = ""
         nameDisplayLabel.fontSize = 16
         nameDisplayLabel.fontColor = primaryColor
@@ -94,7 +94,7 @@ extension GameScene {
         saveButton.zPosition = 2
         nameInputContainer!.addChild(saveButton)
         
-        let saveLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let saveLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         saveLabel.text = "💾 SAVE"
         saveLabel.fontSize = 12
         saveLabel.fontColor = primaryColor
@@ -110,7 +110,7 @@ extension GameScene {
         anonButton.zPosition = 2
         nameInputContainer!.addChild(anonButton)
         
-        let anonLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let anonLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         anonLabel.text = "👤 ANONYMOUS"
         anonLabel.fontSize = 12
         anonLabel.fontColor = .white
@@ -223,7 +223,7 @@ extension GameScene {
     }
     
     internal func createGameOverAnimation() {
-        gameOverLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        gameOverLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         gameOverLabel.text = "💀 GAME OVER 💀"
         gameOverLabel.fontSize = 36
         gameOverLabel.fontColor = SKColor.red
@@ -232,7 +232,7 @@ extension GameScene {
         gameOverLabel.alpha = 0.0
         addChild(gameOverLabel)
         
-        let shadowLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let shadowLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         shadowLabel.text = "GAME OVER"
         shadowLabel.fontSize = 36
         shadowLabel.fontColor = shadowColor
@@ -283,14 +283,14 @@ extension GameScene {
         scoreBg.lineWidth = 3
         scoreContainer.addChild(scoreBg)
         
-        let finalScoreLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let finalScoreLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         finalScoreLabel.text = "SCORE: \(currentGameScore)"
         finalScoreLabel.fontSize = 20
         finalScoreLabel.fontColor = backgroundGreen
         finalScoreLabel.position = CGPoint(x: 0, y: 15)
         scoreContainer.addChild(finalScoreLabel)
         
-        let bestScoreLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let bestScoreLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         bestScoreLabel.text = "BEST: \(allTimeHighScore)"
         bestScoreLabel.fontSize = 16
         bestScoreLabel.fontColor = backgroundGreen
@@ -298,7 +298,7 @@ extension GameScene {
         scoreContainer.addChild(bestScoreLabel)
         
         if isNewRecord {
-            let newRecordLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let newRecordLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             newRecordLabel.text = "🏆 NEW RECORD! 🏆"
             newRecordLabel.fontSize = 14
             newRecordLabel.fontColor = SKColor.yellow
@@ -378,7 +378,7 @@ extension GameScene {
             buttonContainer.addChild(highlight)
         }
         
-        let label = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let label = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         label.text = text
         label.fontSize = 18
         label.fontColor = isPrimary ? backgroundGreen : .white

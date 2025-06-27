@@ -61,7 +61,7 @@ class AboutScene: SKScene {
     }
     
     private func createEnhancedTitle() {
-        titleLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        titleLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleLabel.text = "ℹ️ ABOUT ℹ️"
         titleLabel.fontSize = 36
         titleLabel.fontColor = primaryColor
@@ -69,7 +69,7 @@ class AboutScene: SKScene {
         titleLabel.zPosition = 10
         addChild(titleLabel)
         
-        let titleShadow = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let titleShadow = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         titleShadow.text = "ABOUT"
         titleShadow.fontSize = 36
         titleShadow.fontColor = shadowColor
@@ -138,14 +138,14 @@ class AboutScene: SKScene {
         highlight.zPosition = 3
         cardContainer.addChild(highlight)
         
-        let gameIcon = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let gameIcon = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         gameIcon.text = "🐍"
         gameIcon.fontSize = 24
         gameIcon.position = CGPoint(x: -cardWidth/2 + 35, y: 5)
         gameIcon.zPosition = 4
         cardContainer.addChild(gameIcon)
         
-        let gameTitle = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let gameTitle = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         gameTitle.text = "SNAKE"
         gameTitle.fontSize = 18
         gameTitle.fontColor = primaryColor
@@ -154,7 +154,7 @@ class AboutScene: SKScene {
         gameTitle.zPosition = 4
         cardContainer.addChild(gameTitle)
         
-        let version = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let version = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         version.text = "'Retro Classic v1.0"
         version.fontSize = 12
         version.fontColor = accentColor
@@ -163,7 +163,7 @@ class AboutScene: SKScene {
         version.zPosition = 4
         cardContainer.addChild(version)
         
-        let description = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let description = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         description.text = "The classic snake game with modern PixelArt!"
         description.fontSize = 10
         description.fontColor = accentColor
@@ -210,7 +210,7 @@ class AboutScene: SKScene {
         card.zPosition = 2
         cardContainer.addChild(card)
         
-        let title = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let title = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         title.text = "🎮 CONTROLS"
         title.fontSize = 16
         title.fontColor = primaryColor
@@ -226,7 +226,7 @@ class AboutScene: SKScene {
         ]
         
         for (index, control) in controls.enumerated() {
-            let controlLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+            let controlLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
             controlLabel.text = control
             controlLabel.fontSize = 10
             controlLabel.fontColor = accentColor
@@ -280,14 +280,14 @@ class AboutScene: SKScene {
         specialHighlight.zPosition = 3
         cardContainer.addChild(specialHighlight)
         
-        let devIcon = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let devIcon = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         devIcon.text = "👨‍💻"
         devIcon.fontSize = 20
         devIcon.position = CGPoint(x: -cardWidth/2 + 35, y: 5)
         devIcon.zPosition = 4
         cardContainer.addChild(devIcon)
         
-        let devLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let devLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         devLabel.text = "DEVELOPED BY:"
         devLabel.fontSize = 12
         devLabel.fontColor = accentColor
@@ -296,7 +296,7 @@ class AboutScene: SKScene {
         devLabel.zPosition = 4
         cardContainer.addChild(devLabel)
         
-        let devName = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let devName = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         devName.text = "BERK AKBAY"
         devName.fontSize = 16
         devName.fontColor = primaryColor
@@ -305,7 +305,7 @@ class AboutScene: SKScene {
         devName.zPosition = 4
         cardContainer.addChild(devName)
         
-        let copyright = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let copyright = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         copyright.text = "© 2025 - Made with ❤️"
         copyright.fontSize = 10
         copyright.fontColor = accentColor
@@ -352,8 +352,8 @@ class AboutScene: SKScene {
         card.zPosition = 2
         cardContainer.addChild(card)
         
-        let fontTitle = SKLabelNode(fontNamed: "Jersey15-Regular")
-        fontTitle.text = "🔤 Font: Jersey 15"
+        let fontTitle = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+        fontTitle.text = "🔤 Font: Doto"
         fontTitle.fontSize = 14
         fontTitle.fontColor = primaryColor
         fontTitle.horizontalAlignmentMode = .left
@@ -361,8 +361,8 @@ class AboutScene: SKScene {
         fontTitle.zPosition = 4
         cardContainer.addChild(fontTitle)
 
-        let copyrightNotice = SKLabelNode(fontNamed: "Jersey15-Regular")
-        copyrightNotice.text = "Copyright 2023 The Soft Type Project Authors"
+        let copyrightNotice = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+        copyrightNotice.text = "Copyright 2024 The Doto Project Authors"
         copyrightNotice.fontSize = 10
         copyrightNotice.fontColor = accentColor
         copyrightNotice.horizontalAlignmentMode = .left
@@ -370,7 +370,7 @@ class AboutScene: SKScene {
         copyrightNotice.zPosition = 4
         cardContainer.addChild(copyrightNotice)
 
-        let licenseNotice = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let licenseNotice = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         licenseNotice.text = "Licensed under SIL Open Font License 1.1"
         licenseNotice.fontSize = 10
         licenseNotice.fontColor = accentColor
@@ -379,7 +379,7 @@ class AboutScene: SKScene {
         licenseNotice.zPosition = 4
         cardContainer.addChild(licenseNotice)
         
-        let tapHintLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let tapHintLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         tapHintLabel.text = "(Tap for License text)"
         tapHintLabel.fontSize = 10
         tapHintLabel.fontColor = primaryColor.withAlphaComponent(0.7)
@@ -426,14 +426,14 @@ class AboutScene: SKScene {
         card.zPosition = 2
         cardContainer.addChild(card)
         
-        let privacyIcon = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyIcon = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyIcon.text = "🔒"
         privacyIcon.fontSize = 16
         privacyIcon.position = CGPoint(x: -cardWidth/2 + 30, y: 5)
         privacyIcon.zPosition = 4
         cardContainer.addChild(privacyIcon)
         
-        let privacyTitle = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyTitle = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyTitle.text = "PRIVACY POLICY"
         privacyTitle.fontSize = 14
         privacyTitle.fontColor = primaryColor
@@ -442,7 +442,7 @@ class AboutScene: SKScene {
         privacyTitle.zPosition = 4
         cardContainer.addChild(privacyTitle)
 
-        let privacyDesc = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyDesc = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyDesc.text = "Your privacy is important to us"
         privacyDesc.fontSize = 10
         privacyDesc.fontColor = accentColor
@@ -451,7 +451,7 @@ class AboutScene: SKScene {
         privacyDesc.zPosition = 4
         cardContainer.addChild(privacyDesc)
 
-        let privacyInfo = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyInfo = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyInfo.text = "All data stays on your device"
         privacyInfo.fontSize = 10
         privacyInfo.fontColor = accentColor
@@ -460,7 +460,7 @@ class AboutScene: SKScene {
         privacyInfo.zPosition = 4
         cardContainer.addChild(privacyInfo)
         
-        let tapHintLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let tapHintLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         tapHintLabel.text = "(Tap for Privacy Policy)"
         tapHintLabel.fontSize = 10
         tapHintLabel.fontColor = primaryColor.withAlphaComponent(0.7)
@@ -500,7 +500,7 @@ class AboutScene: SKScene {
         panel.lineWidth = 4
         licenseOverlay.addChild(panel)
         
-        overlayTitle = SKLabelNode(fontNamed: "Jersey15-Regular")
+        overlayTitle = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         overlayTitle.text = "🔤 FONT LICENSE"
         overlayTitle.fontSize = 20
         overlayTitle.fontColor = primaryColor
@@ -509,7 +509,7 @@ class AboutScene: SKScene {
         overlayTitle.zPosition = 2
         panel.addChild(overlayTitle)
         
-        let closeButton = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let closeButton = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         closeButton.text = "[ X ]"
         closeButton.fontSize = 24
         closeButton.fontColor = primaryColor
@@ -518,7 +518,7 @@ class AboutScene: SKScene {
         closeButton.zPosition = 2
         panel.addChild(closeButton)
         
-        pageLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        pageLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         pageLabel.fontSize = 14
         pageLabel.fontColor = primaryColor
         pageLabel.horizontalAlignmentMode = .center
@@ -529,7 +529,7 @@ class AboutScene: SKScene {
         let textFrameWidth = panelWidth - 40
         let textFrameHeight = panelHeight - 140
         
-        textDisplayLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        textDisplayLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         textDisplayLabel.fontSize = 11
         textDisplayLabel.fontColor = primaryColor
         textDisplayLabel.numberOfLines = 0
@@ -563,7 +563,7 @@ class AboutScene: SKScene {
         panel.lineWidth = 4
         privacyOverlay.addChild(panel)
         
-        let privacyTitle = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyTitle = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyTitle.text = "🔒 PRIVACY POLICY"
         privacyTitle.fontSize = 20
         privacyTitle.fontColor = primaryColor
@@ -573,7 +573,7 @@ class AboutScene: SKScene {
         privacyTitle.name = "privacyOverlayTitle"
         panel.addChild(privacyTitle)
         
-        let closePrivacyButton = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let closePrivacyButton = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         closePrivacyButton.text = "[ X ]"
         closePrivacyButton.fontSize = 24
         closePrivacyButton.fontColor = primaryColor
@@ -582,7 +582,7 @@ class AboutScene: SKScene {
         closePrivacyButton.zPosition = 2
         panel.addChild(closePrivacyButton)
         
-        let privacyPageLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyPageLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyPageLabel.fontSize = 14
         privacyPageLabel.fontColor = primaryColor
         privacyPageLabel.horizontalAlignmentMode = .center
@@ -594,7 +594,7 @@ class AboutScene: SKScene {
         let textFrameWidth = panelWidth - 40
         let textFrameHeight = panelHeight - 140
         
-        let privacyTextLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyTextLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyTextLabel.fontSize = 11
         privacyTextLabel.fontColor = primaryColor
         privacyTextLabel.numberOfLines = 0
@@ -623,7 +623,7 @@ class AboutScene: SKScene {
         prevButton.zPosition = 2
         panel.addChild(prevButton)
         
-        let prevLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let prevLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         prevLabel.text = "◀ PREV"
         prevLabel.fontSize = 14
         prevLabel.fontColor = backgroundGreen
@@ -641,7 +641,7 @@ class AboutScene: SKScene {
         nextButton.zPosition = 2
         panel.addChild(nextButton)
         
-        let nextLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let nextLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         nextLabel.text = "NEXT ▶"
         nextLabel.fontSize = 14
         nextLabel.fontColor = backgroundGreen
@@ -665,7 +665,7 @@ class AboutScene: SKScene {
         privacyPrevButton.zPosition = 2
         panel.addChild(privacyPrevButton)
         
-        let privacyPrevLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyPrevLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyPrevLabel.text = "◀ PREV"
         privacyPrevLabel.fontSize = 14
         privacyPrevLabel.fontColor = backgroundGreen
@@ -683,7 +683,7 @@ class AboutScene: SKScene {
         privacyNextButton.zPosition = 2
         panel.addChild(privacyNextButton)
         
-        let privacyNextLabel = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let privacyNextLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         privacyNextLabel.text = "NEXT ▶"
         privacyNextLabel.fontSize = 14
         privacyNextLabel.fontColor = backgroundGreen
@@ -695,7 +695,7 @@ class AboutScene: SKScene {
     
     private func createLicensePages() {
         let page1Text = """
-        Copyright 2023 The Soft Type Project Authors (https://github.com/scfried/soft-type-jersey)
+        Copyright 2024 The Doto Project Authors (https://github.com/oliverlalan/Doto)
 
         This Font Software is licensed under the SIL Open Font License, Version 1.1.
         This license is copied below, and is also available with a FAQ at:
@@ -1107,7 +1107,7 @@ class AboutScene: SKScene {
         shadow.zPosition = -1
         backButton.addChild(shadow)
         
-        let label = SKLabelNode(fontNamed: "Jersey15-Regular")
+        let label = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         label.text = "🏠 BACK"
         label.fontSize = 18
         label.fontColor = backgroundGreen
