@@ -103,10 +103,19 @@ extension GameScene {
             height: controlsHeight
         )
         
+        // Border thickness hesapla (header line için gerekli)
+        let borderThickness = floor(cellSize * 0.6)
+        let headerLineThickness = floor(cellSize * 0.6)
+        let headerGap = floor(cellSize * 1.0) // Gap'i azalttık
+        
         // Section 3: Game Area (kalan alanda ortala)
         let gameAreaMargin = floor(cellSize * 1.5)
         let gameAreaY = controlsY + controlsHeight + gameAreaMargin
-        let gameAreaHeight = topBarY - gameAreaY - gameAreaMargin - floor(cellSize * 2.0) // Header için yer
+        
+        // Header için toplam yer ayır (divider + gap + border space)
+        let totalHeaderSpace = headerLineThickness + (headerGap * 2) + borderThickness
+        
+        let gameAreaHeight = topBarY - gameAreaY - gameAreaMargin - totalHeaderSpace
         
         // Oyun alanını ortala
         let gameAreaX = floor((screenBounds.width - gameAreaWidth) / 2)
@@ -117,20 +126,24 @@ extension GameScene {
             height: min(gameAreaHeight, self.gameAreaHeight)
         )
         
-        // Section 2: Header Line (oyun alanının hemen üstünde)
-        let headerLineY = gameAreaRect.maxY + floor(cellSize * 0.5)
+        // Section 2: Header Line (Oyun alanının border'ından tamamen ayrı)
+        let gameAreaTopBorder = gameAreaRect.maxY + borderThickness
+        let headerLineY = gameAreaTopBorder + headerGap + (headerLineThickness / 2)
         let headerLinePosition = CGPoint(x: screenBounds.width / 2, y: headerLineY)
+        
+        // Header Line genişliği - oyun alanından daha kısa (divider gibi)
+        let headerLineWidth = floor(gameAreaWidth * 0.7) // %70'i kadar
         
         // Global değişkenleri güncelle
         gameAreaStartX = gameAreaRect.minX
         gameAreaStartY = gameAreaRect.minY
         headerBarStartY = headerLineY
-        headerBarHeight = floor(cellSize * 0.6)
+        headerBarHeight = headerLineThickness
         
         return LayoutSections(
             topBarRect: topBarRect,
             headerLinePosition: headerLinePosition,
-            headerLineWidth: gameAreaWidth,
+            headerLineWidth: headerLineWidth,
             gameAreaRect: gameAreaRect,
             controlsRect: controlsRect
         )
@@ -239,7 +252,7 @@ extension GameScene {
     }
     
     // MARK: - Section 2: Header Line Setup
-    /// Header line kurulumu
+    /// Header line kurulumu (Bağımsız Divider)
     internal func setupHeaderLine(at position: CGPoint, width: CGFloat) {
         let pixelSize = floor(cellSize / 5)
         let headerThickness = floor(cellSize * 0.6)
@@ -251,7 +264,7 @@ extension GameScene {
         headerContainer.zPosition = 5
         addChild(headerContainer)
         
-        // Pixel bloklar halinde header line
+        // Bağımsız divider - oyun alanından daha kısa
         let pixelsWide = Int(floor(width / pixelSize))
         let pixelsHigh = max(1, Int(floor(headerThickness / pixelSize)))
         
@@ -269,7 +282,7 @@ extension GameScene {
             }
         }
         
-        // Geriye dönük uyumluluk için
+        // Geriye dönük uyumluluk için (şimdi daha kısa)
         headerBar = SKSpriteNode(color: .clear, size: CGSize(width: width, height: headerThickness))
         headerBar.position = position
         headerBar.zPosition = 0
@@ -284,7 +297,7 @@ extension GameScene {
     }
     
     // MARK: - Game Borders Setup
-    /// Oyun alanı borderleri
+    /// Oyun alanı borderleri (Header Line'dan bağımsız)
     internal func setupGameBorders() {
         let pixelSize = floor(cellSize / 5)
         let borderThickness = floor(cellSize * 0.6)
@@ -295,9 +308,9 @@ extension GameScene {
         borderContainer.zPosition = 8
         addChild(borderContainer)
         
-        // Border segmentleri
+        // Border segmentleri - sadece oyun alanını çevreleyen
         let borderSegments = [
-            // Üst border
+            // Üst border (header line'dan ayrı)
             BorderSegment(
                 x: gameAreaStartX - borderThickness,
                 y: gameAreaStartY + gameAreaHeight,
