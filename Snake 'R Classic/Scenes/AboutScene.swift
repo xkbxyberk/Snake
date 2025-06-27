@@ -110,7 +110,7 @@ class AboutScene: SKScene {
         cardContainer.name = "gameCard"
         cardContainer.zPosition = 5
         
-        let cardWidth: CGFloat = 300
+        let cardWidth: CGFloat = 350
         let cardHeight: CGFloat = 100
         
         let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: cardWidth + 40, height: cardHeight + 20))
@@ -174,7 +174,7 @@ class AboutScene: SKScene {
         
         cardContainer.alpha = 0.0
         cardContainer.setScale(0.8)
-        let delay = SKAction.wait(forDuration: 0.15)
+        let delay = SKAction.wait(forDuration: 0.04)
         let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
         let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
         let entrance = SKAction.group([fadeIn, scaleUp])
@@ -188,8 +188,8 @@ class AboutScene: SKScene {
         cardContainer.name = "controlsCard"
         cardContainer.zPosition = 5
         
-        let cardWidth: CGFloat = 300
-        let cardHeight: CGFloat = 100
+        let cardWidth: CGFloat = 350
+        let cardHeight: CGFloat = 85
         
         let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: cardWidth + 40, height: cardHeight + 20))
         hitArea.position = CGPoint.zero
@@ -252,7 +252,7 @@ class AboutScene: SKScene {
         cardContainer.name = "developerCard"
         cardContainer.zPosition = 5
         
-        let cardWidth: CGFloat = 300
+        let cardWidth: CGFloat = 350
         let cardHeight: CGFloat = 85
         
         let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: cardWidth + 40, height: cardHeight + 20))
@@ -330,7 +330,7 @@ class AboutScene: SKScene {
         cardContainer.name = "fontCard"
         cardContainer.zPosition = 5
         
-        let cardWidth: CGFloat = 300
+        let cardWidth: CGFloat = 350
         let cardHeight: CGFloat = 85
         
         let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: cardWidth + 40, height: cardHeight + 20))
@@ -404,7 +404,7 @@ class AboutScene: SKScene {
         cardContainer.name = "privacyCard"
         cardContainer.zPosition = 5
         
-        let cardWidth: CGFloat = 300
+        let cardWidth: CGFloat = 350
         let cardHeight: CGFloat = 85
         
         let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: cardWidth + 40, height: cardHeight + 20))
@@ -511,7 +511,7 @@ class AboutScene: SKScene {
         
         let closeButton = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         closeButton.text = "[ X ]"
-        closeButton.fontSize = 24
+        closeButton.fontSize = 16
         closeButton.fontColor = primaryColor
         closeButton.name = "closeLicenseButton"
         closeButton.position = CGPoint(x: panelWidth/2 - 30, y: panelHeight/2 - 30)
@@ -575,7 +575,7 @@ class AboutScene: SKScene {
         
         let closePrivacyButton = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
         closePrivacyButton.text = "[ X ]"
-        closePrivacyButton.fontSize = 24
+        closePrivacyButton.fontSize = 16
         closePrivacyButton.fontColor = primaryColor
         closePrivacyButton.name = "closePrivacyButton"
         closePrivacyButton.position = CGPoint(x: panelWidth/2 - 30, y: panelHeight/2 - 30)

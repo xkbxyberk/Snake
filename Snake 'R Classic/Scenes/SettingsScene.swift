@@ -168,7 +168,7 @@ class SettingsScene: SKScene {
         descLabel.fontColor = SKColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1.0)
         descLabel.horizontalAlignmentMode = .left
         descLabel.verticalAlignmentMode = .center
-        descLabel.position = CGPoint(x: -size.width/2 + 20, y: -12)
+        descLabel.position = CGPoint(x: -size.width/2 + 20, y: -15)
         descLabel.zPosition = 3
         cardContainer.addChild(descLabel)
         
@@ -291,7 +291,7 @@ class SettingsScene: SKScene {
             
             let dot = SKSpriteNode(color: isActive ? enabledColor : disabledColor,
                                  size: CGSize(width: 12, height: 12))
-            dot.position = CGPoint(x: startX + CGFloat(i) * dotSpacing, y: 8)
+            dot.position = CGPoint(x: startX + CGFloat(i) * dotSpacing, y: 12)
             dot.name = "speedDot\(speed)"
             indicatorContainer.addChild(dot)
             
@@ -300,7 +300,7 @@ class SettingsScene: SKScene {
             label.fontSize = 9
             label.fontColor = isActive ? primaryColor : disabledColor
             label.horizontalAlignmentMode = .center
-            label.position = CGPoint(x: startX + CGFloat(i) * dotSpacing, y: -8)
+            label.position = CGPoint(x: startX + CGFloat(i) * dotSpacing, y: -12)
             label.name = "speedLabel\(speed)"
             indicatorContainer.addChild(label)
             
