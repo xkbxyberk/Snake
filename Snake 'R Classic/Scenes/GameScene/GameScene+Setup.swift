@@ -2,11 +2,11 @@ import SpriteKit
 import GameplayKit
 import UIKit
 
-// MARK: - GameScene Setup Extension - Responsive Layout Architecture
+// MARK: - GameScene Setup Extension - Responsive Layout Architecture (DÜZELTILMIŞ)
 extension GameScene {
     
-    // MARK: - Main Layout Orchestrator
-    /// Ana layout hesaplama fonksiyonu - artık bir orkestratör olarak çalışır
+    // MARK: - Main Layout Orchestrator (Güncellenmiş)
+    /// Ana layout hesaplama fonksiyonu - artık deterministik sıralı yaklaşımla
     internal func calculateGameArea() {
         // Safe area ve ekran boyutlarını al
         let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
@@ -16,10 +16,10 @@ extension GameScene {
         let availableWidth = screenBounds.width - safeAreaInsets.left - safeAreaInsets.right
         let availableHeight = screenBounds.height - safeAreaInsets.top - safeAreaInsets.bottom
         
-        // Sabit grid boyutları için optimal cell size hesapla
+        // Başlangıç tahmini (artık sadece başlangıç için)
         calculateDynamicCellSize(availableWidth: availableWidth, availableHeight: availableHeight)
         
-        // Layout bölgelerini hesapla (tersten: top/bottom önce, game area sonra)
+        // YENİ SAĞLAM YAKLAŞIM: Layout bölgelerini hesapla (tersten: alanlar önce, cellSize sonra)
         let layoutSections = calculateLayoutSections(
             availableWidth: availableWidth,
             availableHeight: availableHeight,
@@ -37,34 +37,29 @@ extension GameScene {
         ensurePixelPerfectAlignment()
     }
     
-    // MARK: - Dynamic Cell Size Calculation
-    /// Sabit 25x35 grid için dinamik cell size hesaplama
+    // MARK: - Basitleştirilmiş Dynamic Cell Size Calculation (Güncellendi)
+    /// Başlangıç tahmini için cell size hesaplama - gerçek hesaplama calculateLayoutSections'ta
     private func calculateDynamicCellSize(availableWidth: CGFloat, availableHeight: CGFloat) {
-        // Layout için rezerve alan (top bar + controls + spacing)
-        let topBarHeight = floor(availableHeight * 0.1) // %10 top bar
-        let controlsHeight = floor(availableHeight * 0.25) // %25 controls
-        let spacingAndBorders = cellSize * 3.0 // Spacing ve border için
+        // Bu artık sadece başlangıç tahmini yapıyor
+        // Gerçek cellSize calculateLayoutSections içinde NET alan bilgisiyle hesaplanacak
         
-        // Oyun alanı için kalan alan
-        let availableGameHeight = availableHeight - topBarHeight - controlsHeight - spacingAndBorders
-        let availableGameWidth = availableWidth - (cellSize * 2.0) // Border margin
+        // Geçici tahmin değerleri
+        let estimatedGameHeight = availableHeight * 0.55 // %55 oyun alanı tahmini
+        let estimatedGameWidth = availableWidth * 0.85   // %85 oyun alanı tahmini
         
-        // 25x35 grid için optimal cell size
-        let widthRatio = availableGameWidth / CGFloat(gameWidth)
-        let heightRatio = availableGameHeight / CGFloat(gameHeight)
+        let widthRatio = estimatedGameWidth / CGFloat(gameWidth)
+        let heightRatio = estimatedGameHeight / CGFloat(gameHeight)
         
-        // En küçük oranı al ve pixel-perfect yap
+        // Geçici cellSize (calculateLayoutSections override edecek)
         cellSize = floor(min(widthRatio, heightRatio))
-        
-        // Minimum ve maksimum sınırlar
         cellSize = max(8.0, min(cellSize, 28.0))
         
-        // Oyun alanı boyutlarını hesapla
+        // Geçici oyun alanı boyutları (calculateLayoutSections override edecek)
         gameAreaWidth = CGFloat(gameWidth) * cellSize
         gameAreaHeight = CGFloat(gameHeight) * cellSize
     }
     
-    // MARK: - Layout Sections Structure
+    // MARK: - Layout Sections Structure (Aynı)
     /// Layout bölümlerini temsil eden yapı
     private struct LayoutSections {
         let topBarRect: CGRect
@@ -74,7 +69,8 @@ extension GameScene {
         let controlsRect: CGRect
     }
     
-    /// Layout bölümlerini hesapla (sıralı yaklaşım - düzeltilmiş versiyon)
+    // MARK: - YENİ SAĞLAM YAKLAŞIM: Layout Hesaplama (TAMAMEN YENİDEN YAZILDI)
+    /// Layout bölümlerini hesapla - Sabit alanlar önce, sonra cellSize
     private func calculateLayoutSections(
         availableWidth: CGFloat,
         availableHeight: CGFloat,
@@ -83,7 +79,8 @@ extension GameScene {
         
         let screenBounds = UIScreen.main.bounds
         
-        // Section 1: Top Bar (ekranın en üstünden - mevcut mantık korundu)
+        // ADIM 1: Sabit Dikey Alanları Tanımla
+        // Top Bar - ekranın %10'u (sabit)
         let topBarHeight = floor(availableHeight * 0.1)
         let topBarY = screenBounds.height - safeAreaInsets.top - topBarHeight
         let topBarRect = CGRect(
@@ -93,7 +90,7 @@ extension GameScene {
             height: topBarHeight
         )
         
-        // Section 4: Controls Area (ekranın en altından - mevcut mantık korundu)
+        // Controls Area - ekranın %25'i (sabit)
         let controlsHeight = floor(availableHeight * 0.25)
         let controlsY = safeAreaInsets.bottom
         let controlsRect = CGRect(
@@ -103,42 +100,66 @@ extension GameScene {
             height: controlsHeight
         )
         
-        // Header line ve gap hesaplamaları
-        let headerLineThickness = floor(cellSize * 0.6)
-        let sectionGap = floor(cellSize * 1.5) // Bölümler arası tutarlı boşluk
+        // ADIM 2: Boşlukları ve Ayırıcıları Tanımla (SABİT DEĞERLER)
+        let sectionGap: CGFloat = 15.0 // Sabit bölüm arası boşluk
+        let headerLineThickness: CGFloat = 8.0 // Sabit HeaderLine kalınlığı
         
-        // Section 2: Header Line (TopBar'ın altına, bağımsız olarak yerleştir)
+        // HeaderLine pozisyonunu TopBar'ın altında, kesin olarak hesapla
         let headerLineY = topBarRect.minY - sectionGap - (headerLineThickness / 2)
         let headerLinePosition = CGPoint(x: screenBounds.width / 2, y: headerLineY)
         
-        // Header Line genişliği - bağımsız bir ayırıcı olarak
-        let headerLineWidth = floor(gameAreaWidth * 0.7) // GameArea genişliğinin %70'i
-        
-        // Section 3: Game Area (HeaderLine'ın altına, bağımsız olarak yerleştir)
-        // GameArea'nın üst sınırını HeaderLine'ın altından hesapla
+        // ADIM 3: Net Kullanılabilir Oyun Alanı Yüksekliğini Hesapla
+        // GameArea'nın üst sınırı: HeaderLine'ın altından başlar
         let gameAreaTopY = headerLineY - (headerLineThickness / 2) - sectionGap
         
-        // GameArea'nın alt sınırını Controls'ın üstünden hesapla
+        // GameArea'nın alt sınırı: Controls'ın üstünde biter
         let gameAreaBottomY = controlsRect.maxY + sectionGap
         
-        // GameArea'nın yüksekliğini kalan alanla dinamik olarak hesapla
-        let availableGameAreaHeight = gameAreaTopY - gameAreaBottomY
-        let finalGameAreaHeight = min(availableGameAreaHeight, self.gameAreaHeight)
+        // NET kullanılabilir yükseklik - bu kesin değer!
+        let netGameAreaHeight = gameAreaTopY - gameAreaBottomY
         
-        // GameArea'yı yatayda ortala
-        let gameAreaX = floor((screenBounds.width - gameAreaWidth) / 2)
+        // ADIM 4: Kesin cellSize ve Oyun Alanı Boyutlarını Hesapla
+        // Artık NET alanı biliyoruz, cellSize'ı buna göre hesaplıyoruz
+        let availableGameWidth = availableWidth - (sectionGap * 2) // Yan margin'lar için
         
-        // GameArea'yı belirlenen konumda oluştur
+        // 25x35 grid için optimal cell size - NET alana göre
+        let widthRatio = availableGameWidth / CGFloat(gameWidth)
+        let heightRatio = netGameAreaHeight / CGFloat(gameHeight)
+        
+        // En küçük oranı al ve pixel-perfect yap
+        let finalCellSize = floor(min(widthRatio, heightRatio))
+        
+        // Global cellSize'ı güncelle - bu artık KESİN değer
+        cellSize = max(8.0, min(finalCellSize, 28.0))
+        
+        // Final game area boyutları
+        let finalGameAreaWidth = CGFloat(gameWidth) * cellSize
+        let finalGameAreaHeight = CGFloat(gameHeight) * cellSize
+        
+        // ADIM 5: Final GameArea'yı NET Alan İçinde Konumlandır
+        // Yatayda ortala
+        let gameAreaX = floor((screenBounds.width - finalGameAreaWidth) / 2)
+        
+        // Dikeyde NET kullanılabilir alan içinde ortala
+        let availableVerticalSpace = netGameAreaHeight
+        let verticalCenterOffset = (availableVerticalSpace - finalGameAreaHeight) / 2
+        let gameAreaY = gameAreaBottomY + verticalCenterOffset
+        
         let gameAreaRect = CGRect(
             x: gameAreaX,
-            y: gameAreaBottomY,
-            width: gameAreaWidth,
+            y: gameAreaY,
+            width: finalGameAreaWidth,
             height: finalGameAreaHeight
         )
+        
+        // HeaderLine genişliği - GameArea'dan bağımsız, daha kısa bir ayırıcı
+        let headerLineWidth = floor(finalGameAreaWidth * 0.95)
         
         // Global değişkenleri güncelle
         gameAreaStartX = gameAreaRect.minX
         gameAreaStartY = gameAreaRect.minY
+        gameAreaWidth = finalGameAreaWidth
+        gameAreaHeight = finalGameAreaHeight
         headerBarStartY = headerLineY
         headerBarHeight = headerLineThickness
         
@@ -151,7 +172,7 @@ extension GameScene {
         )
     }
     
-    // MARK: - Section 1: Top Bar Setup
+    // MARK: - Section 1: Top Bar Setup (Aynı)
     /// Top Bar kurulumu (Pause button + skorlar)
     internal func setupTopBar(in rect: CGRect) {
         // Pause button (sol üst)
@@ -163,7 +184,7 @@ extension GameScene {
         createPauseButton(at: pausePosition, size: pauseButtonSize)
         
         // Score labels (sağ üst)
-        let scoreFontSize = floor(cellSize * 1.3)
+        let scoreFontSize = floor(cellSize * 1.5)
         let scoreRightMargin = rect.maxX - floor(cellSize * 0.5)
         
         createScoreLabels(
@@ -253,8 +274,8 @@ extension GameScene {
         addChild(highScoreLabel)
     }
     
-    // MARK: - Section 2: Header Line Setup
-    /// Header line kurulumu (Bağımsız Divider)
+    // MARK: - Section 2: Header Line Setup (Güncellendi)
+    /// Header line kurulumu (Bağımsız Divider - Artık asla GameArea'ya dokunmaz)
     internal func setupHeaderLine(at position: CGPoint, width: CGFloat) {
         let pixelSize = floor(cellSize / 5)
         let headerThickness = floor(cellSize * 0.6)
@@ -266,7 +287,7 @@ extension GameScene {
         headerContainer.zPosition = 5
         addChild(headerContainer)
         
-        // Bağımsız divider - oyun alanından daha kısa
+        // Bağımsız divider - oyun alanından daha kısa ve tamamen ayrı
         let pixelsWide = Int(floor(width / pixelSize))
         let pixelsHigh = max(1, Int(floor(headerThickness / pixelSize)))
         
@@ -284,22 +305,22 @@ extension GameScene {
             }
         }
         
-        // Geriye dönük uyumluluk için (şimdi daha kısa)
+        // Geriye dönük uyumluluk için
         headerBar = SKSpriteNode(color: .clear, size: CGSize(width: width, height: headerThickness))
         headerBar.position = position
         headerBar.zPosition = 0
         addChild(headerBar)
     }
     
-    // MARK: - Section 3: Game Area Setup
+    // MARK: - Section 3: Game Area Setup (Aynı)
     /// Oyun alanı kurulumu
     internal func setupGameArea(in rect: CGRect) {
         // Bu metod zaten calculateGameArea tarafından belirlenen değerleri kullanıyor
         // Ek bir işlem gerekmiyor çünkü gameAreaStartX/Y zaten ayarlandı
     }
     
-    // MARK: - Game Borders Setup
-    /// Oyun alanı borderleri (Header Line'dan bağımsız)
+    // MARK: - Game Borders Setup (Aynı)
+    /// Oyun alanı borderleri (Header Line'dan tamamen bağımsız)
     internal func setupGameBorders() {
         let pixelSize = floor(cellSize / 5)
         let borderThickness = floor(cellSize * 0.6)
@@ -312,7 +333,7 @@ extension GameScene {
         
         // Border segmentleri - sadece oyun alanını çevreleyen
         let borderSegments = [
-            // Üst border (header line'dan ayrı)
+            // Üst border (header line'dan tamamen ayrı)
             BorderSegment(
                 x: gameAreaStartX - borderThickness,
                 y: gameAreaStartY + gameAreaHeight,
@@ -386,7 +407,7 @@ extension GameScene {
         }
     }
     
-    // MARK: - Section 4: Control Buttons Setup
+    // MARK: - Section 4: Control Buttons Setup (Aynı)
     /// Kontrol butonları kurulumu
     internal func setupControlButtons(in rect: CGRect) {
         let buttonSize = floor(cellSize * 5.0) // Pixel perfect button boyutu
@@ -576,7 +597,7 @@ extension GameScene {
         return arrowContainer
     }
     
-    // MARK: - Pixel Perfect Alignment
+    // MARK: - Pixel Perfect Alignment (Aynı)
     /// Tüm değerlerin pixel-perfect olmasını garanti et
     private func ensurePixelPerfectAlignment() {
         // Tüm pozisyonları tam sayılara yuvarla
@@ -591,7 +612,7 @@ extension GameScene {
         gameAreaHeight = round(CGFloat(gameHeight) * cellSize)
     }
     
-    // MARK: - Game Content Creation
+    // MARK: - Game Content Creation (Aynı)
     /// Oyun içeriği oluşturma (yem, pixel perfect çizim vs.)
     internal func spawnFood() {
         repeat {
@@ -713,12 +734,5 @@ extension GameScene {
         container.run(pulseRepeat)
         
         return container
-    }
-    
-    // MARK: - Legacy Methods (Backward Compatibility)
-    /// Legacy UI oluşturma metodu
-    internal func createUI() {
-        // Bu metod artık gerekmiyor çünkü tüm UI kurulumu
-        // yeni modüler yaklaşımla calculateGameArea() içinde yapılıyor
     }
 }
