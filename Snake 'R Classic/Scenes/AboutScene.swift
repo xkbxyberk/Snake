@@ -101,6 +101,18 @@ class AboutScene: SKScene {
             card.position = positions[index]
             addChild(card)
             infoCards.append(card)
+            
+            // --- YENİ ANİMASYON MANTIĞI BURADA UYGULANIYOR ---
+            card.alpha = 0.0
+            card.setScale(0.8)
+            
+            // SettingScene'deki gibi sıralı ve akıcı bir gecikme
+            let delay = SKAction.wait(forDuration: Double(index) * 0.1)
+            let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
+            let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
+            let entrance = SKAction.group([fadeIn, scaleUp])
+            let sequence = SKAction.sequence([delay, entrance])
+            card.run(sequence)
         }
     }
 
@@ -172,14 +184,6 @@ class AboutScene: SKScene {
         description.zPosition = 4
         cardContainer.addChild(description)
         
-        cardContainer.alpha = 0.0
-        cardContainer.setScale(0.8)
-        let delay = SKAction.wait(forDuration: 0.04)
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
-        let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
-        let entrance = SKAction.group([fadeIn, scaleUp])
-        cardContainer.run(SKAction.sequence([delay, entrance]))
-        
         return cardContainer
     }
     
@@ -235,14 +239,6 @@ class AboutScene: SKScene {
             controlLabel.zPosition = 4
             cardContainer.addChild(controlLabel)
         }
-        
-        cardContainer.alpha = 0.0
-        cardContainer.setScale(0.8)
-        let delay = SKAction.wait(forDuration: 0.25)
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
-        let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
-        let entrance = SKAction.group([fadeIn, scaleUp])
-        cardContainer.run(SKAction.sequence([delay, entrance]))
         
         return cardContainer
     }
@@ -314,14 +310,6 @@ class AboutScene: SKScene {
         copyright.zPosition = 4
         cardContainer.addChild(copyright)
         
-        cardContainer.alpha = 0.0
-        cardContainer.setScale(0.8)
-        let delay = SKAction.wait(forDuration: 0.35)
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
-        let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
-        let entrance = SKAction.group([fadeIn, scaleUp])
-        cardContainer.run(SKAction.sequence([delay, entrance]))
-        
         return cardContainer
     }
     
@@ -387,14 +375,6 @@ class AboutScene: SKScene {
         tapHintLabel.position = CGPoint(x: 0, y: -28)
         tapHintLabel.zPosition = 4
         cardContainer.addChild(tapHintLabel)
-        
-        cardContainer.alpha = 0.0
-        cardContainer.setScale(0.8)
-        let delay = SKAction.wait(forDuration: 0.45)
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
-        let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
-        let entrance = SKAction.group([fadeIn, scaleUp])
-        cardContainer.run(SKAction.sequence([delay, entrance]))
         
         return cardContainer
     }
@@ -468,14 +448,6 @@ class AboutScene: SKScene {
         tapHintLabel.position = CGPoint(x: 0, y: -28)
         tapHintLabel.zPosition = 4
         cardContainer.addChild(tapHintLabel)
-        
-        cardContainer.alpha = 0.0
-        cardContainer.setScale(0.8)
-        let delay = SKAction.wait(forDuration: 0.55)
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
-        let scaleUp = SKAction.scale(to: 1.0, duration: 0.25)
-        let entrance = SKAction.group([fadeIn, scaleUp])
-        cardContainer.run(SKAction.sequence([delay, entrance]))
         
         return cardContainer
     }
