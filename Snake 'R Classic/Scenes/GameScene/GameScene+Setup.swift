@@ -268,7 +268,6 @@ extension GameScene {
         
         // 1 piksel kalınlığında çizgi
         let pixelsWide = Int(round(width / pixelSize))
-        let pixelsHigh = 1 // Sadece 1 piksel yükseklik
         
         for col in 0..<pixelsWide {
             let pixel = SKSpriteNode(
@@ -620,8 +619,6 @@ extension GameScene {
         
         // Pixel size'ın tam sayı olduğunu garanti et
         let pixelSize = round(cellSize / 3.0)
-        let gameGap = calculatePixelGap(for: pixelSize)
-        let borderGap = calculateBorderGap(for: pixelSize)
         
     }
     

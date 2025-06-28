@@ -1,5 +1,6 @@
 import SpriteKit
 import GameplayKit
+import StoreKit  // Rate Us için eklendi
 
 class MenuScene: SKScene {
     
@@ -11,6 +12,7 @@ class MenuScene: SKScene {
     private var settingsButton: SKNode!
     private var leaderboardButton: SKNode!
     private var aboutButton: SKNode!
+    private var rateUsButton: SKNode!  // Rate Us butonu eklendi
     
     // MARK: - Pixel Art Animasyon Elemanları
     private var floatingFoods: [SKNode] = []
@@ -94,6 +96,7 @@ class MenuScene: SKScene {
         createAnimatedBackground()
         createWavyAnimatedTitle()
         createStylizedMenuButtons()
+        createRateUsButton()  // Rate Us butonu eklendi
         createPixelArtFloatingElements()
         createPixelArtSnakeDecorations()
     }
@@ -204,6 +207,168 @@ class MenuScene: SKScene {
         let subtitleSequence = SKAction.sequence([subtitleGlow, subtitleDim])
         let subtitleRepeat = SKAction.repeatForever(subtitleSequence)
         subtitleLabel.run(subtitleRepeat)
+    }
+    
+    // MARK: - Rate Us Butonu Oluşturma (YENİ)
+    private func createRateUsButton() {
+        let buttonSize: CGFloat = 50
+        let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
+        
+        // Sağ üst köşeye konumlandır
+        let buttonPosition = CGPoint(
+            x: frame.maxX - safeAreaInsets.right - buttonSize/2 - 20,
+            y: frame.maxY - safeAreaInsets.top - buttonSize/2 - 20
+        )
+        
+        rateUsButton = createCompactRateUsButton(
+            position: buttonPosition,
+            size: buttonSize
+        )
+        addChild(rateUsButton)
+        
+        // Özel giriş animasyonu - biraz gecikmeyle
+        rateUsButton.alpha = 0.0
+        rateUsButton.setScale(0.5)
+        
+        let delay = SKAction.wait(forDuration: 1.5) // Ana butonlardan sonra görünür
+        let fadeIn = SKAction.fadeAlpha(to: 0.9, duration: 0.4)
+        let scaleUp = SKAction.scale(to: 1.0, duration: 0.4)
+        let bounce = SKAction.scale(to: 1.1, duration: 0.1)
+        let settle = SKAction.scale(to: 1.0, duration: 0.1)
+        
+        let entrance = SKAction.group([fadeIn, scaleUp])
+        let bounceEffect = SKAction.sequence([bounce, settle])
+        let fullAnimation = SKAction.sequence([entrance, bounceEffect])
+        
+        rateUsButton.run(SKAction.sequence([delay, fullAnimation]))
+        
+        // Sürekli hafif pulse efekti
+        let pulseUp = SKAction.scale(to: 1.05, duration: 2.0)
+        let pulseDown = SKAction.scale(to: 1.0, duration: 2.0)
+        let pulseSequence = SKAction.sequence([pulseUp, pulseDown])
+        let pulseRepeat = SKAction.repeatForever(pulseSequence)
+        
+        rateUsButton.run(SKAction.sequence([
+            SKAction.wait(forDuration: 2.0),
+            pulseRepeat
+        ]))
+    }
+    
+    // MARK: - Kompakt Rate Us Butonu
+    private func createCompactRateUsButton(position: CGPoint, size: CGFloat) -> SKNode {
+        let buttonContainer = SKNode()
+        buttonContainer.position = position
+        buttonContainer.name = "rateUsButton"
+        buttonContainer.zPosition = 20
+        
+        // Hit area - dokunma alanını biraz büyült
+        let hitArea = SKSpriteNode(color: .clear, size: CGSize(width: size + 20, height: size + 20))
+        hitArea.position = CGPoint.zero
+        hitArea.zPosition = 10
+        hitArea.name = "rateUsButtonHitArea"
+        buttonContainer.addChild(hitArea)
+        
+        // Gölge
+        let shadow = SKShapeNode(circleOfRadius: size/2)
+        shadow.fillColor = shadowColor
+        shadow.strokeColor = .clear
+        shadow.position = CGPoint(x: 2, y: -2)
+        shadow.zPosition = 1
+        buttonContainer.addChild(shadow)
+        
+        // Ana buton arkaplanı - daire şeklinde
+        let button = SKShapeNode(circleOfRadius: size/2)
+        button.fillColor = SKColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 0.95) // Altın rengi
+        button.strokeColor = primaryColor
+        button.lineWidth = 2
+        button.zPosition = 2
+        buttonContainer.addChild(button)
+        
+        // İç highlight
+        let innerHighlight = SKShapeNode(circleOfRadius: size/2 - 4)
+        innerHighlight.fillColor = .clear
+        innerHighlight.strokeColor = SKColor.white
+        innerHighlight.lineWidth = 1
+        innerHighlight.alpha = 0.6
+        innerHighlight.zPosition = 3
+        buttonContainer.addChild(innerHighlight)
+        
+        // Yıldız ikonu
+        let starIcon = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+        starIcon.text = "⭐"
+        starIcon.fontSize = size * 0.6
+        starIcon.verticalAlignmentMode = .center
+        starIcon.horizontalAlignmentMode = .center
+        starIcon.position = CGPoint.zero
+        starIcon.zPosition = 4
+        buttonContainer.addChild(starIcon)
+        
+        // Alt yazı
+        let rateLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+        rateLabel.text = "RATE"
+        rateLabel.fontSize = 8
+        rateLabel.fontColor = primaryColor
+        rateLabel.horizontalAlignmentMode = .center
+        rateLabel.position = CGPoint(x: 0, y: -size/2 - 12)
+        rateLabel.zPosition = 4
+        buttonContainer.addChild(rateLabel)
+        
+        // Özel parlama efekti - rastgele aralıklarla
+        let sparkle = createRateUsSparkleEffect()
+        sparkle.position = CGPoint.zero
+        sparkle.zPosition = 5
+        buttonContainer.addChild(sparkle)
+        
+        return buttonContainer
+    }
+    
+    // MARK: - Rate Us Buton Parıltı Efekti
+    private func createRateUsSparkleEffect() -> SKNode {
+        let sparkleContainer = SKNode()
+        sparkleContainer.name = "rateUsSparkle"
+        
+        // Rastgele aralıklarla parıltı efekti
+        let sparkleAction = SKAction.sequence([
+            SKAction.wait(forDuration: Double.random(in: 3.0...8.0)),
+            SKAction.run {
+                // Mini yıldızlar yaratma
+                for i in 0..<3 {
+                    let miniStar = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+                    miniStar.text = "✨"
+                    miniStar.fontSize = 8
+                    miniStar.alpha = 0.0
+                    miniStar.zPosition = 1
+                    
+                    let angle = CGFloat(i) * CGFloat.pi * 2 / 3
+                    let radius: CGFloat = 30
+                    miniStar.position = CGPoint(
+                        x: cos(angle) * radius,
+                        y: sin(angle) * radius
+                    )
+                    
+                    sparkleContainer.addChild(miniStar)
+                    
+                    // Parıltı animasyonu
+                    let fadeIn = SKAction.fadeAlpha(to: 0.8, duration: 0.2)
+                    let scale = SKAction.scale(to: 1.2, duration: 0.3)
+                    let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+                    let remove = SKAction.removeFromParent()
+                    
+                    let sequence = SKAction.sequence([
+                        fadeIn,
+                        SKAction.group([scale, fadeOut]),
+                        remove
+                    ])
+                    
+                    miniStar.run(sequence)
+                }
+            }
+        ])
+        
+        let sparkleRepeat = SKAction.repeatForever(sparkleAction)
+        sparkleContainer.run(sparkleRepeat)
+        
+        return sparkleContainer
     }
     
     // MARK: - Butonların Kurulumu
@@ -343,6 +508,121 @@ class MenuScene: SKScene {
         return buttonContainer
     }
     
+    // MARK: - Rate Us Fonksiyonalitesi (YENİ)
+    @available(iOS 10.3, *)
+    private func requestAppStoreReview() {
+        // StoreKit ile modern rating request
+        if #available(iOS 14.0, *) {
+            if let windowScene = view?.window?.windowScene {
+                SKStoreReviewController.requestReview(in: windowScene)
+            }
+        } else {
+            SKStoreReviewController.requestReview()
+        }
+        
+        // Kullanıcı deneyimi için - sadece belirli aralıklarla göster
+        let lastRequestDate = UserDefaults.standard.object(forKey: "LastRatingRequestDate") as? Date
+        let now = Date()
+        
+        // En az 30 gün arayla rating request
+        if let lastDate = lastRequestDate,
+           now.timeIntervalSince(lastDate) < 30 * 24 * 60 * 60 {
+            openAppStoreDirectly()
+            return
+        }
+        
+        UserDefaults.standard.set(now, forKey: "LastRatingRequestDate")
+    }
+    
+    private func openAppStoreDirectly() {
+        // App Store'a direkt yönlendirme
+        // Bu ID'yi kendi uygulamanızın App Store ID'si ile değiştirin
+        let appID = "6747576812" // Örnek: "1234567890"
+        
+        if let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                // Fallback - genel App Store rating sayfası
+                if let fallbackUrl = URL(string: "https://apps.apple.com/app/id\(appID)") {
+                    UIApplication.shared.open(fallbackUrl, options: [:], completionHandler: nil)
+                }
+            }
+        }
+    }
+    
+    private func handleRateUsButtonTap() {
+        // Önce teşekkür efekti göster
+        createRateUsThankYouEffect()
+        
+        // Sonra rating'i başlat
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if #available(iOS 10.3, *) {
+                self.requestAppStoreReview()
+            } else {
+                self.openAppStoreDirectly()
+            }
+        }
+    }
+    
+    // MARK: - Rate Us Teşekkür Efekti
+    private func createRateUsThankYouEffect() {
+        // Butondan çıkan kalp efekti
+        for i in 0..<5 {
+            let heart = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+            heart.text = "💖"
+            heart.fontSize = 16
+            heart.alpha = 0.0
+            heart.position = rateUsButton.position
+            heart.zPosition = 25
+            addChild(heart)
+            
+            let angle = CGFloat(i) * CGFloat.pi * 2 / 5
+            let distance: CGFloat = 60
+            let targetX = rateUsButton.position.x + cos(angle) * distance
+            let targetY = rateUsButton.position.y + sin(angle) * distance
+            
+            let fadeIn = SKAction.fadeAlpha(to: 0.9, duration: 0.2)
+            let spread = SKAction.move(to: CGPoint(x: targetX, y: targetY), duration: 1.0)
+            let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+            let remove = SKAction.removeFromParent()
+            
+            let sequence = SKAction.sequence([
+                fadeIn,
+                SKAction.group([spread, fadeOut]),
+                remove
+            ])
+            
+            heart.run(sequence)
+        }
+        
+        // "Thank You" mesajı
+        let thankYouLabel = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
+        thankYouLabel.text = "THANK YOU! 💕"
+        thankYouLabel.fontSize = 20
+        thankYouLabel.fontColor = SKColor(red: 255/255, green: 105/255, blue: 180/255, alpha: 1.0)
+        thankYouLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        thankYouLabel.alpha = 0.0
+        thankYouLabel.zPosition = 30
+        addChild(thankYouLabel)
+        
+        let thankYouFadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+        let thankYouWait = SKAction.wait(forDuration: 1.2)
+        let thankYouFadeOut = SKAction.fadeOut(withDuration: 0.4)
+        let thankYouRemove = SKAction.removeFromParent()
+        
+        let thankYouSequence = SKAction.sequence([
+            thankYouFadeIn,
+            thankYouWait,
+            thankYouFadeOut,
+            thankYouRemove
+        ])
+        
+        thankYouLabel.run(thankYouSequence)
+    }
+    
+    // [Diğer tüm mevcut fonksiyonlar aynı kalıyor...]
+    
     // MARK: - Pixel Art Yüzen Yemler (Adaptif)
     private func createPixelArtFloatingElements() {
         for i in 0..<8 { // Daha fazla yem
@@ -426,6 +706,8 @@ class MenuScene: SKScene {
         
         return container
     }
+    
+    // [Diğer tüm fonksiyonlar aynı...]
     
     // MARK: - Pixel Art Dekoratif Yılanlar (Adaptif)
     private func createPixelArtSnakeDecorations() {
@@ -533,6 +815,8 @@ class MenuScene: SKScene {
         
         return container
     }
+    
+    // [Ana Menü Pixel Art Yılan Sistemi fonksiyonları aynı...]
     
     // MARK: - Ana Menü Pixel Art Yılan Sistemi
     
@@ -929,6 +1213,31 @@ class MenuScene: SKScene {
         }
     }
     
+    // MARK: - Rate Us Buton Etkileşim Animasyonu (YENİ)
+    private func animateRateUsButtonPress(_ button: SKNode) {
+        let instantScale = SKAction.scale(to: 0.8, duration: 0.02)
+        let bounceBack = SKAction.scale(to: 1.2, duration: 0.08)
+        let settle = SKAction.scale(to: 1.0, duration: 0.1)
+        let buttonSequence = SKAction.sequence([instantScale, bounceBack, settle])
+        button.run(buttonSequence)
+        
+        // Özel altın ışıma efekti
+        let goldGlow = SKSpriteNode(color: SKColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 0.8),
+                                   size: CGSize(width: 80, height: 80))
+        goldGlow.alpha = 0.0
+        goldGlow.position = button.position
+        goldGlow.zPosition = 15
+        addChild(goldGlow)
+        
+        let instantGlow = SKAction.fadeAlpha(to: 0.9, duration: 0.02)
+        let fadeOut = SKAction.fadeOut(withDuration: 0.4)
+        let remove = SKAction.removeFromParent()
+        let glowSequence = SKAction.sequence([instantGlow, fadeOut, remove])
+        goldGlow.run(glowSequence)
+        
+        triggerInstantHaptic()
+    }
+    
     // MARK: - Buton Etkileşim Animasyonu
     private func animateButtonPress(_ button: SKNode) {
         let instantScale = SKAction.scale(to: 0.88, duration: 0.03)
@@ -962,7 +1271,7 @@ class MenuScene: SKScene {
         HapticManager.shared.playSimpleHaptic(intensity: 1.0, sharpness: 1.0)
     }
     
-    // MARK: - Dokunma Yönetimi
+    // MARK: - Dokunma Yönetimi (GÜNCELLENMIŞ)
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
@@ -985,13 +1294,21 @@ class MenuScene: SKScene {
             case "aboutButton", "aboutButtonHitArea":
                 buttonNode = aboutButton
                 actionToPerform = { self.showAbout() }
+            case "rateUsButton", "rateUsButtonHitArea":  // YENİ
+                buttonNode = rateUsButton
+                actionToPerform = { self.handleRateUsButtonTap() }
             default:
                 break
             }
         }
         
         if let button = buttonNode, let action = actionToPerform {
-            animateButtonPress(button)
+            // Rate Us butonu için özel animasyon
+            if button == rateUsButton {
+                animateRateUsButtonPress(button)
+            } else {
+                animateButtonPress(button)
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 action()
