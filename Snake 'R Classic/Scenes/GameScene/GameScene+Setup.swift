@@ -57,17 +57,29 @@ extension GameScene {
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     }
     
-    // MARK: - Dynamic Cell Size Calculation (ULTIMATE MAXIMUM - Fill The Screen!)
-    /// Ekranı maksimum dolduran oyun alanı - sınırları neredeyse kaldırdık!
+    // MARK: - Dynamic Cell Size Calculation (iPhone Perfect + iPad Balanced)
+    /// iPhone maksimum, iPad dengeli oyun alanı
     private func calculateDynamicCellSize(availableWidth: CGFloat, availableHeight: CGFloat) {
         let deviceType = isIPad ? "iPad" : "iPhone"
         let screenSize = max(availableWidth, availableHeight)
         
         print("🔧 [\(deviceType)] Screen Size: \(screenSize)")
         
-        // 🔥 ULTIMATE: Oyun alanını maksimuma çıkarıyoruz!
-        let gameAreaPercentage: CGFloat = 0.85  // %70'den %85'e! (Maksimum)
-        let gameWidthPercentage: CGFloat = 0.95 // %85'den %95'e! (Neredeyse tüm genişlik)
+        // iPhone ve iPad için farklı yüzdeler
+        let gameAreaPercentage: CGFloat
+        let gameWidthPercentage: CGFloat
+        
+        if isIPad {
+            // iPad: Kontrol butonları için daha konservatif
+            gameAreaPercentage = 0.72   // iPad için %72 (önceden %85)
+            gameWidthPercentage = 0.90  // iPad için %90 (önceden %95)
+            print("🔧 [\(deviceType)] Using BALANCED iPad ratios")
+        } else {
+            // iPhone: Maksimum (değiştirilmedi)
+            gameAreaPercentage = 0.85   // iPhone için %85 (KORUNDU)
+            gameWidthPercentage = 0.95  // iPhone için %95 (KORUNDU)
+            print("🔧 [\(deviceType)] Using MAXIMUM iPhone ratios")
+        }
         
         let estimatedGameHeight = availableHeight * gameAreaPercentage
         let estimatedGameWidth = availableWidth * gameWidthPercentage
@@ -82,33 +94,33 @@ extension GameScene {
         let preliminarySize = floor(min(widthRatio, heightRatio))
         print("🔧 [\(deviceType)] Preliminary Cell: \(preliminarySize)")
         
-        // 🚀 ULTIMATE: Maksimum sınırları ÇILGINLIĞA çıkarıyoruz!
+        // Cell size sınırları (aynı)
         let minCellSize: CGFloat
         let maxCellSize: CGFloat
         
         if isIPad {
-            // iPad: Neredeyse sınırsız!
+            // iPad: Yüksek sınırlar (değiştirilmedi)
             minCellSize = 18.0
             
             if screenSize > 1300 {
-                maxCellSize = 200.0     // ÇILGIN! (önceden 120)
+                maxCellSize = 200.0     // Büyük iPad Pro
             } else if screenSize > 1100 {
-                maxCellSize = 160.0     // ÇOK ÇILGIN! (önceden 100)
+                maxCellSize = 160.0     // Orta iPad
             } else {
-                maxCellSize = 120.0     // ÇILGIN! (önceden 80)
+                maxCellSize = 120.0     // Küçük iPad
             }
         } else {
-            // iPhone: Çok çok büyük sınırlar
+            // iPhone: Yüksek sınırlar (değiştirilmedi)
             minCellSize = 12.0
             
             if screenSize > 950 {
-                maxCellSize = 100.0     // ÇILGIN! (önceden 60)
+                maxCellSize = 100.0     // iPhone Pro Max
             } else if screenSize > 850 {
-                maxCellSize = 80.0      // ÇOK BÜYÜK! (önceden 50)
+                maxCellSize = 80.0      // iPhone Pro
             } else if screenSize > 750 {
-                maxCellSize = 65.0      // BÜYÜK! (önceden 42)
+                maxCellSize = 65.0      // iPhone Standard
             } else {
-                maxCellSize = 50.0      // ORTA! (önceden 35)
+                maxCellSize = 50.0      // iPhone Mini/SE
             }
         }
         
@@ -129,7 +141,7 @@ extension GameScene {
         // EKSTRA DEBUG: Oyun alanının ekranın ne kadarını kapladığını göster
         let gameAreaScreenPercentageW = (gameAreaWidth / availableWidth) * 100
         let gameAreaScreenPercentageH = (gameAreaHeight / availableHeight) * 100
-        print("🔧 [\(deviceType)] 🔥 ULTIMATE Game Area Usage: W:%.1f%% H:%.1f%% 🔥", gameAreaScreenPercentageW, gameAreaScreenPercentageH)
+        print("🔧 [\(deviceType)] Game Area Usage: W:%.1f%% H:%.1f%%", gameAreaScreenPercentageW, gameAreaScreenPercentageH)
     }
     
     // MARK: - Layout Sections Structure (Orjinal)
