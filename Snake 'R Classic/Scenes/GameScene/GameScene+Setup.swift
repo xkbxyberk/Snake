@@ -2,150 +2,97 @@ import SpriteKit
 import GameplayKit
 import UIKit
 
-// MARK: - GameScene Setup Extension - Responsive Layout Architecture (PIXEL PERFECT)
+// MARK: - Responsive Layout Architecture
 extension GameScene {
     
-    // MARK: - iPad Detection Helper
+    // MARK: - Device Detection
     private var isIPad: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
     
-    // MARK: - Main Layout Orchestrator (Debug Enhanced)
-    /// Ana layout hesaplama fonksiyonu - iPhone orjinal, iPad için düzeltme
+    // MARK: - Main Layout Calculator
     internal func calculateGameArea() {
-        // Safe area ve ekran boyutlarını al
         let safeAreaInsets = view?.safeAreaInsets ?? UIEdgeInsets.zero
         let screenBounds = UIScreen.main.bounds
         
-        // Debug bilgisi
-        let deviceType = isIPad ? "iPad" : "iPhone"
-        print("🔧 [\(deviceType)] Screen: \(screenBounds.width)x\(screenBounds.height)")
-        print("🔧 [\(deviceType)] Safe Area: T:\(safeAreaInsets.top) B:\(safeAreaInsets.bottom) L:\(safeAreaInsets.left) R:\(safeAreaInsets.right)")
-        
-        // Kullanılabilir ekran alanını hesapla
         let availableWidth = screenBounds.width - safeAreaInsets.left - safeAreaInsets.right
         let availableHeight = screenBounds.height - safeAreaInsets.top - safeAreaInsets.bottom
         
-        print("🔧 [\(deviceType)] Available: \(availableWidth)x\(availableHeight)")
-        
-        // Başlangıç tahmini (orjinal mantık korunuyor)
         calculateDynamicCellSize(availableWidth: availableWidth, availableHeight: availableHeight)
         
-        print("🔧 [\(deviceType)] Cell Size: \(cellSize)")
-        print("🔧 [\(deviceType)] Game Area: \(gameAreaWidth)x\(gameAreaHeight)")
-        
-        // Layout bölgelerini hesapla (orjinal mantık + iPad düzeltmeleri)
         let layoutSections = calculateLayoutSections(
             availableWidth: availableWidth,
             availableHeight: availableHeight,
             safeAreaInsets: safeAreaInsets
         )
         
-        // Her bölümü ayrı ayrı kur (orjinal)
         setupTopBar(in: layoutSections.topBarRect)
         setupHeaderLine(at: layoutSections.headerLinePosition, width: layoutSections.headerLineWidth)
         setupGameArea(in: layoutSections.gameAreaRect)
         setupGameBorders()
         setupControlButtons(in: layoutSections.controlsRect)
         
-        // Pixel-perfect hizalama garantisi (orjinal)
         ensurePixelPerfectAlignment()
-        
-        print("🔧 [\(deviceType)] Final Cell Size: \(cellSize)")
-        print("🔧 [\(deviceType)] Final Game Area: \(gameAreaWidth)x\(gameAreaHeight)")
-        print("🔧 [\(deviceType)] Game Position: (\(gameAreaStartX), \(gameAreaStartY))")
-        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     }
     
-    // MARK: - Dynamic Cell Size Calculation (iPhone Perfect + iPad Balanced)
-    /// iPhone maksimum, iPad dengeli oyun alanı
+    // MARK: - Dynamic Cell Size Calculator
     private func calculateDynamicCellSize(availableWidth: CGFloat, availableHeight: CGFloat) {
-        let deviceType = isIPad ? "iPad" : "iPhone"
         let screenSize = max(availableWidth, availableHeight)
         
-        print("🔧 [\(deviceType)] Screen Size: \(screenSize)")
-        
-        // iPhone ve iPad için farklı yüzdeler
         let gameAreaPercentage: CGFloat
         let gameWidthPercentage: CGFloat
         
         if isIPad {
-            // iPad: Kontrol butonları için daha konservatif
-            gameAreaPercentage = 0.72   // iPad için %72 (önceden %85)
-            gameWidthPercentage = 0.90  // iPad için %90 (önceden %95)
-            print("🔧 [\(deviceType)] Using BALANCED iPad ratios")
+            gameAreaPercentage = 0.72
+            gameWidthPercentage = 0.90
         } else {
-            // iPhone: Maksimum (değiştirilmedi)
-            gameAreaPercentage = 0.85   // iPhone için %85 (KORUNDU)
-            gameWidthPercentage = 0.95  // iPhone için %95 (KORUNDU)
-            print("🔧 [\(deviceType)] Using MAXIMUM iPhone ratios")
+            gameAreaPercentage = 0.85
+            gameWidthPercentage = 0.95
         }
         
         let estimatedGameHeight = availableHeight * gameAreaPercentage
         let estimatedGameWidth = availableWidth * gameWidthPercentage
         
-        print("🔧 [\(deviceType)] Estimated Game: \(estimatedGameWidth)x\(estimatedGameHeight)")
-        
         let widthRatio = estimatedGameWidth / CGFloat(gameWidth)
         let heightRatio = estimatedGameHeight / CGFloat(gameHeight)
         
-        print("🔧 [\(deviceType)] Ratios: W:\(widthRatio) H:\(heightRatio)")
-        
         let preliminarySize = floor(min(widthRatio, heightRatio))
-        print("🔧 [\(deviceType)] Preliminary Cell: \(preliminarySize)")
         
-        // Cell size sınırları (aynı)
         let minCellSize: CGFloat
         let maxCellSize: CGFloat
         
         if isIPad {
-            // iPad: Yüksek sınırlar (değiştirilmedi)
             minCellSize = 18.0
             
             if screenSize > 1300 {
-                maxCellSize = 200.0     // Büyük iPad Pro
+                maxCellSize = 200.0
             } else if screenSize > 1100 {
-                maxCellSize = 160.0     // Orta iPad
+                maxCellSize = 160.0
             } else {
-                maxCellSize = 120.0     // Küçük iPad
+                maxCellSize = 120.0
             }
         } else {
-            // iPhone: Yüksek sınırlar (değiştirilmedi)
             minCellSize = 12.0
             
             if screenSize > 950 {
-                maxCellSize = 100.0     // iPhone Pro Max
+                maxCellSize = 100.0
             } else if screenSize > 850 {
-                maxCellSize = 80.0      // iPhone Pro
+                maxCellSize = 80.0
             } else if screenSize > 750 {
-                maxCellSize = 65.0      // iPhone Standard
+                maxCellSize = 65.0
             } else {
-                maxCellSize = 50.0      // iPhone Mini/SE
+                maxCellSize = 50.0
             }
         }
         
-        print("🔧 [\(deviceType)] Cell Size Range: \(minCellSize) - \(maxCellSize)")
-        
-        // Pixel-perfect için 3'e bölünebilir yapmaya çalış
         cellSize = floor(preliminarySize / 3.0) * 3.0
         cellSize = max(minCellSize, min(cellSize, maxCellSize))
         
-        print("🔧 [\(deviceType)] Calculated Cell Size: \(cellSize)")
-        
-        // Geçici oyun alanı boyutları
         gameAreaWidth = CGFloat(gameWidth) * cellSize
         gameAreaHeight = CGFloat(gameHeight) * cellSize
-        
-        print("🔧 [\(deviceType)] Calculated Game Area: \(gameAreaWidth)x\(gameAreaHeight)")
-        
-        // EKSTRA DEBUG: Oyun alanının ekranın ne kadarını kapladığını göster
-        let gameAreaScreenPercentageW = (gameAreaWidth / availableWidth) * 100
-        let gameAreaScreenPercentageH = (gameAreaHeight / availableHeight) * 100
-        print("🔧 [\(deviceType)] Game Area Usage: W:%.1f%% H:%.1f%%", gameAreaScreenPercentageW, gameAreaScreenPercentageH)
     }
     
-    // MARK: - Layout Sections Structure (Orjinal)
-    /// Layout bölümlerini temsil eden yapı
+    // MARK: - Layout Sections Structure
     private struct LayoutSections {
         let topBarRect: CGRect
         let headerLinePosition: CGPoint
@@ -154,8 +101,7 @@ extension GameScene {
         let controlsRect: CGRect
     }
     
-    // MARK: - Layout Hesaplama (Orjinal + iPad Safe Area Fix)
-    /// Layout bölümlerini hesapla - iPhone orjinal, iPad için safe area düzeltmesi
+    // MARK: - Layout Sections Calculator
     private func calculateLayoutSections(
             availableWidth: CGFloat,
             availableHeight: CGFloat,
@@ -163,9 +109,8 @@ extension GameScene {
         ) -> LayoutSections {
 
             let screenBounds = UIScreen.main.bounds
-            let sectionGap: CGFloat = 10.0 // Orjinal değer
+            let sectionGap: CGFloat = 10.0
 
-            // ADIM 1: Top Bar'ı ekranın en üstüne sabitle (orjinal)
             let topBarHeight = floor(availableHeight * 0.05)
             let topBarY = screenBounds.height - safeAreaInsets.top - topBarHeight
             let topBarRect = CGRect(
@@ -175,21 +120,15 @@ extension GameScene {
                 height: topBarHeight
             )
 
-            // ADIM 2: Ayırıcı çizgiyi (HeaderLine) Top Bar'ın altına sabitle (orjinal)
             let headerLineThickness: CGFloat = 5.0
             let headerLineY = topBarRect.minY - sectionGap - (headerLineThickness / 2)
             let headerLinePosition = CGPoint(x: screenBounds.width / 2, y: headerLineY)
-
-            // ADIM 3: CellSize zaten calculateDynamicCellSize'da hesaplandı - burada DOKUNMA!
-            // Bu satırlar önceki hesaplamayı eziyor, bunları kaldırıyoruz
             
-            // CellSize artık sabit, sadece pixel-perfect hizalama kontrol et
             cellSize = floor(cellSize / 3.0) * 3.0
 
-            // ADIM 4: Oyun Alanı'nı ayırıcı çizginin altına sabitle (orjinal)
             let finalGameAreaWidth = CGFloat(gameWidth) * cellSize
             let finalGameAreaHeight = CGFloat(gameHeight) * cellSize
-            let gameAreaX = floor((screenBounds.width - finalGameAreaWidth) / 2) // Yatayda ortala
+            let gameAreaX = floor((screenBounds.width - finalGameAreaWidth) / 2)
             let gameAreaTopY = headerLineY - (headerLineThickness / 2) - sectionGap
             let gameAreaY = gameAreaTopY - finalGameAreaHeight
             let gameAreaRect = CGRect(
@@ -200,11 +139,9 @@ extension GameScene {
             )
             let headerLineWidth = floor(finalGameAreaWidth * 0.98)
 
-            // ADIM 5: Kontrol Butonları - iPad için düzeltme
-            let controlsHeight = floor(availableHeight * 0.25) // Orjinal değer
-            var controlsY = gameAreaRect.minY - (sectionGap / 2) - controlsHeight // Orjinal hesaplama
+            let controlsHeight = floor(availableHeight * 0.25)
+            var controlsY = gameAreaRect.minY - (sectionGap / 2) - controlsHeight
             
-            // iPad için kontrol alanının ekran altında kalmamasını garanti et
             if isIPad {
                 let minControlsY = safeAreaInsets.bottom + 30.0
                 controlsY = max(controlsY, minControlsY)
@@ -217,7 +154,6 @@ extension GameScene {
                 height: controlsHeight
             )
 
-            // ADIM 6: Global değişkenlere ata (orjinal)
             gameAreaStartX = gameAreaRect.minX
             gameAreaStartY = gameAreaRect.minY
             gameAreaWidth = finalGameAreaWidth
@@ -234,10 +170,8 @@ extension GameScene {
             )
         }
     
-    // MARK: - Section 1: Top Bar Setup (Orjinal)
-    /// Top Bar kurulumu (Pause button + skorlar)
+    // MARK: - Top Bar Setup
     internal func setupTopBar(in rect: CGRect) {
-        // Pause button (sol üst) - orjinal
         let pauseButtonSize = floor(cellSize * 1.8)
         let pausePosition = CGPoint(
             x: rect.minX + pauseButtonSize / 2 + 20,
@@ -245,7 +179,6 @@ extension GameScene {
         )
         createPauseButton(at: pausePosition, size: pauseButtonSize)
         
-        // Score labels (sağ üst) - orjinal
         let scoreFontSize = floor(cellSize * 1.4)
         let scoreRightMargin = rect.maxX - 20
         
@@ -256,7 +189,6 @@ extension GameScene {
         )
     }
     
-    /// Pause button oluştur (orjinal)
     private func createPauseButton(at position: CGPoint, size: CGFloat) {
         pauseButton = SKShapeNode(rect: CGRect(x: -size/2, y: -size/2, width: size, height: size))
         pauseButton.fillColor = .clear
@@ -265,7 +197,6 @@ extension GameScene {
         pauseButton.name = "pauseButton"
         pauseButton.zPosition = 15
         
-        // Pixel perfect pause ikonu (orjinal)
         let pauseIcon = createPixelPerfectPauseIcon(size: size)
         pauseIcon.position = CGPoint.zero
         pauseButton.addChild(pauseIcon)
@@ -273,13 +204,11 @@ extension GameScene {
         addChild(pauseButton)
     }
     
-    /// Pixel perfect pause ikonu (orjinal)
     private func createPixelPerfectPauseIcon(size: CGFloat) -> SKNode {
         let iconContainer = SKNode()
-        let pixelSize = floor(size / 8) // İkon boyutuna göre pixel size
+        let pixelSize = floor(size / 8)
         let iconColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
-        // Pause ikonu pattern (||) - orjinal
         let leftBarPixels = [
             CGPoint(x: -2, y: -2), CGPoint(x: -1, y: -2),
             CGPoint(x: -2, y: -1), CGPoint(x: -1, y: -1),
@@ -305,12 +234,10 @@ extension GameScene {
         return iconContainer
     }
     
-    /// Score etiketleri oluştur (orjinal)
     private func createScoreLabels(rightEdge: CGFloat, centerY: CGFloat, fontSize: CGFloat) {
         let labelColor = SKColor(red: 51/255, green: 67/255, blue: 0/255, alpha: 1.0)
         let pixelFont = "Doto-Black_ExtraBold"
         
-        // Ana skor (en sağda) - orjinal
         scoreLabel = SKLabelNode(fontNamed: pixelFont)
         scoreLabel.text = "0"
         scoreLabel.fontSize = fontSize
@@ -321,7 +248,6 @@ extension GameScene {
         scoreLabel.zPosition = 15
         addChild(scoreLabel)
         
-        // Yüksek skor (solunda) - orjinal
         highScoreLabel = SKLabelNode(fontNamed: pixelFont)
         highScoreLabel.text = "HI:\(allTimeHighScore)"
         highScoreLabel.fontSize = fontSize
@@ -336,15 +262,12 @@ extension GameScene {
         addChild(highScoreLabel)
     }
     
-    // MARK: - Section 2: Header Line Setup (Orjinal)
-    /// Header line kurulumu (1 piksel kalınlığında)
+    // MARK: - Header Line Setup
     internal func setupHeaderLine(at position: CGPoint, width: CGFloat) {
-        // PIXEL PERFECT: 1 piksel kalınlığı için cellSize/3 kullan ve tam sayıya yuvarla (orjinal)
         let pixelSize = round(cellSize / 3.0)
-        let headerThickness = pixelSize // 1 piksel kalınlığı
+        let headerThickness = pixelSize
         let darkerColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
-        // Gap hesaplama - border'lar için daha küçük gap (orjinal)
         let gap = calculateBorderGap(for: pixelSize)
         let pixelSizeWithGap = pixelSize - gap
         
@@ -354,7 +277,6 @@ extension GameScene {
         headerContainer.zPosition = 5
         addChild(headerContainer)
         
-        // 1 piksel kalınlığında çizgi (orjinal)
         let pixelsWide = Int(round(width / pixelSize))
         
         for col in 0..<pixelsWide {
@@ -364,31 +286,25 @@ extension GameScene {
             )
             pixel.position = CGPoint(
                 x: -width/2 + CGFloat(col) * pixelSize + pixelSize/2,
-                y: 0 // Merkeze hizala
+                y: 0
             )
             headerContainer.addChild(pixel)
         }
         
-        // Geriye dönük uyumluluk için (orjinal)
         headerBar = SKSpriteNode(color: .clear, size: CGSize(width: width, height: headerThickness))
         headerBar.position = position
         headerBar.zPosition = 0
         addChild(headerBar)
     }
     
-    // MARK: - Section 3: Game Area Setup (Orjinal)
-    /// Oyun alanı kurulumu
+    // MARK: - Game Area Setup
     internal func setupGameArea(in rect: CGRect) {
-        // Bu metod zaten calculateGameArea tarafından belirlenen değerleri kullanıyor
-        // Ek bir işlem gerekmiyor çünkü gameAreaStartX/Y zaten ayarlandı
     }
     
-    // MARK: - Game Borders Setup (Orjinal)
-    /// Oyun alanı borderleri (1 piksel kalınlığında)
+    // MARK: - Game Borders Setup
     internal func setupGameBorders() {
-        // PIXEL PERFECT: 1 piksel kalınlığı için cellSize/3 kullan ve tam sayıya yuvarla (orjinal)
         let pixelSize = round(cellSize / 3.0)
-        let borderThickness = pixelSize // 1 piksel kalınlığı
+        let borderThickness = pixelSize
         let borderColor = SKColor(red: 0/255, green: 6/255, blue: 0/255, alpha: 1.0)
         
         let borderContainer = SKNode()
@@ -396,30 +312,25 @@ extension GameScene {
         borderContainer.zPosition = 8
         addChild(borderContainer)
         
-        // Border segmentleri - sadece oyun alanını çevreleyen (orjinal)
         let borderSegments = [
-            // Üst border (header line'dan tamamen ayrı)
             BorderSegment(
                 x: gameAreaStartX - borderThickness,
                 y: gameAreaStartY + gameAreaHeight,
                 width: gameAreaWidth + (borderThickness * 2),
                 height: borderThickness
             ),
-            // Alt border
             BorderSegment(
                 x: gameAreaStartX - borderThickness,
                 y: gameAreaStartY - borderThickness,
                 width: gameAreaWidth + (borderThickness * 2),
                 height: borderThickness
             ),
-            // Sol border
             BorderSegment(
                 x: gameAreaStartX - borderThickness,
                 y: gameAreaStartY,
                 width: borderThickness,
                 height: gameAreaHeight
             ),
-            // Sağ border
             BorderSegment(
                 x: gameAreaStartX + gameAreaWidth,
                 y: gameAreaStartY,
@@ -438,7 +349,6 @@ extension GameScene {
         }
     }
     
-    /// Border segment yapısı (orjinal)
     private struct BorderSegment {
         let x: CGFloat
         let y: CGFloat
@@ -446,14 +356,12 @@ extension GameScene {
         let height: CGFloat
     }
     
-    /// Border segmenti oluştur (orjinal)
     private func createBorderSegment(
         in container: SKNode,
         segment: BorderSegment,
         pixelSize: CGFloat,
         color: SKColor
     ) {
-        // Gap hesaplama - border'lar için daha küçük gap (orjinal)
         let gap = calculateBorderGap(for: pixelSize)
         let pixelSizeWithGap = pixelSize - gap
         
@@ -476,46 +384,63 @@ extension GameScene {
         }
     }
     
-    // MARK: - Border Gap Calculation (Orjinal)
-    /// Border elementleri için daha küçük gap hesaplama
+    // MARK: - Border Gap Calculator
     private func calculateBorderGap(for pixelSize: CGFloat) -> CGFloat {
-        // Border'lar için daha konservatif gap - game elementlerinden daha az (orjinal)
         var gap: CGFloat
         
         switch pixelSize {
-        case 0..<4:   gap = 0.5    // Çok küçük ekranlar için minimal gap
-        case 4..<7:   gap = 1.0    // Orta ekranlar için 0.5 piksel gap
-        case 7..<10:  gap = 1.5    // Büyük ekranlar için 1 piksel gap
-        case 10..<15: gap = 2.0    // XL ekranlar için 1.5 piksel gap
-        default:      gap = 2.5    // XXL ekranlar için 2 piksel gap
+        case 0..<4:   gap = 0.5
+        case 4..<7:   gap = 1.0
+        case 7..<10:  gap = 1.5
+        case 10..<15: gap = 2.0
+        default:      gap = 2.5
         }
         
-        // Gap'in pixelSize'ın %80'ini geçmemesini sağla (border'lar için daha konservatif) (orjinal)
         let maxGap = pixelSize * 0.8
         gap = min(gap, maxGap)
         
-        // Gap'i tam sayıya yuvarla (pixel-perfect için) (orjinal)
-        return round(gap * 2) / 2 // 0.5'lik adımlarla yuvarla
+        return round(gap * 2) / 2
     }
     
-    // MARK: - Section 4: Control Buttons Setup (Orjinal)
-    /// Kontrol butonları kurulumu
+    // MARK: - Control Buttons Setup
     internal func setupControlButtons(in rect: CGRect) {
-        let buttonSize = floor(cellSize * 5.5) // Pixel perfect button boyutu (orjinal)
-        let centerX = rect.midX
-        let centerY = rect.midY
+        let screenBounds = UIScreen.main.bounds
         
-        // Button spacing hesaplama (orjinal)
+        let isIPhone16Pro = (screenBounds.width == 402.0 && screenBounds.height == 874.0) ||
+                            (screenBounds.width == 874.0 && screenBounds.height == 402.0)
+        
+        let isIPad13Inch = (screenBounds.width == 1032.0 && screenBounds.height == 1376.0) ||
+                           (screenBounds.width == 1376.0 && screenBounds.height == 1032.0)
+        
+        let isIPad11Inch = (screenBounds.width == 834.0 && screenBounds.height == 1210.0) ||
+                           (screenBounds.width == 1210.0 && screenBounds.height == 834.0)
+        
+        let isIPadAir5th = (screenBounds.width == 820.0 && screenBounds.height == 1180.0) ||
+                           (screenBounds.width == 1180.0 && screenBounds.height == 820.0)
+        
+        let needsSpecialHandling = isIPhone16Pro || isIPad13Inch || isIPad11Inch || isIPadAir5th
+        
+        let buttonSizeFactor: CGFloat = needsSpecialHandling ? 0.75 : 1.0
+        
+        let buttonSize = floor(cellSize * 5.5 * buttonSizeFactor)
+        let centerX = rect.midX
+        
+        var centerY: CGFloat
+        if needsSpecialHandling {
+            let offset: CGFloat = isIPhone16Pro ? 30 : 60
+            centerY = gameAreaStartY - offset - buttonSize * 0.8
+        } else {
+            centerY = rect.midY
+        }
+        
         let verticalSpacing = floor(buttonSize * 0.6)
         let horizontalSpacing = floor(buttonSize * 1.3)
         
-        // Button boyutları (horizontal vs vertical) (orjinal)
         let horizontalButtonSize = CGSize(width: buttonSize * 1.3, height: buttonSize)
         let verticalButtonSize = CGSize(width: buttonSize, height: buttonSize * 1.3)
         
         let buttonColor = SKColor(red: 136/255, green: 180/255, blue: 1/255, alpha: 1.0)
         
-        // Butonları oluştur (orjinal)
         upButton = createControlButton(
             direction: .up,
             size: horizontalButtonSize,
@@ -549,7 +474,6 @@ extension GameScene {
         addChild(rightButton)
     }
     
-    /// Kontrol butonu oluştur (orjinal)
     private func createControlButton(
         direction: Direction,
         size: CGSize,
@@ -564,14 +488,12 @@ extension GameScene {
         buttonContainer.name = "\(direction)Button"
         buttonContainer.zPosition = 10
         
-        // Hit area (button boyutuyla aynı) (orjinal)
         let hitArea = SKSpriteNode(color: .clear, size: size)
         hitArea.position = CGPoint.zero
         hitArea.zPosition = 15
         hitArea.name = "\(direction)ButtonHitArea"
         buttonContainer.addChild(hitArea)
         
-        // Gölge efekti (orjinal)
         let shadowOffset = floor(cellSize * 0.3)
         let shadow = SKShapeNode(rect: CGRect(
             x: -size.width/2 + shadowOffset,
@@ -584,17 +506,14 @@ extension GameScene {
         shadow.zPosition = -1
         buttonContainer.addChild(shadow)
         
-        // Highlight efekti (orjinal)
         let highlight = createButtonHighlight(for: direction, buttonSize: size)
         highlight.zPosition = 1
         buttonContainer.addChild(highlight)
         
-        // Ok işareti (orjinal)
         let arrow = createPixelPerfectArrow(direction: direction, buttonSize: size)
         arrow.zPosition = 2
         buttonContainer.addChild(arrow)
         
-        // İç border (orjinal)
         let innerBorderThickness = floor(cellSize * 0.2)
         let innerBorder = SKShapeNode(rect: CGRect(
             x: -size.width/2 + innerBorderThickness,
@@ -612,7 +531,6 @@ extension GameScene {
         return buttonContainer
     }
     
-    /// Button highlight oluştur (orjinal)
     private func createButtonHighlight(for direction: Direction, buttonSize: CGSize) -> SKSpriteNode {
         let highlightThickness = floor(cellSize * 0.4)
         var highlight: SKSpriteNode
@@ -636,7 +554,6 @@ extension GameScene {
         return highlight
     }
     
-    /// Pixel perfect ok işareti oluştur (orjinal)
     private func createPixelPerfectArrow(direction: Direction, buttonSize: CGSize) -> SKNode {
         let arrowContainer = SKNode()
         let pixelSize = floor(cellSize * 0.4)
@@ -688,32 +605,23 @@ extension GameScene {
         return arrowContainer
     }
     
-    // MARK: - Pixel Perfect Alignment (Enhanced)
-    /// Tüm değerlerin kesinlikle pixel-perfect olmasını garanti et
+    // MARK: - Pixel Perfect Alignment
     private func ensurePixelPerfectAlignment() {
-        // CellSize'ın 3'e bölünebilir tam sayı olmasını garanti et (ama değeri küçültme!)
         cellSize = floor(cellSize / 3.0) * 3.0
         
-        // Minimum değerler - cihaza göre dinamik
         let minCellSize: CGFloat = isIPad ? 15.0 : 9.0
         cellSize = max(minCellSize, cellSize)
         
-        // Tüm pozisyonları tam sayılara yuvarla (orjinal)
         gameAreaStartX = round(gameAreaStartX)
         gameAreaStartY = round(gameAreaStartY)
         headerBarStartY = round(headerBarStartY)
         headerBarHeight = round(headerBarHeight)
         
-        // Oyun alanı boyutlarını tam cellSize katları olarak yeniden hesapla (orjinal)
         gameAreaWidth = round(CGFloat(gameWidth) * cellSize)
         gameAreaHeight = round(CGFloat(gameHeight) * cellSize)
-        
-        // Pixel size'ın tam sayı olduğunu garanti et (orjinal)
-        let pixelSize = round(cellSize / 3.0)
     }
     
-    // MARK: - Game Content Creation (Orjinal)
-    /// Oyun içeriği oluşturma (yem, pixel perfect çizim vs.)
+    // MARK: - Game Content Creation
     internal func spawnFood() {
         repeat {
             food = CGPoint(
@@ -723,7 +631,6 @@ extension GameScene {
         } while snake.body.contains(food)
     }
     
-    /// Score gösterimini güncelle (orjinal)
     internal func updateScoreDisplay() {
         scoreLabel.text = "\(currentGameScore)"
         
@@ -751,16 +658,13 @@ extension GameScene {
         }
     }
     
-    /// Pixel perfect oyun elemanları çizimi (orjinal)
     internal func drawGame() {
-        // Mevcut snake ve food elementlerini temizle (orjinal)
         children.forEach { node in
             if node.name == "snake" || node.name == "food" {
                 node.removeFromParent()
             }
         }
         
-        // Snake segmentlerini çiz (orjinal)
         for segment in snake.body {
             let segmentNode = createPixelPerfectSnakeSegment()
             segmentNode.position = CGPoint(
@@ -772,7 +676,6 @@ extension GameScene {
             addChild(segmentNode)
         }
         
-        // Food çiz (orjinal)
         let foodNode = createPixelPerfectFlowerFood()
         foodNode.position = CGPoint(
             x: gameAreaStartX + CGFloat(Int(food.x)) * cellSize + cellSize/2,
@@ -783,23 +686,16 @@ extension GameScene {
         addChild(foodNode)
     }
     
-    /// Pixel perfect snake segmenti (3x3 dolu blok) (orjinal)
     internal func createPixelPerfectSnakeSegment() -> SKNode {
         let container = SKNode()
-        // PIXEL PERFECT: 3x3 için cellSize/3 kullan ve tam sayıya yuvarla (orjinal)
         let pixelSize = round(cellSize / 3.0)
         
-        // Gap hesaplama - ekran boyutuna göre adaptif (orjinal)
         let gap = calculatePixelGap(for: pixelSize)
         let pixelSizeWithGap = pixelSize - gap
         
-        // 3x3 dolu blok (9 piksel) (orjinal)
         let blockPixels = [
-            // Üst sıra
             CGPoint(x: -1, y: 1), CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1),
-            // Orta sıra
             CGPoint(x: -1, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0),
-            // Alt sıra
             CGPoint(x: -1, y: -1), CGPoint(x: 0, y: -1), CGPoint(x: 1, y: -1)
         ]
         
@@ -812,23 +708,18 @@ extension GameScene {
         return container
     }
     
-    /// Pixel perfect artı işareti yemi (3x3'te artı deseni - merkez boş) (orjinal)
     internal func createPixelPerfectFlowerFood() -> SKNode {
         let container = SKNode()
-        // PIXEL PERFECT: 3x3 için cellSize/3 kullan ve tam sayıya yuvarla (orjinal)
         let pixelSize = round(cellSize / 3.0)
         
-        // Gap hesaplama - ekran boyutuna göre adaptif (orjinal)
         let gap = calculatePixelGap(for: pixelSize)
         let pixelSizeWithGap = pixelSize - gap
         
-        // Artı (+) deseni (4 piksel: merkez BOŞ, sadece 4 yön) (orjinal)
         let plusPixels = [
-            CGPoint(x: 0, y: 1),   // Üst
-            CGPoint(x: -1, y: 0),  // Sol
-            CGPoint(x: 1, y: 0),   // Sağ
-            CGPoint(x: 0, y: -1)   // Alt
-            // Merkez (0,0) KASITLI OLARAK BOŞ
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: -1, y: 0),
+            CGPoint(x: 1, y: 0),
+            CGPoint(x: 0, y: -1)
         ]
         
         for pixelPos in plusPixels {
@@ -837,29 +728,24 @@ extension GameScene {
             container.addChild(pixel)
         }
         
-        // SEÇENEK 1: Animasyon YOK - En temiz retro görünüm (orjinal)
         return container
     }
     
-    // MARK: - Pixel Gap Calculation (Orjinal)
-    /// Ekran boyutuna göre optimal gap hesaplama
+    // MARK: - Pixel Gap Calculator
     private func calculatePixelGap(for pixelSize: CGFloat) -> CGFloat {
-        // Adaptif gap hesaplama - pixelSize'a orantılı (orjinal)
         var gap: CGFloat
         
         switch pixelSize {
-        case 0..<4:   gap = 0.5    // Çok küçük ekranlar için minimal gap
-        case 4..<7:   gap = 1.0    // Orta ekranlar için 1 piksel gap
-        case 7..<10:  gap = 1.5    // Büyük ekranlar için 1.5 piksel gap
-        case 10..<15: gap = 2.0    // XL ekranlar için 2 piksel gap
-        default:      gap = 2.5    // XXL ekranlar için 2.5 piksel gap
+        case 0..<4:   gap = 0.5
+        case 4..<7:   gap = 1.0
+        case 7..<10:  gap = 1.5
+        case 10..<15: gap = 2.0
+        default:      gap = 2.5
         }
         
-        // Gap'in pixelSize'ın %85'ini geçmemesini sağla (görsel bozulma önlemi) (orjinal)
         let maxGap = pixelSize * 0.8
         gap = min(gap, maxGap)
         
-        // Gap'i tam sayıya yuvarla (pixel-perfect için) (orjinal)
-        return round(gap * 2) / 2 // 0.5'lik adımlarla yuvarla
+        return round(gap * 2) / 2
     }
 }
