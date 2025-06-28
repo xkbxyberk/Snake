@@ -167,7 +167,7 @@ class AboutScene: SKScene {
         cardContainer.addChild(gameTitle)
         
         let version = SKLabelNode(fontNamed: "Doto-Black_ExtraBold")
-        version.text = "'Retro Classic v1.0"
+        version.text = "'Retro Classic v1.0.1"
         version.fontSize = 12
         version.fontColor = accentColor
         version.horizontalAlignmentMode = .left

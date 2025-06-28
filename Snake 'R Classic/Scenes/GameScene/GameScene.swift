@@ -6,7 +6,7 @@ class GameScene: SKScene {
     // MARK: - Sabit Oyun Alanı Ayarları
     internal var cellSize: CGFloat = 12
     internal let gameWidth = 25
-    internal let gameHeight = 35
+    internal let gameHeight = 39
     
     // MARK: - Oyun Alanı Koordinatları
     internal var gameAreaStartX: CGFloat = 0
